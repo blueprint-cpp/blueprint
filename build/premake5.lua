@@ -46,10 +46,13 @@ function AddProject( projectName, sourcePath, projectKind, targetName, projectDe
 
     configuration { "gmake" }
         buildoptions { "-std=c++11", "-std=c++1y" }
+
+    configuration { "vs*" }
+        buildoptions { "/wd\"4706\"" }
 end
 
 function AddLibProject( projectName, sourcePath )
-    AddProject( projectName, sourcePath, "SharedLib", projectName )
+    AddProject( projectName, sourcePath, "StaticLib", projectName )
 end
 
 function AddExeProject( projectName, sourcePath, targetName, projectDependencies )
