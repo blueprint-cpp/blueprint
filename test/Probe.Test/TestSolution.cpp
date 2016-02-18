@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-#include "json/json.hpp"
 
 #include "Probe/Solution.hpp"
 
