@@ -15,14 +15,16 @@ function GenerateSolution()
 
     AddExeProject( "ProbeApp", "../source/ProbeApp", "Probe" )
     AddLibProject( "Probe", "../source/Probe" )
-    AddTestProject( "Probe.Test", "../test/Probe.Test" )
+    AddTestProject( "Probe.Test", "../test/Probe.Test", { "Probe" } )
 end
 
-function AddProject( projectName, sourcePath, projectKind, targetName )
+function AddProject( projectName, sourcePath, projectKind, targetName, projectDependencies )
     project( projectName )
         targetname( targetName )
         kind( projectKind )
         language( "C++" )
+
+    links(projectDependencies)
 
     includedirs { "../externs/philsquared" }
     includedirs { "../externs/nlohmann" }
@@ -50,16 +52,16 @@ function AddLibProject( projectName, sourcePath )
     AddProject( projectName, sourcePath, "SharedLib", projectName )
 end
 
-function AddExeProject( projectName, sourcePath, targetName )
+function AddExeProject( projectName, sourcePath, targetName, projectDependencies )
     if targetName then
-        AddProject( projectName, sourcePath, "ConsoleApp", targetName )
+        AddProject( projectName, sourcePath, "ConsoleApp", targetName, projectDependencies )
     else
-        AddProject( projectName, sourcePath, "ConsoleApp", projectName )
+        AddProject( projectName, sourcePath, "ConsoleApp", projectName, projectDependencies )
     end
 end
 
-function AddTestProject( projectName, sourcePath )
-    AddExeProject( projectName, sourcePath )
+function AddTestProject( projectName, sourcePath, projectDependencies )
+    AddExeProject( projectName, sourcePath, projectName, projectDependencies )
 
     configuration { "gmake" }
         postbuildcommands { "$(TARGET)" }
