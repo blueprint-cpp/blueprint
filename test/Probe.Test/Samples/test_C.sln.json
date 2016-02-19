@@ -1,0 +1,8 @@
+{
+  "solution": "test_C",
+  "projects": [
+    "test_C1.prj.json",
+    "test_C2.prj.json",
+    "test_C3.prj.json"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "project": "test_B1",
+  "configs": [
+    {
+      "name": "Debug",
+      "defines": [
+      ],
+      "includedirs": [
+      ],
+      "pchsource": "null"
+    }
+  ],
+  "files": [
+  ]
+}
