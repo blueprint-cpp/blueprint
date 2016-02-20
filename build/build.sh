@@ -1,7 +1,19 @@
 #!/bin/bash
 
-./premake5 gmake
+pushd $(dirname $0) > /dev/null
 
-pushd gmake > /dev/null
-make
+premake=buildtools-premake/bin/premake.sh
+
+$premake gmake
+r=$?
+
+if [[ $r -eq 0 ]]; then
+    cd gmake
+
+    make
+    r=$?
+fi
+
 popd > /dev/null
+
+exit $r
