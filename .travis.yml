@@ -1,0 +1,17 @@
+language: cpp
+
+sudo: false
+
+notification:
+    email:
+        on_success: change
+        on_failure: always
+
+before_install:
+    - chmod +x build/build.sh
+
+before_script:
+    - build/buildtools-premake/bin/premake.sh --version
+
+script:
+    - build/build.sh
