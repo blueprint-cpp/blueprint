@@ -8,6 +8,7 @@ notification:
         on_failure: always
 
 before_install:
+    - chmod +x build/buildtools-premake/bin/linux/premake5
     - chmod +x build/build.sh
 
 before_script:
