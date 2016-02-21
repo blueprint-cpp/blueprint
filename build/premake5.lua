@@ -1,3 +1,7 @@
+-- premake5.lua
+
+require("extern.catch")
+require("extern.json")
 
 function GenerateSolution()
     solution( "Probe" )
@@ -13,7 +17,8 @@ function GenerateSolution()
         targetdir( "../output/bin/Release" )
         objdir( "../output/obj" )
 
-    AddExeProject( "ProbeApp", "../source/ProbeApp", "Probe" )
+
+    AddExeProject( "ProbeApp", "../source/ProbeApp", "Probe", { "Probe" } )
     AddLibProject( "Probe", "../source/Probe" )
     AddTestProject( "Probe.Test", "../test/Probe.Test", { "Probe" } )
 end
@@ -24,10 +29,11 @@ function AddProject( projectName, sourcePath, projectKind, targetName, projectDe
         kind( projectKind )
         language( "C++" )
 
+    AddExternCatch()
+    AddExternJson()
+
     links(projectDependencies)
 
-    includedirs { "../externs/philsquared" }
-    includedirs { "../externs/nlohmann" }
     includedirs { "../source" }
 
     files {
@@ -48,7 +54,7 @@ function AddProject( projectName, sourcePath, projectKind, targetName, projectDe
         buildoptions { "-std=c++11", "-std=c++1y" }
 
     configuration { "vs*" }
-        buildoptions { "/wd\"4706\"" }
+        buildoptions { "/wd4706" }
 end
 
 function AddLibProject( projectName, sourcePath )
