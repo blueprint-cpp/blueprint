@@ -1,6 +1,7 @@
 -- premake5.lua
 
 require("extern.catch")
+require("extern.clang")
 require("extern.json")
 
 function GenerateSolution()
@@ -17,6 +18,7 @@ function GenerateSolution()
         targetdir( "../output/bin/Release" )
         objdir( "../output/obj" )
 
+    InitExternClang()
 
     AddExeProject( "ProbeApp", "../source/ProbeApp", "Probe", { "Probe" } )
     AddLibProject( "Probe", "../source/Probe" )
@@ -30,6 +32,7 @@ function AddProject( projectName, sourcePath, projectKind, targetName, projectDe
         language( "C++" )
 
     AddExternCatch()
+    AddExternClang()
     AddExternJson()
 
     links(projectDependencies)
