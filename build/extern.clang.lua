@@ -35,11 +35,8 @@ function InitExternClang()
     llvm.defines     = GetLLVMConfigValues("-D", "cppflags")
 
     llvm.libdirs = GetLLVMConfigValues("-L", "ldflags")
+    llvm.syslibs = GetLLVMConfigValues("-l", "system-libs")
     llvm.libs    = GetLLVMConfigValues("-l", "libs")
-
-    if os.get() == "macosx" then
-        llvm.syslibs = GetLLVMConfigValues("-l", "system-libs")
-    end
 
     clang.libs = {
         "clangTooling",
@@ -75,6 +72,9 @@ function AddExternClang()
     defines(llvm.defines)
 
     links(clang.libs)
-    links(llvm.syslibs)
     links(llvm.libs)
+
+    if os.get() == "macosx" then
+        links(llvm.syslibs)
+    end
 end
