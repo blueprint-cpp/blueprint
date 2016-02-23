@@ -68,6 +68,8 @@ function InitExternClang()
 end
 
 function AddExternClang()
+    configuration {} -- reset filter
+
     if os.isfile(LLVM_CONFIG_EXE) == false then
         return
     end

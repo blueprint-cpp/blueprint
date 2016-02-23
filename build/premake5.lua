@@ -31,10 +31,6 @@ function AddProject( projectName, sourcePath, projectKind, targetName, projectDe
         kind( projectKind )
         language( "C++" )
 
-    AddExternCatch()
-    AddExternClang()
-    AddExternJson()
-
     links(projectDependencies)
 
     includedirs { "../source" }
@@ -58,6 +54,10 @@ function AddProject( projectName, sourcePath, projectKind, targetName, projectDe
 
     configuration { "vs*" }
         buildoptions { "/wd4706" }
+
+    AddExternCatch()
+    AddExternClang()
+    AddExternJson()
 end
 
 function AddLibProject( projectName, sourcePath )
