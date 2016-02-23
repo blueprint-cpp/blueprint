@@ -6,8 +6,14 @@ local clang = {}
 local CLANG_PATH = nil
 local LLVM_CONFIG_EXE = path.join(CLANG_PATH, "bin/llvm-config")
 
+if os.get() == "windows" then
+    LLVM_CONFIG_EXE = LLVM_CONFIG_EXE .. ".exe"
+end
+
 local function GetLLVMConfigValue(config)
-    return os.outputof(LLVM_CONFIG_EXE .. " --" .. config)
+    local command = path.getabsolute(LLVM_CONFIG_EXE) .. " --" .. config
+
+    return os.outputof(command)
 end
 
 local function GetLLVMConfigValues(pattern, config)
@@ -77,4 +83,14 @@ function AddExternClang()
     if os.get() == "macosx" then
         links(llvm.syslibs)
     end
+
+    configuration { "vs*" }
+        buildoptions {
+            "/wd4100",
+            "/wd4141",
+            "/wd4244",
+            "/wd4310",
+            "/wd4458",
+            "/wd4800"
+        }
 end
