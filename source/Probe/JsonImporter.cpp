@@ -61,6 +61,11 @@ namespace probe
 
             project->SetName(json["project"]);
 
+            for (auto& file : json["files"])
+            {
+                project->AddFile(file);
+            }
+
             return project;
         }
 

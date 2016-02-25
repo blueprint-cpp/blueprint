@@ -4,12 +4,21 @@
     {
       "name": "Debug",
       "defines": [
+        "DEFINE_1",
+        "DEFINE_2",
+        "DEFINE_3"
       ],
       "includedirs": [
+        "../some/include/path",
+        "../some/other/include/path"
       ],
-      "pchsource": "null"
+      "pchsource": null
     }
   ],
   "files": [
+    "../folder_A/sub_folder_AA/file_AA1.cpp",
+    "../folder_A/sub_folder_AB/file_AB1.cpp",
+    "../folder_B/file_B1.cpp",
+    "../file_at_root.cpp"
   ]
 }

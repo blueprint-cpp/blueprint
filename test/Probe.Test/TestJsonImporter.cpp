@@ -38,10 +38,19 @@ TEST_CASE("TestJsonImporter")
         CHECK(solution->GetName() == "test_B");
 
         auto& projects = solution->GetProjects();
-
         REQUIRE(projects.size() == 1);
 
-        CHECK(projects[0]->GetName() == "test_B1");
+        auto project = projects[0].get();
+        REQUIRE(project != nullptr);
+
+        CHECK(project->GetName() == "test_B1");
+
+        auto& files = project->GetFiles();
+        REQUIRE(files.size() == 4);
+        CHECK(files[0] == "../folder_A/sub_folder_AA/file_AA1.cpp");
+        CHECK(files[1] == "../folder_A/sub_folder_AB/file_AB1.cpp");
+        CHECK(files[2] == "../folder_B/file_B1.cpp");
+        CHECK(files[3] == "../file_at_root.cpp");
     }
 
     SECTION("test_C")
