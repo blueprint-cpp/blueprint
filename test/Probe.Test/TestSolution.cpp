@@ -31,13 +31,13 @@ TEST_CASE("TestSolution")
         projectA->SetName("prj_A");
         solution.AddProject(std::move(projectA));
 
-        CHECK(solution.GetProjects().size() == 1);
+        REQUIRE(solution.GetProjects().size() == 1);
         CHECK(solution.GetProjects()[0]->GetName() == "prj_A");
 
         projectB->SetName("prj_B");
         solution.AddProject(std::move(projectB));
 
-        CHECK(solution.GetProjects().size() == 2);
+        REQUIRE(solution.GetProjects().size() == 2);
         CHECK(solution.GetProjects()[1]->GetName() == "prj_B");
     }
 }
