@@ -19,4 +19,17 @@ TEST_CASE("TestProject")
         project.SetName("some_other_name");
         CHECK(project.GetName() == "some_other_name");
     }
+
+    SECTION("Files")
+    {
+        project.AddFile("file_A");
+
+        REQUIRE(project.GetFiles().size() == 1);
+        CHECK(project.GetFiles()[0] == "file_A");
+
+        project.AddFile("file_B");
+
+        REQUIRE(project.GetFiles().size() == 2);
+        CHECK(project.GetFiles()[1] == "file_B");
+    }
 }

@@ -11,4 +11,14 @@ namespace probe
     {
         return name_;
     }
+
+    void Project::AddFile(const std::string& file)
+    {
+        files_.push_back(file);
+    }
+
+    const Project::StringArray& Project::GetFiles() const
+    {
+        return files_;
+    }
 }
