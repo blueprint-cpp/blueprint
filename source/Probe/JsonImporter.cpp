@@ -71,7 +71,7 @@ namespace probe
 
             for (auto& config : json["configs"])
             {
-                project->AddConfiguration(std::move(internal::ImportConfig(config)));
+                project->AddConfiguration(internal::ImportConfig(config));
             }
 
             for (auto& file : json["files"])
