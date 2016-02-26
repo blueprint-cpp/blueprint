@@ -74,6 +74,8 @@ function AddExternClang()
         return
     end
 
+    defines { "EXTERN_CLANG_ENABLED" }
+
     includedirs(llvm.includedirs)
     libdirs(llvm.libdirs)
 
