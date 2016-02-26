@@ -12,13 +12,18 @@ namespace probe
         return name_;
     }
 
-    const Solution::ProjectCollection& Solution::GetProjects() const
-    {
-        return projects_;
-     }
-
     void Solution::AddProject(std::unique_ptr<Project> project)
     {
+        if (project.get() == nullptr)
+        {
+            return;
+        }
+
         projects_.push_back(std::move(project));
+    }
+
+    const Solution::Projects& Solution::GetProjects() const
+    {
+        return projects_;
     }
 }

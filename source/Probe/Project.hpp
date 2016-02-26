@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Probe/Configuration.hpp"
+
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -12,6 +15,12 @@ namespace probe
         const std::string& GetName() const;
 
     public:
+        using Configurations = std::vector<std::unique_ptr<Configuration>>;
+
+        void AddConfiguration(std::unique_ptr<Configuration> configuration);
+        const Configurations& GetConfigurations();
+
+    public:
         using StringArray = std::vector<std::string>;
 
         void AddFile(const std::string& file);
@@ -20,6 +29,7 @@ namespace probe
     private:
         std::string name_;
 
+        Configurations configurations_;
         StringArray files_;
     };
 }

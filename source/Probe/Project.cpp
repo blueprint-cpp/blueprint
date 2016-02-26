@@ -12,6 +12,21 @@ namespace probe
         return name_;
     }
 
+    void Project::AddConfiguration(std::unique_ptr<Configuration> configuration)
+    {
+        if (configuration.get() == nullptr)
+        {
+            return;
+        }
+
+        configurations_.push_back(std::move(configuration));
+    }
+
+    const Project::Configurations& Project::GetConfigurations()
+    {
+        return configurations_;
+    }
+
     void Project::AddFile(const std::string& file)
     {
         files_.push_back(file);

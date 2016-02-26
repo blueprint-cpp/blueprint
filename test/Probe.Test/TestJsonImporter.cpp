@@ -45,6 +45,8 @@ TEST_CASE("TestJsonImporter")
 
         CHECK(project->GetName() == "test_B1");
 
+        REQUIRE(project->GetConfigurations().size() == 1);
+
         auto& files = project->GetFiles();
         REQUIRE(files.size() == 4);
         CHECK(files[0] == "../folder_A/sub_folder_AA/file_AA1.cpp");

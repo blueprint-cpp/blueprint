@@ -15,13 +15,13 @@ namespace probe
         const std::string& GetName() const;
 
     public:
-        using ProjectCollection = std::vector<std::unique_ptr<Project>>;
+        using Projects = std::vector<std::unique_ptr<Project>>;
 
-        const ProjectCollection& GetProjects() const;
         void AddProject(std::unique_ptr<Project> project);
+        const Projects& GetProjects() const;
 
     private:
-        ProjectCollection projects_;
+        Projects projects_;
 
         std::string name_;
     };

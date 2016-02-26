@@ -39,5 +39,8 @@ TEST_CASE("TestSolution")
 
         REQUIRE(solution.GetProjects().size() == 2);
         CHECK(solution.GetProjects()[1]->GetName() == "prj_B");
+
+        solution.AddProject(nullptr);
+        CHECK(solution.GetProjects().size() == 2);
     }
 }

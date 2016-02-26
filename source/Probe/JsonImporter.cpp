@@ -1,5 +1,7 @@
 #include "Probe/JsonImporter.hpp"
 
+#include "Probe/Configuration.hpp"
+
 #include "json/json.hpp"
 
 #include <fstream>
@@ -22,6 +24,12 @@ namespace probe
             }
 
             return nullptr;
+        }
+
+        std::unique_ptr<Configuration> ImportConfig(const nlohmann::json& config)
+        {
+            (void)config;
+            return std::make_unique<Configuration>();
         }
     }
 
@@ -60,6 +68,11 @@ namespace probe
             auto project = std::make_unique<Project>();
 
             project->SetName(json["project"]);
+
+            for (auto& config : json["configs"])
+            {
+                project->AddConfiguration(std::move(internal::ImportConfig(config)));
+            }
 
             for (auto& file : json["files"])
             {
