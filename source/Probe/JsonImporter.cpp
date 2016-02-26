@@ -28,8 +28,22 @@ namespace probe
 
         std::unique_ptr<Configuration> ImportConfig(const nlohmann::json& config)
         {
-            (void)config;
-            return std::make_unique<Configuration>();
+            auto configuration = std::make_unique<Configuration>();
+
+            configuration->SetName(config["name"]);
+            configuration->SetPrecompiledHeader(config["pchsource"]);
+
+            for (auto& define : config["defines"])
+            {
+                configuration->AddDefine(define);
+            }
+
+            for (auto& include : config["includedirs"])
+            {
+                configuration->AddInclude(include);
+            }
+
+            return configuration;
         }
     }
 

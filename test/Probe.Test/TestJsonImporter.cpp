@@ -47,6 +47,21 @@ TEST_CASE("TestJsonImporter")
 
         REQUIRE(project->GetConfigurations().size() == 1);
 
+        auto config = project->GetConfigurations()[0].get();
+        REQUIRE(config != nullptr);
+
+        CHECK(config->GetName() == "Debug");
+        CHECK(config->GetPrecompiledHeader() == "../precomp.cpp");
+
+        REQUIRE(config->GetDefines().size() == 3);
+        CHECK(config->GetDefines()[0] == "DEFINE_1");
+        CHECK(config->GetDefines()[1] == "DEFINE_2");
+        CHECK(config->GetDefines()[2] == "DEFINE_3");
+
+        REQUIRE(config->GetIncludes().size() == 2);
+        CHECK(config->GetIncludes()[0] == "../some/include/path");
+        CHECK(config->GetIncludes()[1] == "../some/other/include/path");
+
         auto& files = project->GetFiles();
         REQUIRE(files.size() == 4);
         CHECK(files[0] == "../folder_A/sub_folder_AA/file_AA1.cpp");

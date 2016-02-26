@@ -12,7 +12,7 @@
         "../some/include/path",
         "../some/other/include/path"
       ],
-      "pchsource": null
+      "pchsource": "../precomp.cpp"
     }
   ],
   "files": [
