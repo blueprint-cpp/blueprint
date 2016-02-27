@@ -2,6 +2,7 @@
 
 require("extern.catch")
 require("extern.clang")
+require("extern.filesystem")
 require("extern.json")
 
 function GenerateWorkspace()
@@ -57,6 +58,7 @@ function AddProject( projectName, sourcePath, projectKind, targetName, projectDe
 
     AddExternCatch()
     AddExternClang()
+    AddExternFileSystem()
     AddExternJson()
 end
 
