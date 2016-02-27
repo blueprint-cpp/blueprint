@@ -42,7 +42,11 @@ namespace probe
             auto configuration = std::make_unique<Configuration>();
 
             configuration->SetName(config["name"]);
-            configuration->SetPrecompiledHeader(config["pchsource"]);
+
+            if (config["pchsource"].is_string())
+            {
+                configuration->SetPrecompiledHeader(config["pchsource"]);
+            }
 
             for (auto& define : config["defines"])
             {
