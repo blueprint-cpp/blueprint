@@ -76,10 +76,10 @@ function AddTestProject( projectName, sourcePath, projectDependencies )
     AddExeProject( projectName, sourcePath, projectName, projectDependencies )
 
     configuration { "gmake" }
-        postbuildcommands { "$(TARGET) ../../test/unit/Probe.Test/Samples" }
+        postbuildcommands { "$(TARGET) ../../test/unit/Probe.Test" }
 
     configuration { "vs*" }
-        postbuildcommands { "\"$(TargetPath)\" ../../test/unit/Probe.Test/Samples" }
+        postbuildcommands { "\"$(TargetPath)\" ../../test/unit/Probe.Test" }
 end
 
 if _ACTION then

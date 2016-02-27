@@ -7,35 +7,37 @@ TEST_CASE("TestJsonImporter")
 {
     SECTION("invalid workspace")
     {
-        auto invalid = probe::JsonImporter::ImportWorkspace("invalid.wks.json");
+        auto invalid = probe::JsonImporter::ImportWorkspace("Samples/invalid.wks.json");
 
         REQUIRE(invalid == nullptr);
     }
 
     SECTION("invalid project")
     {
-        auto invalid = probe::JsonImporter::ImportProject("invalid.prj.json");
+        auto invalid = probe::JsonImporter::ImportProject("Samples/invalid.prj.json");
 
         REQUIRE(invalid == nullptr);
     }
 
     SECTION("test_A")
     {
-        auto workspace = probe::JsonImporter::ImportWorkspace("test_A.wks.json");
+        auto workspace = probe::JsonImporter::ImportWorkspace("Samples/test_A.wks.json");
 
         REQUIRE(workspace != nullptr);
 
         CHECK(workspace->GetName() == "test_A");
+        CHECK(workspace->GetDirectory() == "Samples");
         CHECK(workspace->GetProjects().empty() == true);
     }
 
     SECTION("test_B")
     {
-        auto workspace = probe::JsonImporter::ImportWorkspace("test_B.wks.json");
+        auto workspace = probe::JsonImporter::ImportWorkspace("Samples/test_B.wks.json");
 
         REQUIRE(workspace != nullptr);
 
         CHECK(workspace->GetName() == "test_B");
+        CHECK(workspace->GetDirectory() == "Samples");
 
         auto& projects = workspace->GetProjects();
         REQUIRE(projects.size() == 1);
@@ -44,6 +46,7 @@ TEST_CASE("TestJsonImporter")
         REQUIRE(project != nullptr);
 
         CHECK(project->GetName() == "test_B1");
+        CHECK(project->GetDirectory() == "Samples");
 
         REQUIRE(project->GetConfigurations().size() == 1);
 
@@ -72,11 +75,12 @@ TEST_CASE("TestJsonImporter")
 
     SECTION("test_C")
     {
-        auto workspace = probe::JsonImporter::ImportWorkspace("test_C.wks.json");
+        auto workspace = probe::JsonImporter::ImportWorkspace("Samples/test_C.wks.json");
 
         REQUIRE(workspace != nullptr);
 
         CHECK(workspace->GetName() == "test_C");
+        CHECK(workspace->GetDirectory() == "Samples");
 
         auto& projects = workspace->GetProjects();
 
@@ -85,5 +89,9 @@ TEST_CASE("TestJsonImporter")
         CHECK(projects[0]->GetName() == "test_C1");
         CHECK(projects[1]->GetName() == "test_C2");
         CHECK(projects[2]->GetName() == "test_C3");
+
+        CHECK(projects[0]->GetDirectory() == "Samples");
+        CHECK(projects[1]->GetDirectory() == "Samples");
+        CHECK(projects[2]->GetDirectory() == "Samples");
     }
 }

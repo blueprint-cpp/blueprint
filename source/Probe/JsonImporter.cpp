@@ -11,9 +11,20 @@ namespace probe
 {
     namespace internal
     {
-        nlohmann::json ParseJsonFile(const std::string& filename)
+        std::string GetDirectory(const std::string& filePath)
         {
-            std::ifstream file(filename);
+            auto pos = filePath.find_last_of('/');
+            return pos > 0 ? filePath.substr(0, pos) : nullptr;
+        }
+
+        std::string Combine(const std::string& path1, const std::string path2)
+        {
+            return path1 + '/' + path2;
+        }
+
+        nlohmann::json ParseJsonFile(const std::string& filePath)
+        {
+            std::ifstream file(filePath);
 
             if (file.is_open())
             {
@@ -47,15 +58,17 @@ namespace probe
         }
     }
 
-    std::unique_ptr<Workspace> JsonImporter::ImportWorkspace(const std::string& filename)
+    std::unique_ptr<Workspace> JsonImporter::ImportWorkspace(const std::string& filePath)
     {
-        auto json = internal::ParseJsonFile(filename);
+        auto json = internal::ParseJsonFile(filePath);
 
         if (json.is_object())
         {
+            auto directory = internal::GetDirectory(filePath);
             auto workspace = std::make_unique<Workspace>();
 
             workspace->SetName(json["workspace"]);
+            workspace->SetDirectory(directory);
 
             auto& projects = json["projects"];
 
@@ -63,7 +76,8 @@ namespace probe
             {
                 for (auto& project : projects)
                 {
-                    workspace->AddProject(ImportProject(project));
+                    auto projectPath = internal::Combine(directory, project);
+                    workspace->AddProject(ImportProject(projectPath));
                 }
             }
 
@@ -73,15 +87,17 @@ namespace probe
         return nullptr;
     }
 
-    std::unique_ptr<Project> JsonImporter::ImportProject(const std::string& filename)
+    std::unique_ptr<Project> JsonImporter::ImportProject(const std::string& filePath)
     {
-        auto json = internal::ParseJsonFile(filename);
+        auto json = internal::ParseJsonFile(filePath);
 
         if (json.is_object())
         {
+            auto directory = internal::GetDirectory(filePath);
             auto project = std::make_unique<Project>();
 
             project->SetName(json["project"]);
+            project->SetDirectory(directory);
 
             for (auto& config : json["configs"])
             {
