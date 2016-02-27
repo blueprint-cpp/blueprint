@@ -8,20 +8,15 @@ notification:
 matrix:
     include:
         - os: linux
-          compiler: gcc
-          env: INSTALL_CXX=g++-4.9 INSTALL_CC=gcc-4.9
-          addons:
-            apt:
-                sources: [ 'ubuntu-toolchain-r-test' ]
-                packages: [ 'g++-4.9', 'gcc-4.9' ]
-
-        - os: linux
           compiler: clang
           env: INSTALL_CXX=clang++-3.7
           addons:
             apt:
                 sources: [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.7' ]
                 packages: [ 'clang-3.7' ]
+
+        - os: osx
+          compiler: clang
 
 before_install:
     - chmod +x build/build.sh
@@ -33,7 +28,7 @@ before_script:
     - if [ -n "${INSTALL_CC}" ]; then
         CC=${INSTALL_CC};
       fi
-    - CC --version
+    - clang --version
     - build/buildtools-premake/bin/build.sh
     - build/buildtools-premake/bin/premake.sh --version
 
