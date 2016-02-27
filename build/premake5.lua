@@ -22,7 +22,7 @@ function GenerateWorkspace()
 
     AddExeProject( "ProbeApp", "../source/ProbeApp", "Probe", { "Probe" } )
     AddLibProject( "Probe", "../source/Probe" )
-    AddTestProject( "Probe.Test", "../test/Probe.Test", { "Probe" } )
+    AddTestProject( "Probe.Test", "../test/unit/Probe.Test", { "Probe" } )
 end
 
 function AddProject( projectName, sourcePath, projectKind, targetName, projectDependencies )
