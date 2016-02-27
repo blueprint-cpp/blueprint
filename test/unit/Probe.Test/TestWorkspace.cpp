@@ -23,6 +23,15 @@ TEST_CASE("TestWorkspace")
         CHECK(workspace.GetName() == "some_other_name");
     }
 
+    SECTION("Directory")
+    {
+        workspace.SetDirectory("some/directory");
+        CHECK(workspace.GetDirectory() == "some/directory");
+
+        workspace.SetDirectory("some/other/directory");
+        CHECK(workspace.GetDirectory() == "some/other/directory");
+    }
+
     SECTION("Projects")
     {
         auto projectA = std::make_unique<Project>();

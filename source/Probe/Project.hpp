@@ -14,6 +14,9 @@ namespace probe
         void SetName(const std::string& name);
         const std::string& GetName() const;
 
+        void SetDirectory(const std::string& directory);
+        const std::string& GetDirectory() const;
+
     public:
         using Configurations = std::vector<std::unique_ptr<Configuration>>;
 
@@ -28,6 +31,7 @@ namespace probe
 
     private:
         std::string name_;
+        std::string directory_;
 
         Configurations configurations_;
         StringArray files_;

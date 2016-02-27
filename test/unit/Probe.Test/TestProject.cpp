@@ -22,6 +22,15 @@ TEST_CASE("TestProject")
         CHECK(project.GetName() == "some_other_name");
     }
 
+    SECTION("Directory")
+    {
+        project.SetDirectory("some/directory");
+        CHECK(project.GetDirectory() == "some/directory");
+
+        project.SetDirectory("some/other/directory");
+        CHECK(project.GetDirectory() == "some/other/directory");
+    }
+
     SECTION("Configurations")
     {
         auto configA = std::make_unique<Configuration>();

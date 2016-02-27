@@ -12,6 +12,16 @@ namespace probe
         return name_;
     }
 
+    void Project::SetDirectory(const std::string& directory)
+    {
+        directory_ = directory;
+    }
+
+    const std::string& Project::GetDirectory() const
+    {
+        return directory_;
+    }
+
     void Project::AddConfiguration(std::unique_ptr<Configuration> configuration)
     {
         if (configuration.get() == nullptr)

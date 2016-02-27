@@ -12,6 +12,16 @@ namespace probe
         return name_;
     }
 
+    void Workspace::SetDirectory(const std::string& directory)
+    {
+        directory_ = directory;
+    }
+
+    const std::string& Workspace::GetDirectory() const
+    {
+        return directory_;
+    }
+
     void Workspace::AddProject(std::unique_ptr<Project> project)
     {
         if (project.get() == nullptr)

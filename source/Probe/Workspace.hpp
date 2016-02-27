@@ -14,6 +14,9 @@ namespace probe
         void SetName(const std::string& name);
         const std::string& GetName() const;
 
+        void SetDirectory(const std::string& directory);
+        const std::string& GetDirectory() const;
+
     public:
         using Projects = std::vector<std::unique_ptr<Project>>;
 
@@ -24,5 +27,6 @@ namespace probe
         Projects projects_;
 
         std::string name_;
+        std::string directory_;
     };
 }
