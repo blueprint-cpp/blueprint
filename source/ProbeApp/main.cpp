@@ -2,12 +2,16 @@
 
 int main(int argc, char* argv[])
 {
-    (void)argc;
-    (void)argv;
+    const char* filename = nullptr;
+
+    if (argc > 1)
+    {
+        filename = argv[1];
+    }
 
 #if defined(EXTERN_CLANG_ENABLED)
     probe::ClangParser parser;
-    parser.Parse("invalid_file");
+    parser.Parse(filename);
 #endif
 
     return 0;
