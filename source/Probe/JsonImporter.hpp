@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Probe/Project.hpp>
-#include <Probe/Solution.hpp>
+#include <Probe/Workspace.hpp>
 
 #include <memory>
 #include <string>
@@ -11,7 +11,7 @@ namespace probe
     class JsonImporter
     {
     public:
-        static std::unique_ptr<Solution> ImportSolution(const std::string& filename);
+        static std::unique_ptr<Workspace> ImportWorkspace(const std::string& filename);
         static std::unique_ptr<Project>  ImportProject( const std::string& filename);
     };
 }

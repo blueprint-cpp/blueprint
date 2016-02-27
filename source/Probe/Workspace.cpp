@@ -1,18 +1,18 @@
-#include "Probe/Solution.hpp"
+#include "Probe/Workspace.hpp"
 
 namespace probe
 {
-    void Solution::SetName(const std::string& name)
+    void Workspace::SetName(const std::string& name)
     {
         name_ = name;
     }
 
-    const std::string& Solution::GetName() const
+    const std::string& Workspace::GetName() const
     {
         return name_;
     }
 
-    void Solution::AddProject(std::unique_ptr<Project> project)
+    void Workspace::AddProject(std::unique_ptr<Project> project)
     {
         if (project.get() == nullptr)
         {
@@ -22,7 +22,7 @@ namespace probe
         projects_.push_back(std::move(project));
     }
 
-    const Solution::Projects& Solution::GetProjects() const
+    const Workspace::Projects& Workspace::GetProjects() const
     {
         return projects_;
     }

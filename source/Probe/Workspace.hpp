@@ -8,7 +8,7 @@
 
 namespace probe
 {
-    class Solution
+    class Workspace
     {
     public:
         void SetName(const std::string& name);

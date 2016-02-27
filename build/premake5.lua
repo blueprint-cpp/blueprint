@@ -4,8 +4,8 @@ require("extern.catch")
 require("extern.clang")
 require("extern.json")
 
-function GenerateSolution()
-    solution( "Probe" )
+function GenerateWorkspace()
+    workspace( "Probe" )
 
     configurations { "Debug", "Release" }
         location( _ACTION )
@@ -83,5 +83,5 @@ function AddTestProject( projectName, sourcePath, projectDependencies )
 end
 
 if _ACTION then
-    GenerateSolution()
+    GenerateWorkspace()
 end

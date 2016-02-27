@@ -1,7 +1,5 @@
 language: cpp
 
-sudo: false
-
 notification:
     email:
         on_success: change
@@ -26,18 +24,17 @@ matrix:
                 packages: [ 'clang-3.7' ]
 
 before_install:
-    - chmod +x build/buildtools-premake/bin/linux/premake5
     - chmod +x build/build.sh
 
 before_script:
     - if [ -n "${INSTALL_CXX}" ]; then
         CXX=${INSTALL_CXX};
-        $CXX --version;
       fi
     - if [ -n "${INSTALL_CC}" ]; then
         CC=${INSTALL_CC};
-        $CC --version;
       fi
+    - CC --version
+    - build/buildtools-premake/bin/build.sh
     - build/buildtools-premake/bin/premake.sh --version
 
 script:

@@ -1,5 +1,5 @@
 {
-  "solution": "test_C",
+  "workspace": "test_C",
   "projects": [
     "test_C1.prj.json",
     "test_C2.prj.json",

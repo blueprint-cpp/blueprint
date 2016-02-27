@@ -5,9 +5,9 @@
 
 TEST_CASE("TestJsonImporter")
 {
-    SECTION("invalid solution")
+    SECTION("invalid workspace")
     {
-        auto invalid = probe::JsonImporter::ImportSolution("invalid.sln.json");
+        auto invalid = probe::JsonImporter::ImportWorkspace("invalid.wks.json");
 
         REQUIRE(invalid == nullptr);
     }
@@ -21,23 +21,23 @@ TEST_CASE("TestJsonImporter")
 
     SECTION("test_A")
     {
-        auto solution = probe::JsonImporter::ImportSolution("test_A.sln.json");
+        auto workspace = probe::JsonImporter::ImportWorkspace("test_A.wks.json");
 
-        REQUIRE(solution != nullptr);
+        REQUIRE(workspace != nullptr);
 
-        CHECK(solution->GetName() == "test_A");
-        CHECK(solution->GetProjects().empty() == true);
+        CHECK(workspace->GetName() == "test_A");
+        CHECK(workspace->GetProjects().empty() == true);
     }
 
     SECTION("test_B")
     {
-        auto solution = probe::JsonImporter::ImportSolution("test_B.sln.json");
+        auto workspace = probe::JsonImporter::ImportWorkspace("test_B.wks.json");
 
-        REQUIRE(solution != nullptr);
+        REQUIRE(workspace != nullptr);
 
-        CHECK(solution->GetName() == "test_B");
+        CHECK(workspace->GetName() == "test_B");
 
-        auto& projects = solution->GetProjects();
+        auto& projects = workspace->GetProjects();
         REQUIRE(projects.size() == 1);
 
         auto project = projects[0].get();
@@ -72,13 +72,13 @@ TEST_CASE("TestJsonImporter")
 
     SECTION("test_C")
     {
-        auto solution = probe::JsonImporter::ImportSolution("test_C.sln.json");
+        auto workspace = probe::JsonImporter::ImportWorkspace("test_C.wks.json");
 
-        REQUIRE(solution != nullptr);
+        REQUIRE(workspace != nullptr);
 
-        CHECK(solution->GetName() == "test_C");
+        CHECK(workspace->GetName() == "test_C");
 
-        auto& projects = solution->GetProjects();
+        auto& projects = workspace->GetProjects();
 
         REQUIRE(projects.size() == 3);
 

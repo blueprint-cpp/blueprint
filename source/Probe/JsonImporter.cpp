@@ -47,15 +47,15 @@ namespace probe
         }
     }
 
-    std::unique_ptr<Solution> JsonImporter::ImportSolution(const std::string& filename)
+    std::unique_ptr<Workspace> JsonImporter::ImportWorkspace(const std::string& filename)
     {
         auto json = internal::ParseJsonFile(filename);
 
         if (json.is_object())
         {
-            auto solution = std::make_unique<Solution>();
+            auto workspace = std::make_unique<Workspace>();
 
-            solution->SetName(json["solution"]);
+            workspace->SetName(json["workspace"]);
 
             auto& projects = json["projects"];
 
@@ -63,11 +63,11 @@ namespace probe
             {
                 for (auto& project : projects)
                 {
-                    solution->AddProject(ImportProject(project));
+                    workspace->AddProject(ImportProject(project));
                 }
             }
 
-            return solution;
+            return workspace;
         }
 
         return nullptr;
