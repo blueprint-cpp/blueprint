@@ -32,7 +32,7 @@ namespace probe
         configurations_.push_back(std::move(configuration));
     }
 
-    const Project::Configurations& Project::GetConfigurations()
+    const Project::Configurations& Project::GetConfigurations() const
     {
         return configurations_;
     }

@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 
 #if defined(EXTERN_CLANG_ENABLED)
     probe::ClangParser parser;
-    parser.Parse(filename);
+    parser.ParseWorkspace(filename);
 #endif
 
     return 0;
