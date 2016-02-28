@@ -1,16 +1,16 @@
-#include "Probe/Parser/ClangParser.hpp"
+#include "Blueprint/Parser/ClangParser.hpp"
 
 #if defined(EXTERN_CLANG_ENABLED)
 
-#include "Probe/Parser/CommandLineArguments.hpp"
-#include "Probe/Workspace/JsonImporter.hpp"
-#include "Probe/Workspace/Workspace.hpp"
+#include "Blueprint/Parser/CommandLineArguments.hpp"
+#include "Blueprint/Workspace/JsonImporter.hpp"
+#include "Blueprint/Workspace/Workspace.hpp"
 
 #include <clang-c/Index.h>
 #include <fstream>
 #include <iostream>
 
-namespace probe
+namespace blueprint
 {
     namespace internal
     {

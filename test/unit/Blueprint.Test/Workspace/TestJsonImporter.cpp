@@ -1,6 +1,6 @@
 #include <catch/catch.hpp>
 
-#include "Probe/Workspace/JsonImporter.hpp"
+#include "Blueprint/Workspace/JsonImporter.hpp"
 
 #include <json/json.hpp>
 
@@ -8,21 +8,21 @@ TEST_CASE("TestJsonImporter")
 {
     SECTION("invalid workspace")
     {
-        auto invalid = probe::JsonImporter::ImportWorkspace("Samples/invalid.wks.json");
+        auto invalid = blueprint::JsonImporter::ImportWorkspace("Samples/invalid.wks.json");
 
         REQUIRE(invalid == nullptr);
     }
 
     SECTION("invalid project")
     {
-        auto invalid = probe::JsonImporter::ImportProject("Samples/invalid.prj.json");
+        auto invalid = blueprint::JsonImporter::ImportProject("Samples/invalid.prj.json");
 
         REQUIRE(invalid == nullptr);
     }
 
     SECTION("test_A")
     {
-        auto workspace = probe::JsonImporter::ImportWorkspace("Samples/test_A.wks.json");
+        auto workspace = blueprint::JsonImporter::ImportWorkspace("Samples/test_A.wks.json");
 
         REQUIRE(workspace != nullptr);
 
@@ -33,7 +33,7 @@ TEST_CASE("TestJsonImporter")
 
     SECTION("test_B")
     {
-        auto workspace = probe::JsonImporter::ImportWorkspace("Samples/test_B.wks.json");
+        auto workspace = blueprint::JsonImporter::ImportWorkspace("Samples/test_B.wks.json");
 
         REQUIRE(workspace != nullptr);
 
@@ -76,7 +76,7 @@ TEST_CASE("TestJsonImporter")
 
     SECTION("test_C")
     {
-        auto workspace = probe::JsonImporter::ImportWorkspace("Samples/test_C.wks.json");
+        auto workspace = blueprint::JsonImporter::ImportWorkspace("Samples/test_C.wks.json");
 
         REQUIRE(workspace != nullptr);
 

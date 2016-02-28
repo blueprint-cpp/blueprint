@@ -1,5 +1,5 @@
 #define CATCH_CONFIG_RUNNER
-#include "catch/catch.hpp"
+#include <catch/catch.hpp>
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>

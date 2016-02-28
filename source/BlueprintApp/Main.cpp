@@ -1,4 +1,4 @@
-#include "Probe/Parser/ClangParser.hpp"
+#include "Blueprint/Parser/ClangParser.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
     }
 
 #if defined(EXTERN_CLANG_ENABLED)
-    probe::ClangParser parser;
+    blueprint::ClangParser parser;
     parser.ParseWorkspace(filename);
 #endif
 

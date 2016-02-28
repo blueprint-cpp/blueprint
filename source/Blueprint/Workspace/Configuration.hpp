@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace probe
+namespace blueprint
 {
     class Configuration
     {

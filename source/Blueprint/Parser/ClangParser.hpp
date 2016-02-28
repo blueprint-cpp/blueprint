@@ -7,7 +7,7 @@
 
 #if defined(EXTERN_CLANG_ENABLED)
 
-namespace probe
+namespace blueprint
 {
     class Configuration;
     class Project;

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Probe/Workspace/Workspace.hpp>
+#include <Blueprint/Workspace/Workspace.hpp>
 
-namespace probe
+namespace blueprint
 {
     class JsonImporter
     {

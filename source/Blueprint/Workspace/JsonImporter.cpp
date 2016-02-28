@@ -1,11 +1,11 @@
-#include "Probe/Workspace/JsonImporter.hpp"
+#include "Blueprint/Workspace/JsonImporter.hpp"
 
 #include <json/json.hpp>
 
 #include <fstream>
 #include <sstream>
 
-namespace probe
+namespace blueprint
 {
     namespace internal
     {

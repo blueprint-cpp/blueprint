@@ -6,7 +6,7 @@ require("extern.filesystem")
 require("extern.json")
 
 function GenerateWorkspace()
-    workspace( "Probe" )
+    workspace( "Blueprint" )
 
     configurations { "Debug", "Release" }
         location( _ACTION )
@@ -21,9 +21,9 @@ function GenerateWorkspace()
 
     InitExternClang()
 
-    AddExeProject( "ProbeApp", "../source/ProbeApp", "Probe", { "Probe" } )
-    AddLibProject( "Probe", "../source/Probe" )
-    AddTestProject( "Probe.Test", "../test/unit/Probe.Test", { "Probe" } )
+    AddExeProject( "BlueprintApp", "../source/BlueprintApp", "Blueprint", { "Blueprint" } )
+    AddLibProject( "Blueprint", "../source/Blueprint" )
+    AddTestProject( "Blueprint.Test", "../test/unit/Blueprint.Test", { "Blueprint" } )
 end
 
 function AddProject( projectName, sourcePath, projectKind, targetName, projectDependencies )
@@ -51,7 +51,7 @@ function AddProject( projectName, sourcePath, projectKind, targetName, projectDe
         flags { "ExtraWarnings", "FatalWarnings", "Optimize" }
 
     configuration { "gmake" }
-        buildoptions { "-std=c++11", "-std=c++1y" }
+        buildoptions { "-std=c++14" }
 
     configuration { "vs*" }
         buildoptions { "/wd4706" }
@@ -78,10 +78,10 @@ function AddTestProject( projectName, sourcePath, projectDependencies )
     AddExeProject( projectName, sourcePath, projectName, projectDependencies )
 
     configuration { "gmake" }
-        postbuildcommands { "$(TARGET) ../../test/unit/Probe.Test" }
+        postbuildcommands { "$(TARGET) ../../test/unit/Blueprint.Test" }
 
     configuration { "vs*" }
-        postbuildcommands { "\"$(TargetPath)\" ../../test/unit/Probe.Test" }
+        postbuildcommands { "\"$(TargetPath)\" ../../test/unit/Blueprint.Test" }
 end
 
 if _ACTION then

@@ -1,6 +1,6 @@
-#include "Probe/Workspace/Configuration.hpp"
+#include "Blueprint/Workspace/Configuration.hpp"
 
-namespace probe
+namespace blueprint
 {
     void Configuration::SetName(const std::string& name)
     {

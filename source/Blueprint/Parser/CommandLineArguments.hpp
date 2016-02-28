@@ -2,7 +2,7 @@
 
 #include <filesystem/path.h>
 
-namespace probe
+namespace blueprint
 {
     class Configuration;
 

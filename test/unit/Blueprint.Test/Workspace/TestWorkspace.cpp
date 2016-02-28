@@ -1,8 +1,8 @@
 #include <catch/catch.hpp>
 
-#include "Probe/Workspace/Workspace.hpp"
+#include "Blueprint/Workspace/Workspace.hpp"
 
-using namespace probe;
+using namespace blueprint;
 
 TEST_CASE("TestWorkspace")
 {

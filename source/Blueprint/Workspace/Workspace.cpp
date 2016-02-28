@@ -1,6 +1,6 @@
-#include "Probe/Workspace/Workspace.hpp"
+#include "Blueprint/Workspace/Workspace.hpp"
 
-namespace probe
+namespace blueprint
 {
     void Workspace::SetName(const std::string& name)
     {

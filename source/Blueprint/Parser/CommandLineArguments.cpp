@@ -1,8 +1,8 @@
-#include "Probe/Parser/CommandLineArguments.hpp"
+#include "Blueprint/Parser/CommandLineArguments.hpp"
 
-#include "Probe/Workspace/Configuration.hpp"
+#include "Blueprint/Workspace/Configuration.hpp"
 
-namespace probe
+namespace blueprint
 {
     void CommandLineArguments::Add(const std::string& argument)
     {

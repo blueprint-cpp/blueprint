@@ -1,10 +1,10 @@
 #include <catch/catch.hpp>
 
-#include "Probe/Workspace/Configuration.hpp"
+#include "Blueprint/Workspace/Configuration.hpp"
 
 TEST_CASE("TestConfiguration")
 {
-    probe::Configuration config;
+    blueprint::Configuration config;
 
     SECTION("Default State")
     {

@@ -1,11 +1,11 @@
 #include <catch/catch.hpp>
 
-#include "Probe/Parser/CommandLineArguments.hpp"
-#include "Probe/Workspace/Configuration.hpp"
+#include "Blueprint/Parser/CommandLineArguments.hpp"
+#include "Blueprint/Workspace/Configuration.hpp"
 
 TEST_CASE("TestCommandLineArguments")
 {
-    probe::CommandLineArguments arguments;
+    blueprint::CommandLineArguments arguments;
 
     SECTION("Default State")
     {
@@ -34,7 +34,7 @@ TEST_CASE("TestCommandLineArguments")
             REQUIRE(arguments.GetArguments().empty());
         }
 
-        probe::Configuration config;
+        blueprint::Configuration config;
 
         SECTION("Defines")
         {

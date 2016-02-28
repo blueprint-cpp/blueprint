@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Probe/Workspace/Project.hpp"
+#include "Blueprint/Workspace/Project.hpp"
 
 #include <filesystem/path.h>
 #include <memory>
 
-namespace probe
+namespace blueprint
 {
     class Workspace
     {

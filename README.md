@@ -1,4 +1,4 @@
-# probe
+# blueprint
 Code base parser and code generation framework.
 
 The goal is to parse a code base with clang, extract type information and use it to generate :
@@ -8,4 +8,4 @@ The goal is to parse a code base with clang, extract type information and use it
 * script bindings
 * ...
 
-[![Build Status](https://travis-ci.org/eparayre/probe.svg)](https://travis-ci.org/eparayre/probe)
+[![Build Status](https://travis-ci.org/eparayre/blueprint.svg)](https://travis-ci.org/eparayre/blueprint)
