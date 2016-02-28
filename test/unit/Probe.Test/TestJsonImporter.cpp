@@ -26,7 +26,7 @@ TEST_CASE("TestJsonImporter")
         REQUIRE(workspace != nullptr);
 
         CHECK(workspace->GetName() == "test_A");
-        CHECK(workspace->GetDirectory() == "Samples");
+        CHECK(workspace->GetFile().str() == "Samples/test_A.wks.json");
         CHECK(workspace->GetProjects().empty() == true);
     }
 
@@ -37,7 +37,7 @@ TEST_CASE("TestJsonImporter")
         REQUIRE(workspace != nullptr);
 
         CHECK(workspace->GetName() == "test_B");
-        CHECK(workspace->GetDirectory() == "Samples");
+        CHECK(workspace->GetFile().str() == "Samples/test_B.wks.json");
 
         auto& projects = workspace->GetProjects();
         REQUIRE(projects.size() == 1);
@@ -46,7 +46,7 @@ TEST_CASE("TestJsonImporter")
         REQUIRE(project != nullptr);
 
         CHECK(project->GetName() == "test_B1");
-        CHECK(project->GetDirectory() == "Samples");
+        CHECK(project->GetFile().str() == "Samples/test_B1.prj.json");
 
         REQUIRE(project->GetConfigurations().size() == 1);
 
@@ -65,12 +65,12 @@ TEST_CASE("TestJsonImporter")
         CHECK(config->GetIncludes()[0] == "../some/include/path");
         CHECK(config->GetIncludes()[1] == "../some/other/include/path");
 
-        auto& files = project->GetFiles();
-        REQUIRE(files.size() == 4);
-        CHECK(files[0] == "../folder_A/sub_folder_AA/file_AA1.cpp");
-        CHECK(files[1] == "../folder_A/sub_folder_AB/file_AB1.cpp");
-        CHECK(files[2] == "../folder_B/file_B1.cpp");
-        CHECK(files[3] == "../file_at_root.cpp");
+        auto& sources = project->GetSources();
+        REQUIRE(sources.size() == 4);
+        CHECK(sources[0] == "../folder_A/sub_folder_AA/file_AA1.cpp");
+        CHECK(sources[1] == "../folder_A/sub_folder_AB/file_AB1.cpp");
+        CHECK(sources[2] == "../folder_B/file_B1.cpp");
+        CHECK(sources[3] == "../file_at_root.cpp");
     }
 
     SECTION("test_C")
@@ -80,7 +80,7 @@ TEST_CASE("TestJsonImporter")
         REQUIRE(workspace != nullptr);
 
         CHECK(workspace->GetName() == "test_C");
-        CHECK(workspace->GetDirectory() == "Samples");
+        CHECK(workspace->GetFile().str() == "Samples/test_C.wks.json");
 
         auto& projects = workspace->GetProjects();
 
@@ -90,8 +90,8 @@ TEST_CASE("TestJsonImporter")
         CHECK(projects[1]->GetName() == "test_C2");
         CHECK(projects[2]->GetName() == "test_C3");
 
-        CHECK(projects[0]->GetDirectory() == "Samples");
-        CHECK(projects[1]->GetDirectory() == "Samples");
-        CHECK(projects[2]->GetDirectory() == "Samples");
+        CHECK(projects[0]->GetFile().str() == "Samples/test_C1.prj.json");
+        CHECK(projects[1]->GetFile().str() == "Samples/test_C2.prj.json");
+        CHECK(projects[2]->GetFile().str() == "Samples/test_C3.prj.json");
     }
 }

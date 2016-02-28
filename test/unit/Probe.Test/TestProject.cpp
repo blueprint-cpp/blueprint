@@ -22,13 +22,13 @@ TEST_CASE("TestProject")
         CHECK(project.GetName() == "some_other_name");
     }
 
-    SECTION("Directory")
+    SECTION("File")
     {
-        project.SetDirectory("some/directory");
-        CHECK(project.GetDirectory() == "some/directory");
+        project.SetFile("some/file");
+        CHECK(project.GetFile().str() == "some/file");
 
-        project.SetDirectory("some/other/directory");
-        CHECK(project.GetDirectory() == "some/other/directory");
+        project.SetFile("some/other/file");
+        CHECK(project.GetFile().str() == "some/other/file");
     }
 
     SECTION("Configurations")
@@ -52,16 +52,16 @@ TEST_CASE("TestProject")
         CHECK(project.GetConfigurations().size() == 2);
     }
 
-    SECTION("Files")
+    SECTION("Sources")
     {
-        project.AddFile("file_A");
+        project.AddSource("source_A");
 
-        REQUIRE(project.GetFiles().size() == 1);
-        CHECK(project.GetFiles()[0] == "file_A");
+        REQUIRE(project.GetSources().size() == 1);
+        CHECK(project.GetSources()[0] == "source_A");
 
-        project.AddFile("file_B");
+        project.AddSource("source_B");
 
-        REQUIRE(project.GetFiles().size() == 2);
-        CHECK(project.GetFiles()[1] == "file_B");
+        REQUIRE(project.GetSources().size() == 2);
+        CHECK(project.GetSources()[1] == "source_B");
     }
 }

@@ -53,26 +53,27 @@ namespace probe
         }
     }
 
-    std::unique_ptr<Workspace> JsonImporter::ImportWorkspace(const filesystem::path& path)
+    std::unique_ptr<Workspace> JsonImporter::ImportWorkspace(const filesystem::path& workspaceFile)
     {
-        auto json = internal::ParseJsonFile(path);
+        auto json = internal::ParseJsonFile(workspaceFile);
 
         if (json.is_object())
         {
-            auto directory = path.parent_path();
             auto workspace = std::make_unique<Workspace>();
 
             workspace->SetName(json["workspace"]);
-            workspace->SetDirectory(directory.str());
+            workspace->SetFile(workspaceFile);
 
             auto& projects = json["projects"];
 
             if (projects.is_array())
             {
+                auto workspacePath = workspaceFile.parent_path();
+
                 for (auto& project : projects)
                 {
-                    auto projectPath = directory / project;
-                    workspace->AddProject(ImportProject(projectPath.str()));
+                    auto projectPath = workspacePath / project;
+                    workspace->AddProject(ImportProject(projectPath));
                 }
             }
 
@@ -82,26 +83,25 @@ namespace probe
         return nullptr;
     }
 
-    std::unique_ptr<Project> JsonImporter::ImportProject(const filesystem::path& path)
+    std::unique_ptr<Project> JsonImporter::ImportProject(const filesystem::path& projectFile)
     {
-        auto json = internal::ParseJsonFile(path);
+        auto json = internal::ParseJsonFile(projectFile);
 
         if (json.is_object())
         {
-            auto directory = path.parent_path();
             auto project = std::make_unique<Project>();
 
             project->SetName(json["project"]);
-            project->SetDirectory(directory.str());
+            project->SetFile(projectFile);
 
             for (auto& config : json["configs"])
             {
                 project->AddConfiguration(internal::ImportConfig(config));
             }
 
-            for (auto& file : json["files"])
+            for (auto& source : json["files"])
             {
-                project->AddFile(file);
+                project->AddSource(source);
             }
 
             return project;

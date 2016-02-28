@@ -12,14 +12,14 @@ namespace probe
         return name_;
     }
 
-    void Project::SetDirectory(const std::string& directory)
+    void Project::SetFile(const filesystem::path& file)
     {
-        directory_ = directory;
+        file_ = file;
     }
 
-    const std::string& Project::GetDirectory() const
+    const filesystem::path& Project::GetFile() const
     {
-        return directory_;
+        return file_;
     }
 
     void Project::AddConfiguration(std::unique_ptr<Configuration> configuration)
@@ -37,13 +37,13 @@ namespace probe
         return configurations_;
     }
 
-    void Project::AddFile(const std::string& file)
+    void Project::AddSource(const std::string& source)
     {
-        files_.push_back(file);
+        sources_.push_back(source);
     }
 
-    const Project::StringArray& Project::GetFiles() const
+    const Project::StringArray& Project::GetSources() const
     {
-        return files_;
+        return sources_;
     }
 }

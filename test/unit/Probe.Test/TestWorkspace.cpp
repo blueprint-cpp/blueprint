@@ -23,13 +23,13 @@ TEST_CASE("TestWorkspace")
         CHECK(workspace.GetName() == "some_other_name");
     }
 
-    SECTION("Directory")
+    SECTION("File")
     {
-        workspace.SetDirectory("some/directory");
-        CHECK(workspace.GetDirectory() == "some/directory");
+        workspace.SetFile("some/file");
+        CHECK(workspace.GetFile().str() == "some/file");
 
-        workspace.SetDirectory("some/other/directory");
-        CHECK(workspace.GetDirectory() == "some/other/directory");
+        workspace.SetFile("some/other/file");
+        CHECK(workspace.GetFile().str() == "some/other/file");
     }
 
     SECTION("Projects")

@@ -2,9 +2,8 @@
 
 #include "Probe/Configuration.hpp"
 
+#include <filesystem/path.h>
 #include <memory>
-#include <string>
-#include <vector>
 
 namespace probe
 {
@@ -14,8 +13,8 @@ namespace probe
         void SetName(const std::string& name);
         const std::string& GetName() const;
 
-        void SetDirectory(const std::string& directory);
-        const std::string& GetDirectory() const;
+        void SetFile(const filesystem::path& file);
+        const filesystem::path& GetFile() const;
 
     public:
         using Configurations = std::vector<std::unique_ptr<Configuration>>;
@@ -26,14 +25,14 @@ namespace probe
     public:
         using StringArray = std::vector<std::string>;
 
-        void AddFile(const std::string& file);
-        const StringArray& GetFiles() const;
+        void AddSource(const std::string& source);
+        const StringArray& GetSources() const;
 
     private:
         std::string name_;
-        std::string directory_;
+        filesystem::path file_;
 
         Configurations configurations_;
-        StringArray files_;
+        StringArray sources_;
     };
 }

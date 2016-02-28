@@ -12,14 +12,14 @@ namespace probe
         return name_;
     }
 
-    void Workspace::SetDirectory(const std::string& directory)
+    void Workspace::SetFile(const filesystem::path& file)
     {
-        directory_ = directory;
+        file_ = file;
     }
 
-    const std::string& Workspace::GetDirectory() const
+    const filesystem::path& Workspace::GetFile() const
     {
-        return directory_;
+        return file_;
     }
 
     void Workspace::AddProject(std::unique_ptr<Project> project)
