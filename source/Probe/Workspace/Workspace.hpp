@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Probe/Project.hpp"
+#include "Probe/Workspace/Project.hpp"
 
 #include <filesystem/path.h>
 #include <memory>

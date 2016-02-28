@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Probe/Configuration.hpp"
+#include "Probe/Workspace/Configuration.hpp"
 
 #include <filesystem/path.h>
 #include <memory>

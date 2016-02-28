@@ -1,12 +1,6 @@
 #pragma once
 
-#include <Probe/Project.hpp>
-#include <Probe/Workspace.hpp>
-
-#include <filesystem/path.h>
-
-#include <memory>
-#include <string>
+#include <Probe/Workspace/Workspace.hpp>
 
 namespace probe
 {

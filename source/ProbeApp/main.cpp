@@ -1,4 +1,4 @@
-#include "Probe/ClangParser.hpp"
+#include "Probe/Parser/ClangParser.hpp"
 
 int main(int argc, char* argv[])
 {

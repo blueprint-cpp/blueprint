@@ -10,8 +10,8 @@
 namespace probe
 {
     class Configuration;
-    class Workspace;
     class Project;
+    class Workspace;
 
     class ClangParser
     {

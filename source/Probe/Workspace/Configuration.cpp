@@ -1,4 +1,4 @@
-#include "Probe/Configuration.hpp"
+#include "Probe/Workspace/Configuration.hpp"
 
 namespace probe
 {

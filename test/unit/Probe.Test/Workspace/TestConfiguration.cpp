@@ -1,6 +1,6 @@
-#include "catch/catch.hpp"
+#include <catch/catch.hpp>
 
-#include "Probe/Configuration.hpp"
+#include "Probe/Workspace/Configuration.hpp"
 
 TEST_CASE("TestConfiguration")
 {

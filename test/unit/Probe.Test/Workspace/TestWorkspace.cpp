@@ -1,6 +1,6 @@
-#include "catch/catch.hpp"
+#include <catch/catch.hpp>
 
-#include "Probe/Workspace.hpp"
+#include "Probe/Workspace/Workspace.hpp"
 
 using namespace probe;
 

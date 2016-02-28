@@ -1,7 +1,8 @@
-#include "catch/catch.hpp"
-#include "json/json.hpp"
+#include <catch/catch.hpp>
 
-#include "Probe/JsonImporter.hpp"
+#include "Probe/Workspace/JsonImporter.hpp"
+
+#include <json/json.hpp>
 
 TEST_CASE("TestJsonImporter")
 {

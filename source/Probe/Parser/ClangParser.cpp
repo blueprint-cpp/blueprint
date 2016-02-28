@@ -1,9 +1,9 @@
-#include "Probe/ClangParser.hpp"
+#include "Probe/Parser/ClangParser.hpp"
 
 #if defined(EXTERN_CLANG_ENABLED)
 
-#include "Probe/JsonImporter.hpp"
-#include "Probe/Workspace.hpp"
+#include "Probe/Workspace/JsonImporter.hpp"
+#include "Probe/Workspace/Workspace.hpp"
 
 #include <clang-c/Index.h>
 #include <fstream>

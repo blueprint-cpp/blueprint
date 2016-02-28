@@ -1,10 +1,6 @@
-#include "Probe/JsonImporter.hpp"
+#include "Probe/Workspace/JsonImporter.hpp"
 
-#include "Probe/Configuration.hpp"
-
-#include "filesystem/path.h"
-#include "filesystem/resolver.h"
-#include "json/json.hpp"
+#include <json/json.hpp>
 
 #include <fstream>
 #include <sstream>
