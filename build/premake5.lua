@@ -51,7 +51,7 @@ function AddProject( projectName, sourcePath, projectKind, targetName, projectDe
         flags { "ExtraWarnings", "FatalWarnings", "Optimize" }
 
     configuration { "gmake" }
-        buildoptions { "-std=c++14" }
+        buildoptions { "-std=c++1y" }
 
     configuration { "vs*" }
         buildoptions { "/wd4706" }
