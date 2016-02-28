@@ -177,9 +177,9 @@ namespace probe
             config = project->GetConfigurations()[0].get();
         }
 
-        for (auto& file : project->GetFiles())
+        for (auto& source : project->GetSources())
         {
-            ParseSourceFile(project->GetDirectory() + '/' + file, config);
+            ParseSourceFile(project->GetFile().parent_path() / source, config);
         }
 
         return true;
