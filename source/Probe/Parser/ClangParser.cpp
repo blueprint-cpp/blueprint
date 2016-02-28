@@ -2,6 +2,7 @@
 
 #if defined(EXTERN_CLANG_ENABLED)
 
+#include "Probe/Parser/CommandLineArguments.hpp"
 #include "Probe/Workspace/JsonImporter.hpp"
 #include "Probe/Workspace/Workspace.hpp"
 
@@ -76,39 +77,6 @@ namespace probe
         private:
             const char** arguments_{nullptr};
             size_t count_{0};
-        };
-
-        class CommandLineArguments
-        {
-        public:
-            void Add(const std::string& argument)
-            {
-                arguments_.push_back(argument);
-            }
-
-            void ImportConfig(const Configuration* config, const filesystem::path& path)
-            {
-                if (config)
-                {
-                    for (auto& define : config->GetDefines())
-                    {
-                        Add("-D" + define);
-                    }
-
-                    for (auto& include : config->GetIncludes())
-                    {
-                        Add("-I" + (path / include).str());
-                    }
-                }
-            }
-
-            const std::vector<std::string>& GetArguments()
-            {
-                return arguments_;
-            }
-
-        private:
-            std::vector<std::string> arguments_;
         };
     }
 
@@ -197,7 +165,7 @@ namespace probe
         unsigned unsavedFileCount = 0;
         unsigned options = CXTranslationUnit_SkipFunctionBodies;
 
-        internal::CommandLineArguments arguments;
+        CommandLineArguments arguments;
 
         arguments.Add("-std=c++14");
         arguments.ImportConfig(config, filePath.parent_path());
