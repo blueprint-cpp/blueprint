@@ -2,10 +2,13 @@
 
 #include "Blueprint/Reflection/TypeInfo.hpp"
 
+#include <algorithm>
+
 namespace blueprint
 {
 namespace reflection
 {
+    TypeRegistry::TypeRegistry() = default;
     TypeRegistry::~TypeRegistry() = default;
 
     void TypeRegistry::Register(std::unique_ptr<TypeInfo> type)

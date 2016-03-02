@@ -12,6 +12,7 @@ namespace reflection
     class TypeRegistry
     {
     public:
+        TypeRegistry();
         ~TypeRegistry();
 
         void Register(std::unique_ptr<TypeInfo> type);
