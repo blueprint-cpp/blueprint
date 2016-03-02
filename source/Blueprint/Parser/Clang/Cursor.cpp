@@ -1,5 +1,7 @@
 #include "Blueprint/Parser/Clang/Cursor.hpp"
 
+#if defined(EXTERN_CLANG_ENABLED)
+
 namespace blueprint
 {
 namespace clang
@@ -89,3 +91,5 @@ namespace clang
     }
 }
 }
+
+#endif
