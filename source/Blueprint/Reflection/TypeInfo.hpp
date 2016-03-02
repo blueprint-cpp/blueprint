@@ -9,6 +9,9 @@ namespace reflection
     class TypeInfo
     {
     public:
+        void SetTypeId(uint64_t typeId);
+        uint64_t GetTypeId() const;
+
         void SetName(const std::string& name);
         const std::string& GetName() const;
 
@@ -18,7 +21,7 @@ namespace reflection
         std::string GetFullName() const;
 
     private:
-        //uint64_t typeID_{0};
+        uint64_t typeId_{0};
         std::string name_;
         Namespace namespace_;
     };

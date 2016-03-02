@@ -10,9 +10,19 @@ TEST_CASE("TestTypeInfo")
 
     SECTION("Default State")
     {
+        CHECK(type.GetTypeId() == 0);
         CHECK(type.GetName() == "");
         CHECK(type.GetNamespace().IsGlobal());
         CHECK(type.GetFullName() == "");
+    }
+
+    SECTION("Type Id")
+    {
+        type.SetTypeId(0xA);
+        CHECK(type.GetTypeId() == 0xA);
+
+        type.SetTypeId(0xB);
+        CHECK(type.GetTypeId() == 0xB);
     }
 
     SECTION("Name")

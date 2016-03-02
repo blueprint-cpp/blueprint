@@ -4,6 +4,16 @@ namespace blueprint
 {
 namespace reflection
 {
+    void TypeInfo::SetTypeId(uint64_t typeId)
+    {
+        typeId_ = typeId;
+    }
+
+    uint64_t TypeInfo::GetTypeId() const
+    {
+        return typeId_;
+    }
+
     void TypeInfo::SetName(const std::string& name)
     {
         name_ = name;
