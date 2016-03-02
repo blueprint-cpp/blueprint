@@ -4,6 +4,10 @@ namespace blueprint
 {
 namespace reflection
 {
+    Namespace::Namespace(const char* ns)
+        : names_(Parse(ns))
+    {}
+
     Namespace::Namespace(const std::string& ns)
         : names_(Parse(ns))
     {}

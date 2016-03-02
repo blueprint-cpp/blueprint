@@ -1,8 +1,10 @@
 #pragma once
 
-#include <string>
+#include "Blueprint/Reflection/Namespace.hpp"
 
 namespace blueprint
+{
+namespace reflection
 {
     class TypeInfo
     {
@@ -10,13 +12,15 @@ namespace blueprint
         void SetName(const std::string& name);
         const std::string& GetName() const;
 
-        void SetNamespace(const std::string& nameSpace);
-        const std::string& GetNamespace() const;
+        void SetNamespace(const Namespace& ns);
+        const Namespace& GetNamespace() const;
 
         std::string GetFullName() const;
 
     private:
+        //uint64_t typeID_{0};
         std::string name_;
-        std::string namespace_;
+        Namespace namespace_;
     };
+}
 }

@@ -2,6 +2,8 @@
 
 namespace blueprint
 {
+namespace reflection
+{
     void TypeInfo::SetName(const std::string& name)
     {
         name_ = name;
@@ -12,23 +14,24 @@ namespace blueprint
         return name_;
     }
 
-    void TypeInfo::SetNamespace(const std::string& nameSpace)
+    void TypeInfo::SetNamespace(const Namespace& ns)
     {
-        namespace_ = nameSpace;
+        namespace_ = ns;
     }
 
-    const std::string& TypeInfo::GetNamespace() const
+    const Namespace& TypeInfo::GetNamespace() const
     {
         return namespace_;
     }
 
     std::string TypeInfo::GetFullName() const
     {
-        if (!name_.empty())
+        if (!name_.empty() && !namespace_.IsGlobal())
         {
-            return !namespace_.empty() ? namespace_ + "::" + name_ : name_;
+            return namespace_.ToString() + "::" + name_;
         }
 
-        return "";
+        return name_;
     }
+}
 }

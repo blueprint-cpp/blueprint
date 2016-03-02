@@ -4,12 +4,14 @@
 
 TEST_CASE("TestTypeInfo")
 {
-    blueprint::TypeInfo type;
+    using namespace blueprint::reflection;
+
+    TypeInfo type;
 
     SECTION("Default State")
     {
         CHECK(type.GetName() == "");
-        CHECK(type.GetNamespace() == "");
+        CHECK(type.GetNamespace().IsGlobal());
         CHECK(type.GetFullName() == "");
     }
 
@@ -25,10 +27,10 @@ TEST_CASE("TestTypeInfo")
     SECTION("Namespace")
     {
         type.SetNamespace("some::namespace");
-        CHECK(type.GetNamespace() == "some::namespace");
+        CHECK(type.GetNamespace().ToString() == "some::namespace");
 
         type.SetNamespace("some::other::namespace");
-        CHECK(type.GetNamespace() == "some::other::namespace");
+        CHECK(type.GetNamespace().ToString() == "some::other::namespace");
     }
 
     SECTION("FullName")

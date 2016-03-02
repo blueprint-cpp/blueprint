@@ -11,6 +11,7 @@ namespace reflection
     {
     public:
         Namespace() = default;
+        Namespace(const char* ns);
         Namespace(const std::string& ns);
         Namespace(const std::vector<std::string>& names);
 
