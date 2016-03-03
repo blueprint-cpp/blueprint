@@ -2,9 +2,8 @@
 
 #if defined(EXTERN_CLANG_ENABLED)
 
-#include <clang-c/Index.h>
+#include "Blueprint/Parser/Clang/SourceLocation.hpp"
 
-#include <string>
 #include <vector>
 
 namespace blueprint
@@ -22,6 +21,7 @@ namespace clang
         bool IsNull() const;
         bool IsDefinition() const;
         bool IsOfKind(CXCursorKind kind) const;
+        CXCursorKind GetKind() const;
 
         std::string GetSpelling() const;
         std::string GetDisplayName() const;
@@ -29,6 +29,8 @@ namespace clang
 
         Cursor GetSemanticParent() const;
         Cursor GetLexicalParent() const;
+
+        SourceLocation GetSourceLocation() const;
 
         std::vector<Cursor> GetChildren() const;
 

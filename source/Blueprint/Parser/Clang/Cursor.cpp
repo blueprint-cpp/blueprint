@@ -37,6 +37,11 @@ namespace clang
         return cursor_.kind == kind;
     }
 
+    CXCursorKind Cursor::GetKind() const
+    {
+        return cursor_.kind;
+    }
+
     std::string Cursor::GetSpelling() const
     {
         return ToString(clang_getCursorSpelling(cursor_));
@@ -60,6 +65,11 @@ namespace clang
     Cursor Cursor::GetLexicalParent() const
     {
         return clang_getCursorLexicalParent(cursor_);
+    }
+
+    SourceLocation Cursor::GetSourceLocation() const
+    {
+        return clang_getCursorLocation(cursor_);
     }
 
     std::vector<Cursor> Cursor::GetChildren() const
