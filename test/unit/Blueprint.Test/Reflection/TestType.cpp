@@ -1,12 +1,12 @@
 #include <catch/catch.hpp>
 
-#include "Blueprint/Reflection/TypeInfo.hpp"
+#include "Blueprint/Reflection/Type.hpp"
 
-TEST_CASE("TestTypeInfo")
+TEST_CASE("TestType")
 {
     using namespace blueprint::reflection;
 
-    TypeInfo type;
+    Type type;
 
     SECTION("Default State")
     {

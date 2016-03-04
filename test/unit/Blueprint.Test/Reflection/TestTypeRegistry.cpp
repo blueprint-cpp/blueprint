@@ -1,6 +1,6 @@
 #include <catch/catch.hpp>
 
-#include "Blueprint/Reflection/TypeInfo.hpp"
+#include "Blueprint/Reflection/Type.hpp"
 #include "Blueprint/Reflection/TypeRegistry.hpp"
 
 TEST_CASE("TestTypeRegistry")
@@ -16,7 +16,7 @@ TEST_CASE("TestTypeRegistry")
 
     SECTION("Register")
     {
-        auto typeA = std::make_unique<TypeInfo>();
+        auto typeA = std::make_unique<Type>();
         typeA->SetTypeId(0xA);
 
         registry.Register(std::move(typeA));
@@ -24,7 +24,7 @@ TEST_CASE("TestTypeRegistry")
         CHECK(registry.GetTypeCount() == 1);
         CHECK(registry.Contains(0xA));
 
-        auto typeB = std::make_unique<TypeInfo>();
+        auto typeB = std::make_unique<Type>();
         typeB->SetTypeId(0xB);
 
         registry.Register(std::move(typeB));
@@ -45,7 +45,7 @@ TEST_CASE("TestTypeRegistry")
 
         SECTION("Returns the registered type")
         {
-            auto typeA = std::make_unique<TypeInfo>();
+            auto typeA = std::make_unique<Type>();
             typeA->SetTypeId(0xA);
             typeA->SetName("type_A");
 
@@ -57,7 +57,7 @@ TEST_CASE("TestTypeRegistry")
             CHECK(foundA->GetName() == "type_A");
             CHECK(foundA->GetNamespace().IsGlobal());
 
-            auto typeB = std::make_unique<TypeInfo>();
+            auto typeB = std::make_unique<Type>();
             typeB->SetTypeId(0xB);
             typeB->SetName("type_B");
             typeB->SetNamespace("some::scope");

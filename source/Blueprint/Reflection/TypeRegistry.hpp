@@ -1,13 +1,13 @@
 #pragma once
 
 #include <memory>
-#include <vector>
+#include <unordered_map>
 
 namespace blueprint
 {
 namespace reflection
 {
-    class TypeInfo;
+    class Type;
 
     class TypeRegistry
     {
@@ -15,15 +15,17 @@ namespace reflection
         TypeRegistry();
         ~TypeRegistry();
 
-        void Register(std::unique_ptr<TypeInfo> type);
+        void Register(std::unique_ptr<Type> type);
 
         bool Contains(uint64_t typeId) const;
-        const TypeInfo* Find(uint64_t typeId) const;
+        const Type* Find(uint64_t typeId) const;
 
         size_t GetTypeCount() const;
 
+        void Dump() const;
+
     private:
-        std::vector<std::unique_ptr<TypeInfo>> types_;
+        std::unordered_map<uint64_t, std::unique_ptr<Type>> types_;
     };
 }
 }

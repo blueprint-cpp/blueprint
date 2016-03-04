@@ -1,8 +1,10 @@
 #include "Blueprint/Reflection/TypeRegistry.hpp"
 
-#include "Blueprint/Reflection/TypeInfo.hpp"
+#include "Blueprint/Reflection/Type.hpp"
 
 #include <algorithm>
+#include <iomanip>
+#include <iostream>
 
 namespace blueprint
 {
@@ -11,24 +13,20 @@ namespace reflection
     TypeRegistry::TypeRegistry() = default;
     TypeRegistry::~TypeRegistry() = default;
 
-    void TypeRegistry::Register(std::unique_ptr<TypeInfo> type)
+    void TypeRegistry::Register(std::unique_ptr<Type> type)
     {
-        types_.push_back(std::move(type));
+        types_[type->GetTypeId()] = std::move(type);
     }
 
     bool TypeRegistry::Contains(uint64_t typeId) const
     {
-        return Find(typeId) != nullptr;
+        return types_.find(typeId) != types_.end();
     }
 
-    const TypeInfo* TypeRegistry::Find(uint64_t typeId) const
+    const Type* TypeRegistry::Find(uint64_t typeId) const
     {
-        auto it = std::find_if(types_.begin(), types_.end(), [=](auto& type)
-        {
-            return type->GetTypeId() == typeId;
-        });
-
-        return it != types_.end() ? it->get() : nullptr;
+        auto it = types_.find(typeId);
+        return it != types_.end() ? it->second.get() : nullptr;
     }
 
     size_t TypeRegistry::GetTypeCount() const

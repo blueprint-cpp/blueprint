@@ -6,7 +6,7 @@ namespace blueprint
 {
 namespace reflection
 {
-    class TypeInfo
+    class Type
     {
     public:
         void SetTypeId(uint64_t typeId);
