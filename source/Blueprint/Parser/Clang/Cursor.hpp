@@ -13,7 +13,7 @@ namespace clang
     class Cursor
     {
     public:
-        Cursor::Cursor(CXCursor cursor)
+        Cursor(CXCursor cursor)
             : cursor_(cursor)
         {}
 
