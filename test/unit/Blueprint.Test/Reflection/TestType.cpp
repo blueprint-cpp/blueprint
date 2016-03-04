@@ -64,4 +64,23 @@ TEST_CASE("TestType")
             CHECK(type.GetFullName() == "some::namespace::some_name");
         }
     }
+
+    SECTION("SourceLocation")
+    {
+        SourceLocation locationA;
+        locationA.SetFile("file_A");
+        locationA.SetLine(11);
+        locationA.SetColumn(22);
+
+        type.SetSourceLocation(locationA);
+        CHECK(type.GetSourceLocation().ToString() == "file_A (11:22)");
+
+        SourceLocation locationB;
+        locationB.SetFile("file_B");
+        locationB.SetLine(33);
+        locationB.SetColumn(44);
+
+        type.SetSourceLocation(locationB);
+        CHECK(type.GetSourceLocation().ToString() == "file_B (33:44)");
+    }
 }

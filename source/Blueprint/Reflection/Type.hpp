@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Blueprint/Reflection/Namespace.hpp"
+#include "Blueprint/Reflection/SourceLocation.hpp"
 
 namespace blueprint
 {
@@ -20,10 +21,15 @@ namespace reflection
 
         std::string GetFullName() const;
 
+        void SetSourceLocation(const SourceLocation& location);
+        const SourceLocation& GetSourceLocation() const;
+
     private:
         uint64_t typeId_{0};
         std::string name_;
         Namespace namespace_;
+
+        SourceLocation location_;
     };
 }
 }

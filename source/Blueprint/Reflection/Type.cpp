@@ -43,5 +43,15 @@ namespace reflection
 
         return name_;
     }
+
+    void Type::SetSourceLocation(const SourceLocation& location)
+    {
+        location_ = location;
+    }
+
+    const SourceLocation& Type::GetSourceLocation() const
+    {
+        return location_;
+    }
 }
 }
