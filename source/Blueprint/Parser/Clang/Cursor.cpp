@@ -2,6 +2,8 @@
 
 #if defined(EXTERN_CLANG_ENABLED)
 
+#include "Blueprint/Parser/Clang/String.hpp"
+
 namespace blueprint
 {
 namespace clang
@@ -40,17 +42,17 @@ namespace clang
 
     std::string Cursor::GetSpelling() const
     {
-        return ToString(clang_getCursorSpelling(cursor_));
+        return String(clang_getCursorSpelling(cursor_)).Get();
     }
 
     std::string Cursor::GetDisplayName() const
     {
-        return ToString(clang_getCursorDisplayName(cursor_));
+        return String(clang_getCursorDisplayName(cursor_)).Get();
     }
 
     std::string Cursor::GetMangledName() const
     {
-        return ToString(clang_Cursor_getMangling(cursor_));
+        return String(clang_Cursor_getMangling(cursor_)).Get();
     }
 
     Cursor Cursor::GetSemanticParent() const
@@ -82,13 +84,6 @@ namespace clang
         clang_visitChildren(cursor_, visitor, &children);
 
         return children;
-    }
-
-    std::string Cursor::ToString(CXString string) const
-    {
-        std::string result = clang_getCString(string);
-        clang_disposeString(string);
-        return result;
     }
 
     void Cursor::VisitChildren(CXCursorVisitor visitor, CXClientData data) const

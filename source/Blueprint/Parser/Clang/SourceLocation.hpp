@@ -21,9 +21,6 @@ namespace clang
         std::string ToString() const;
 
     private:
-        std::string ToString(CXString string) const;
-
-    private:
         CXSourceLocation sourceLocation_;
 
         filesystem::path file_;

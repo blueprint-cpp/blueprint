@@ -45,9 +45,6 @@ namespace clang
         void VisitChildren(CXCursorVisitor visitor, CXClientData data) const;
 
     private:
-        std::string ToString(CXString string) const;
-
-    private:
         CXCursor cursor_;
     };
 }

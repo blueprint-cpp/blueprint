@@ -2,6 +2,8 @@
 
 #if defined(EXTERN_CLANG_ENABLED)
 
+#include "Blueprint/Parser/Clang/String.hpp"
+
 namespace blueprint
 {
 namespace clang
@@ -15,7 +17,7 @@ namespace clang
 
         clang_getSpellingLocation(sourceLocation_, &file, &line, &column, nullptr);
 
-        file_ = ToString(clang_getFileName(file));
+        file_ = String(clang_getFileName(file)).Get();
         line_ = line;
         column_ = column;
     }
@@ -33,13 +35,6 @@ namespace clang
     size_t SourceLocation::GetColumn() const
     {
         return column_;
-    }
-
-    std::string SourceLocation::ToString(CXString string) const
-    {
-        std::string result = clang_getCString(string);
-        clang_disposeString(string);
-        return result;
     }
 }
 }
