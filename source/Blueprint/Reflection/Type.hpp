@@ -10,6 +10,8 @@ namespace reflection
     class Type
     {
     public:
+        virtual ~Type() = default;
+
         void SetTypeId(uint64_t typeId);
         uint64_t GetTypeId() const;
 
