@@ -6,10 +6,6 @@ namespace blueprint
 {
 namespace clang
 {
-    Cursor::Cursor(CXCursor cursor)
-        : cursor_(cursor)
-    {}
-
     bool Cursor::IsInSystemHeader() const
     {
         auto location = clang_getCursorLocation(cursor_);
