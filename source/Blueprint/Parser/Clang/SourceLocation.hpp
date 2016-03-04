@@ -14,7 +14,7 @@ namespace clang
     public:
         SourceLocation(CXSourceLocation sourceLocation);
 
-        const filesystem::path& GetSourceFile() const;
+        const filesystem::path& GetFile() const;
         size_t GetLine() const;
         size_t GetColumn() const;
 
@@ -26,7 +26,7 @@ namespace clang
     private:
         CXSourceLocation sourceLocation_;
 
-        filesystem::path sourceFile_;
+        filesystem::path file_;
         size_t line_{0};
         size_t column_{0};
     };

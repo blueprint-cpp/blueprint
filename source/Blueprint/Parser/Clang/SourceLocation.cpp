@@ -15,14 +15,14 @@ namespace clang
 
         clang_getSpellingLocation(sourceLocation_, &file, &line, &column, nullptr);
 
-        sourceFile_ = ToString(clang_getFileName(file));
+        file_ = ToString(clang_getFileName(file));
         line_ = line;
         column_ = column;
     }
 
-    const filesystem::path& SourceLocation::GetSourceFile() const
+    const filesystem::path& SourceLocation::GetFile() const
     {
-        return sourceFile_;
+        return file_;
     }
 
     size_t SourceLocation::GetLine() const
@@ -33,11 +33,6 @@ namespace clang
     size_t SourceLocation::GetColumn() const
     {
         return column_;
-    }
-
-    std::string SourceLocation::ToString() const
-    {
-        return sourceFile_.filename() + " (" + std::to_string(line_) + ":" + std::to_string(column_) + ")";
     }
 
     std::string SourceLocation::ToString(CXString string) const
