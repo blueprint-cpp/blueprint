@@ -102,13 +102,17 @@ end
 function AddExternClangLib()
     configuration {} -- reset filter
 
-    if os.get() ~= "macosx" then
+    local libclangPath = nil
+
+    if os.get() == "macosx" then
+        libclangPath = "/usr/local/opt/llvm37/lib/llvm-3.7/lib"
+    elseif os.get() == "linux" then
+        libclangPath = "/usr/lib/llvm-3.7/lib"
+    else
         return
     end
 
     defines { "EXTERN_CLANG_ENABLED" }
-
-    local libclangPath = "/usr/local/opt/llvm37/lib/llvm-3.7/lib"
 
     includedirs { "../externs/clang/include" }
     libdirs     { libclangPath }
