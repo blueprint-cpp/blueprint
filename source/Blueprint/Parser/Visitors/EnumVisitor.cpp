@@ -13,11 +13,11 @@ namespace blueprint
     {
         assert(cursor.IsOfKind(CXCursor_EnumDecl));
 
-        auto type = std::make_unique<reflection::EnumType>();
-        context.FillType(type.get(), cursor);
-
-        if (!context.IsTypeRegistered(type->GetTypeId()))
+        if (!context.IsTypeRegistered(cursor.GetType()))
         {
+            auto type = std::make_unique<reflection::EnumType>();
+            context.FillType(type.get(), cursor);
+
             FillEnum(type.get(), cursor);
             context.RegisterType(std::move(type));
         }

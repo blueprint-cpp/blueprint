@@ -20,6 +20,12 @@ namespace clang
     {
         return clang_getTypeSpelling(type_);
     }
+
+    uint64_t Type::GetTypeId() const
+    {
+        std::hash<std::string> hashFunctor;
+        return hashFunctor(GetSpelling().Get());
+    }
 }
 }
 

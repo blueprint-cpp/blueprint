@@ -13,11 +13,11 @@ namespace blueprint
     {
         assert(cursor.IsOfKind(CXCursor_ClassDecl) || cursor.IsOfKind(CXCursor_StructDecl));
 
-        auto type = std::make_unique<reflection::ClassType>();
-        context.FillType(type.get(), cursor);
-
-        if (!context.IsTypeRegistered(type->GetTypeId()))
+        if (!context.IsTypeRegistered(cursor.GetType()))
         {
+            auto type = std::make_unique<reflection::ClassType>();
+            context.FillType(type.get(), cursor);
+
             FillClass(type.get(), cursor);
             context.RegisterType(std::move(type));
         }

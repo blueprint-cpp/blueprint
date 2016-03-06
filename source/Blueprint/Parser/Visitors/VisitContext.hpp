@@ -7,6 +7,7 @@
 #include <memory>
 
 namespace blueprint { namespace clang { class Cursor; } }
+namespace blueprint { namespace clang { class Type; } }
 namespace blueprint { namespace reflection { class Type; } }
 namespace blueprint { namespace reflection { class TypeRegistry; } }
 
@@ -17,7 +18,7 @@ namespace blueprint
     public:
         VisitContext(reflection::TypeRegistry& typeRegistry, const reflection::Namespace& ns);
 
-        bool IsTypeRegistered(uint64_t typeId) const;
+        bool IsTypeRegistered(const clang::Type& type) const;
         void RegisterType(std::unique_ptr<reflection::Type> type);
 
         void FillType(reflection::Type* type, const clang::Cursor& cursor);

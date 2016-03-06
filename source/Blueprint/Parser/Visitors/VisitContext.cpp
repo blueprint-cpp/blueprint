@@ -16,9 +16,9 @@ namespace blueprint
         , namespace_(ns)
     {}
 
-    bool VisitContext::IsTypeRegistered(uint64_t typeId) const
+    bool VisitContext::IsTypeRegistered(const clang::Type& type) const
     {
-        return typeRegistry_.Contains(typeId);
+        return typeRegistry_.Contains(type.GetTypeId());
     }
 
     void VisitContext::RegisterType(std::unique_ptr<reflection::Type> type)
@@ -30,11 +30,9 @@ namespace blueprint
     {
         assert(type != nullptr);
 
-        std::hash<std::string> hash;
-
+        type->SetTypeId(cursor.GetType().GetTypeId());
         type->SetName(cursor.GetSpelling().Get());
         type->SetNamespace(namespace_);
-        type->SetTypeId(hash(type->GetFullName()));
 
         auto cursorLocation = cursor.GetSourceLocation();
 

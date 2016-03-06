@@ -26,6 +26,8 @@ namespace clang
 
         String GetSpelling() const;
 
+        uint64_t GetTypeId() const;
+
     private:
         CXType type_;
     };
