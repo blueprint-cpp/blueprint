@@ -102,11 +102,14 @@ end
 function AddExternClangLib()
     configuration {} -- reset filter
 
+    local libclang = nil
     local libclangPath = nil
 
     if os.get() == "macosx" then
+        libclang = "clang"
         libclangPath = "/usr/local/opt/llvm37/lib/llvm-3.7/lib"
     elseif os.get() == "linux" then
+        libclang = ":libclang-3.7.so.1"
         libclangPath = "/usr/lib/llvm-3.7/lib"
     else
         return
@@ -122,7 +125,7 @@ function AddExternClangLib()
         "__STDC_CONSTANT_MACROS"
     }
 
-    links { ":libclang-3.7.so.1" }
+    links { libclang }
 
     linkoptions { "-Xlinker -rpath " .. libclangPath }
 end
