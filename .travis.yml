@@ -5,30 +5,25 @@ notification:
         on_success: change
         on_failure: always
 
-matrix:
-    include:
-        - os: linux
-          compiler: clang
-          env: INSTALL_CXX=clang++-3.7
-          addons:
-            apt:
-                sources: [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.7' ]
-                packages: [ 'clang-3.7' ]
+os:
+    - linux
+    - osx
 
-        - os: osx
-          compiler: clang
+compiler:
+    - clang
+
+addons:
+  apt:
+    sources: [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.7' ]
+    packages: [ 'clang-3.7' ]
 
 before_install:
-    - chmod +x build/build.sh
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install llvm37; fi
 
 before_script:
-    - if [ -n "${INSTALL_CXX}" ]; then
-        CXX=${INSTALL_CXX};
-      fi
-    - if [ -n "${INSTALL_CC}" ]; then
-        CC=${INSTALL_CC};
-      fi
-    - clang --version
+    - if [[ -n "${INSTALL_CXX}" ]]; then CXX=${INSTALL_CXX}; fi
+    - $CXX --version
     - build/buildtools-premake/bin/build.sh
     - build/buildtools-premake/bin/premake.sh --version
 
