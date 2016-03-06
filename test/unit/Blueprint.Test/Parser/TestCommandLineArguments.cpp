@@ -29,7 +29,7 @@ TEST_CASE("TestCommandLineArguments")
     {
         SECTION("Invalid")
         {
-            arguments.ImportConfig(nullptr, "");
+            arguments.ImportConfig(nullptr);
 
             REQUIRE(arguments.GetArguments().empty());
         }
@@ -42,25 +42,12 @@ TEST_CASE("TestCommandLineArguments")
             config.AddDefine("DEFINE_2");
             config.AddDefine("DEFINE_3");
 
-            SECTION("No path")
-            {
-                arguments.ImportConfig(&config, "");
+            arguments.ImportConfig(&config);
 
-                REQUIRE(arguments.GetArguments().size() == 3);
-                CHECK(arguments.GetArguments()[0] == "-DDEFINE_1");
-                CHECK(arguments.GetArguments()[1] == "-DDEFINE_2");
-                CHECK(arguments.GetArguments()[2] == "-DDEFINE_3");
-            }
-
-            SECTION("Path is ignored anyway")
-            {
-                arguments.ImportConfig(&config, "some/path");
-
-                REQUIRE(arguments.GetArguments().size() == 3);
-                CHECK(arguments.GetArguments()[0] == "-DDEFINE_1");
-                CHECK(arguments.GetArguments()[1] == "-DDEFINE_2");
-                CHECK(arguments.GetArguments()[2] == "-DDEFINE_3");
-            }
+            REQUIRE(arguments.GetArguments().size() == 3);
+            CHECK(arguments.GetArguments()[0] == "-DDEFINE_1");
+            CHECK(arguments.GetArguments()[1] == "-DDEFINE_2");
+            CHECK(arguments.GetArguments()[2] == "-DDEFINE_3");
         }
 
         SECTION("Includes")
@@ -68,23 +55,11 @@ TEST_CASE("TestCommandLineArguments")
             config.AddInclude("include/path_A");
             config.AddInclude("include/path_B");
 
-            SECTION("No path")
-            {
-                arguments.ImportConfig(&config, "");
+            arguments.ImportConfig(&config);
 
-                REQUIRE(arguments.GetArguments().size() == 2);
-                CHECK(arguments.GetArguments()[0] == "-Iinclude/path_A");
-                CHECK(arguments.GetArguments()[1] == "-Iinclude/path_B");
-            }
-
-            SECTION("With path")
-            {
-                arguments.ImportConfig(&config, "some/path/");
-
-                REQUIRE(arguments.GetArguments().size() == 2);
-                CHECK(arguments.GetArguments()[0] == "-Isome/path/include/path_A");
-                CHECK(arguments.GetArguments()[1] == "-Isome/path/include/path_B");
-            }
+            REQUIRE(arguments.GetArguments().size() == 2);
+            CHECK(arguments.GetArguments()[0] == "-Iinclude/path_A");
+            CHECK(arguments.GetArguments()[1] == "-Iinclude/path_B");
         }
     }
 }

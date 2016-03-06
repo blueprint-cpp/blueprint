@@ -9,29 +9,21 @@ namespace blueprint
         arguments_.push_back(argument);
     }
 
-    void CommandLineArguments::ImportConfig(const Configuration* config, const filesystem::path& path)
+    void CommandLineArguments::ImportConfig(const Configuration* config)
     {
-        if (config)
+        if (config == nullptr)
         {
-            for (auto& define : config->GetDefines())
-            {
-                Add("-D" + define);
-            }
+            return;
+        }
 
-            if (path.str().empty())
-            {
-                for (auto& include : config->GetIncludes())
-                {
-                    Add("-I" + include);
-                }
-            }
-            else
-            {
-                for (auto& include : config->GetIncludes())
-                {
-                    Add("-I" + (path / include).str());
-                }
-            }
+        for (auto& define : config->GetDefines())
+        {
+            Add("-D" + define);
+        }
+
+        for (auto& include : config->GetIncludes())
+        {
+            Add("-I" + include);
         }
     }
 

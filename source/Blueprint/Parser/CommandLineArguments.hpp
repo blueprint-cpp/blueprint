@@ -1,6 +1,7 @@
 #pragma once
 
-#include <filesystem/path.h>
+#include <string>
+#include <vector>
 
 namespace blueprint
 {
@@ -12,7 +13,7 @@ namespace blueprint
         void Add(const std::string& argument);
         const std::vector<std::string>& GetArguments();
 
-        void ImportConfig(const Configuration* config, const filesystem::path& path);
+        void ImportConfig(const Configuration* config);
 
     private:
         std::vector<std::string> arguments_;

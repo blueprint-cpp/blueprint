@@ -1,44 +1,49 @@
 #include <catch/catch.hpp>
 
+#include "Blueprint/Utilities/WorkingDirectory.hpp"
 #include "Blueprint/Workspace/JsonImporter.hpp"
 
 #include <json/json.hpp>
 
 TEST_CASE("TestJsonImporter")
 {
+    using namespace blueprint;
+
+    WorkingDirectory::SetCurrent("Samples");
+
     SECTION("invalid workspace")
     {
-        auto invalid = blueprint::JsonImporter::ImportWorkspace("Samples/invalid.wks.json");
+        auto invalid = JsonImporter::ImportWorkspace("invalid.wks.json");
 
         REQUIRE(invalid == nullptr);
     }
 
     SECTION("invalid project")
     {
-        auto invalid = blueprint::JsonImporter::ImportProject("Samples/invalid.prj.json");
+        auto invalid = JsonImporter::ImportProject("invalid.prj.json");
 
         REQUIRE(invalid == nullptr);
     }
 
     SECTION("test_A")
     {
-        auto workspace = blueprint::JsonImporter::ImportWorkspace("Samples/test_A.wks.json");
+        auto workspace = JsonImporter::ImportWorkspace("test_A.wks.json");
 
         REQUIRE(workspace != nullptr);
 
         CHECK(workspace->GetName() == "test_A");
-        CHECK(workspace->GetFile().str() == "Samples/test_A.wks.json");
+        CHECK(workspace->GetFile().str() == "test_A.wks.json");
         CHECK(workspace->GetProjects().empty() == true);
     }
 
     SECTION("test_B")
     {
-        auto workspace = blueprint::JsonImporter::ImportWorkspace("Samples/test_B.wks.json");
+        auto workspace = JsonImporter::ImportWorkspace("test_B.wks.json");
 
         REQUIRE(workspace != nullptr);
 
         CHECK(workspace->GetName() == "test_B");
-        CHECK(workspace->GetFile().str() == "Samples/test_B.wks.json");
+        CHECK(workspace->GetFile().str() == "test_B.wks.json");
 
         auto& projects = workspace->GetProjects();
         REQUIRE(projects.size() == 1);
@@ -47,7 +52,7 @@ TEST_CASE("TestJsonImporter")
         REQUIRE(project != nullptr);
 
         CHECK(project->GetName() == "test_B1");
-        CHECK(project->GetFile().str() == "Samples/test_B1.prj.json");
+        CHECK(project->GetFile().str() == "test_B1.prj.json");
 
         REQUIRE(project->GetConfigurations().size() == 1);
 
@@ -76,12 +81,12 @@ TEST_CASE("TestJsonImporter")
 
     SECTION("test_C")
     {
-        auto workspace = blueprint::JsonImporter::ImportWorkspace("Samples/test_C.wks.json");
+        auto workspace = JsonImporter::ImportWorkspace("test_C.wks.json");
 
         REQUIRE(workspace != nullptr);
 
         CHECK(workspace->GetName() == "test_C");
-        CHECK(workspace->GetFile().str() == "Samples/test_C.wks.json");
+        CHECK(workspace->GetFile().str() == "test_C.wks.json");
 
         auto& projects = workspace->GetProjects();
 
@@ -91,8 +96,8 @@ TEST_CASE("TestJsonImporter")
         CHECK(projects[1]->GetName() == "test_C2");
         CHECK(projects[2]->GetName() == "test_C3");
 
-        CHECK(projects[0]->GetFile().str() == "Samples/test_C1.prj.json");
-        CHECK(projects[1]->GetFile().str() == "Samples/test_C2.prj.json");
-        CHECK(projects[2]->GetFile().str() == "Samples/test_C3.prj.json");
+        CHECK(projects[0]->GetFile().str() == "test_C1.prj.json");
+        CHECK(projects[1]->GetFile().str() == "test_C2.prj.json");
+        CHECK(projects[2]->GetFile().str() == "test_C3.prj.json");
     }
 }

@@ -68,8 +68,7 @@ namespace blueprint
 
                 for (auto& project : projects)
                 {
-                    auto projectPath = workspacePath / project;
-                    workspace->AddProject(ImportProject(projectPath));
+                    workspace->AddProject(ImportProject(project));
                 }
             }
 
