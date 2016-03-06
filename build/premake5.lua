@@ -19,8 +19,6 @@ function GenerateWorkspace()
         targetdir( "../output/bin/Release" )
         objdir( "../output/obj" )
 
-    InitExternClang()
-
     AddExeProject( "BlueprintApp", "../source/BlueprintApp", "Blueprint", { "Blueprint" } )
     AddLibProject( "Blueprint", "../source/Blueprint" )
     AddTestProject( "Blueprint.Test", "../test/unit/Blueprint.Test", { "Blueprint" } )
@@ -56,8 +54,8 @@ function AddProject( projectName, sourcePath, projectKind, targetName, projectDe
     configuration { "vs*" }
         buildoptions { "/wd4706" }
 
+    AddExternClangLib()
     AddExternCatch()
-    AddExternClang()
     AddExternFileSystem()
     AddExternJson()
 end

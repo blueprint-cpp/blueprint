@@ -30,7 +30,7 @@ local function GetLLVMConfigValues(pattern, config)
     return matchedValues
 end
 
-function InitExternClang()
+function InitExternClangTooling()
     if os.isfile(LLVM_CONFIG_EXE) == false then
         print("extern.clang: llvm-config not found, cannot configure clang...")
         print()
@@ -67,7 +67,7 @@ function InitExternClang()
     }
 end
 
-function AddExternClang()
+function AddExternClangTooling()
     configuration {} -- reset filter
 
     if os.isfile(LLVM_CONFIG_EXE) == false then
@@ -97,4 +97,28 @@ function AddExternClang()
             "/wd4458",
             "/wd4800"
         }
+end
+
+function AddExternClangLib()
+    configuration {} -- reset filter
+
+    if os.get() ~= "macosx" then
+        return
+    end
+
+    defines { "EXTERN_CLANG_ENABLED" }
+
+    local libclangPath = "/usr/local/opt/llvm37/lib/llvm-3.7/lib"
+
+    includedirs { "../externs/clang/include" }
+    libdirs     { libclangPath }
+
+    defines {
+        "__STDC_LIMIT_MACROS",
+        "__STDC_CONSTANT_MACROS"
+    }
+
+    links { "clang" }
+
+    linkoptions { "-Xlinker -rpath " .. libclangPath }
 end

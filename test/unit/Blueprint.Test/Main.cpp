@@ -1,6 +1,10 @@
 #define CATCH_CONFIG_RUNNER
 #include <catch/catch.hpp>
 
+#if defined(EXTERN_CLANG_ENABLED)
+#include <clang-c/Index.h>
+#endif
+
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
 #else
@@ -28,6 +32,10 @@ void ChangeCWD( int argc, char* argv[] )
 int main( int argc, char* argv[] )
 {
     ChangeCWD( argc, argv );
+
+#if defined(EXTERN_CLANG_ENABLED)
+    std::cout << "{ libclang : " << CINDEX_VERSION_STRING << " }" << std::endl;
+#endif
 
     return Catch::Session().run();
 }
