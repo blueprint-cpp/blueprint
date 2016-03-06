@@ -23,7 +23,8 @@ before_install:
 
 before_script:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then CXX=clang++-3.7; fi
-    - $CXX --version
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then $CXX --version; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then clang --version; fi
     - build/buildtools-premake/bin/build.sh
     - build/buildtools-premake/bin/premake.sh --version
 
