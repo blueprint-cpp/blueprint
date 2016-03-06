@@ -33,7 +33,7 @@ namespace blueprint
 
             auto value = clang_getEnumConstantDeclValue(CXCursor(child));
 
-            enumType->AddEntry(child.GetSpelling(), value);
+            enumType->AddEntry(child.GetSpelling().Get(), value);
         }
     }
 }

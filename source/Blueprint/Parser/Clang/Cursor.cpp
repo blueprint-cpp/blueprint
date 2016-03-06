@@ -2,8 +2,6 @@
 
 #if defined(EXTERN_CLANG_ENABLED)
 
-#include "Blueprint/Parser/Clang/String.hpp"
-
 namespace blueprint
 {
 namespace clang
@@ -40,19 +38,19 @@ namespace clang
         return cursor_.kind;
     }
 
-    std::string Cursor::GetSpelling() const
+    String Cursor::GetSpelling() const
     {
-        return String(clang_getCursorSpelling(cursor_)).Get();
+        return clang_getCursorSpelling(cursor_);
     }
 
-    std::string Cursor::GetDisplayName() const
+    String Cursor::GetDisplayName() const
     {
-        return String(clang_getCursorDisplayName(cursor_)).Get();
+        return clang_getCursorDisplayName(cursor_);
     }
 
-    std::string Cursor::GetMangledName() const
+    String Cursor::GetMangling() const
     {
-        return String(clang_Cursor_getMangling(cursor_)).Get();
+        return clang_Cursor_getMangling(cursor_);
     }
 
     Cursor Cursor::GetSemanticParent() const
@@ -68,6 +66,11 @@ namespace clang
     SourceLocation Cursor::GetSourceLocation() const
     {
         return clang_getCursorLocation(cursor_);
+    }
+
+    Type Cursor::GetType() const
+    {
+        return clang_getCursorType(cursor_);
     }
 
     std::vector<Cursor> Cursor::GetChildren() const

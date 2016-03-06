@@ -3,6 +3,7 @@
 #if defined(EXTERN_CLANG_ENABLED)
 
 #include "Blueprint/Parser/Clang/SourceLocation.hpp"
+#include "Blueprint/Parser/Clang/Type.hpp"
 
 #include <vector>
 
@@ -31,14 +32,15 @@ namespace clang
         bool IsOfKind(CXCursorKind kind) const;
         CXCursorKind GetKind() const;
 
-        std::string GetSpelling() const;
-        std::string GetDisplayName() const;
-        std::string GetMangledName() const;
+        String GetSpelling() const;
+        String GetDisplayName() const;
+        String GetMangling() const;
 
         Cursor GetSemanticParent() const;
         Cursor GetLexicalParent() const;
 
         SourceLocation GetSourceLocation() const;
+        Type GetType() const;
 
         std::vector<Cursor> GetChildren() const;
 

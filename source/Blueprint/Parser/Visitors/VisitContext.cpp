@@ -32,7 +32,7 @@ namespace blueprint
 
         std::hash<std::string> hash;
 
-        type->SetName(cursor.GetSpelling());
+        type->SetName(cursor.GetSpelling().Get());
         type->SetNamespace(namespace_);
         type->SetTypeId(hash(type->GetFullName()));
 
