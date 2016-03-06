@@ -168,7 +168,7 @@ namespace blueprint
         CommandLineArguments arguments;
 
         arguments.Add("-std=c++14");
-        arguments.ImportConfig(config, filePath.parent_path());
+        arguments.ImportConfig(config);
 
         internal::ClangArguments clangArgs(arguments.GetArguments());
 
