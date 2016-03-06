@@ -22,7 +22,7 @@ before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install llvm37; fi
 
 before_script:
-    - if [[ -n "${INSTALL_CXX}" ]]; then CXX=${INSTALL_CXX}; fi
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then CXX=clang++-3.7; fi
     - $CXX --version
     - build/buildtools-premake/bin/build.sh
     - build/buildtools-premake/bin/premake.sh --version
