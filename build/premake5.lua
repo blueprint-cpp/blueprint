@@ -50,7 +50,6 @@ function AddProject( projectName, sourcePath, projectKind, targetName, projectDe
 
     configuration { "gmake" }
         buildoptions { "-std=c++1y" }
-        linkoptions { "-v" }
 
     configuration { "vs*" }
         buildoptions { "/wd4706" }

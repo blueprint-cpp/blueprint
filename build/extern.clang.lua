@@ -122,7 +122,7 @@ function AddExternClangLib()
         "__STDC_CONSTANT_MACROS"
     }
 
-    links { "clang" }
+    links { "clang-3.7" }
 
     linkoptions { "-Xlinker -rpath " .. libclangPath }
 end
