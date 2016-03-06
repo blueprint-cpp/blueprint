@@ -1,14 +1,10 @@
 #define CATCH_CONFIG_RUNNER
 #include <catch/catch.hpp>
 
+#include "Blueprint/Utilities/WorkingDirectory.hpp"
+
 #if defined(EXTERN_CLANG_ENABLED)
 #include <clang-c/Index.h>
-#endif
-
-#if defined(_WIN32) || defined(_WIN64)
-#include <windows.h>
-#else
-#include <unistd.h>
 #endif
 
 void ChangeCWD( int argc, char* argv[] )
@@ -16,15 +12,9 @@ void ChangeCWD( int argc, char* argv[] )
     if ( argc < 2 )
         return;
 
-    char cwd[256];
-
-#ifdef _MSC_VER
-    SetCurrentDirectory(argv[1]);
-    GetCurrentDirectory(sizeof(cwd), cwd);
-#else
-    chdir(argv[1]);
-    getcwd(cwd, sizeof(cwd));
-#endif
+    std::string cwd;
+    blueprint::WorkingDirectory::SetCurrent(argv[1]);
+    cwd = blueprint::WorkingDirectory::GetCurrent();
 
     std::cout << "{ cwd : " << cwd << " }" << std::endl;
 }
