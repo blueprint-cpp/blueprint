@@ -14,6 +14,11 @@ namespace clang
         Index();
         ~Index();
 
+        explicit operator CXIndex() const
+        {
+            return index_;
+        }
+
         TranslationUnit ParseSourceFile(const std::string& file, int argc, const char** argv, unsigned options) const;
 
     private:

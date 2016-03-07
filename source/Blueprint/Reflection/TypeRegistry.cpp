@@ -23,6 +23,19 @@ namespace reflection
         return types_.find(typeId) != types_.end();
     }
 
+    const Type* TypeRegistry::Find(const std::string& type) const
+    {
+        for (auto& kv : types_)
+        {
+            if (kv.second->GetFullName() == type)
+            {
+                return kv.second.get();
+            }
+        }
+
+        return nullptr;
+    }
+
     const Type* TypeRegistry::Find(uint64_t typeId) const
     {
         auto it = types_.find(typeId);

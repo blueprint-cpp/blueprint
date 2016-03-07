@@ -21,7 +21,7 @@ function GenerateWorkspace()
 
     AddExeProject( "BlueprintApp", "../source/BlueprintApp", "Blueprint", { "Blueprint" } )
     AddLibProject( "Blueprint", "../source/Blueprint" )
-    AddTestProject( "Blueprint.Test", "../test/unit/Blueprint.Test", { "Blueprint" } )
+    AddTestProject( "Blueprint.Test", "../test/unit", { "Blueprint" } )
 end
 
 function AddProject( projectName, sourcePath, projectKind, targetName, projectDependencies )
@@ -74,6 +74,8 @@ end
 
 function AddTestProject( projectName, sourcePath, projectDependencies )
     AddExeProject( projectName, sourcePath, projectName, projectDependencies )
+
+    includedirs { "../test/unit" }
 
     configuration { "gmake" }
         postbuildcommands { "$(TARGET) ../../test/unit/Blueprint.Test" }

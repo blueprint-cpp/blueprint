@@ -14,6 +14,8 @@ namespace clang
     class Cursor
     {
     public:
+        Cursor() = default;
+
         Cursor(CXCursor cursor)
             : cursor_(cursor)
         {}

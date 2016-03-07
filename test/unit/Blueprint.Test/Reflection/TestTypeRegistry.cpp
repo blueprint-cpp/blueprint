@@ -3,68 +3,106 @@
 #include "Blueprint/Reflection/Type.hpp"
 #include "Blueprint/Reflection/TypeRegistry.hpp"
 
-TEST_CASE("TestTypeRegistry")
+using namespace blueprint::reflection;
+
+struct TypeRegistryFixture
 {
-    using namespace blueprint::reflection;
+    std::unique_ptr<Type> CreateTypeA()
+    {
+        auto type = std::make_unique<Type>();
 
-    TypeRegistry registry;
+        type->SetTypeId(0xA);
+        type->SetName("type_A");
 
+        return std::move(type);
+    }
+
+    std::unique_ptr<Type> CreateTypeB()
+    {
+        auto type = std::make_unique<Type>();
+
+        type->SetTypeId(0xB);
+        type->SetName("type_B");
+        type->SetNamespace("some::scope");
+
+        return std::move(type);
+    }
+
+    void RegisterTypeA()
+    {
+        registry_.Register(CreateTypeA());
+    }
+
+    void RegisterTypeB()
+    {
+        registry_.Register(CreateTypeB());
+    }
+
+    TypeRegistry registry_;
+};
+
+TEST_CASE_METHOD(TypeRegistryFixture, "TestTypeRegistry")
+{
     SECTION("Default State")
     {
-        CHECK(registry.GetTypeCount() == 0);
+        CHECK(registry_.GetTypeCount() == 0);
+        CHECK(registry_.Contains(0xA) == false);
+        CHECK(registry_.Contains(0xB) == false);
     }
 
     SECTION("Register")
     {
-        auto typeA = std::make_unique<Type>();
-        typeA->SetTypeId(0xA);
+        registry_.Register(CreateTypeA());
 
-        registry.Register(std::move(typeA));
+        CHECK(registry_.GetTypeCount() == 1);
+        CHECK(registry_.Contains(0xA));
 
-        CHECK(registry.GetTypeCount() == 1);
-        CHECK(registry.Contains(0xA));
+        registry_.Register(CreateTypeB());
 
-        auto typeB = std::make_unique<Type>();
-        typeB->SetTypeId(0xB);
-
-        registry.Register(std::move(typeB));
-
-        CHECK(registry.GetTypeCount() == 2);
-        CHECK(registry.Contains(0xB));
+        CHECK(registry_.GetTypeCount() == 2);
+        CHECK(registry_.Contains(0xB));
     }
 
     SECTION("Find")
     {
-        SECTION("Returns null if not found")
+        SECTION("By Name")
         {
             uint64_t invalidId = 0xdeadbeef;
+            CHECK(registry_.Find(invalidId) == nullptr);
 
-            CHECK(registry.Contains(invalidId) == false);
-            CHECK(registry.Find(invalidId) == nullptr);
-        }
+            RegisterTypeA();
 
-        SECTION("Returns the registered type")
-        {
-            auto typeA = std::make_unique<Type>();
-            typeA->SetTypeId(0xA);
-            typeA->SetName("type_A");
-
-            registry.Register(std::move(typeA));
-
-            auto foundA = registry.Find(0xA);
+            auto foundA = registry_.Find("type_A");
             REQUIRE(foundA != nullptr);
             CHECK(foundA->GetTypeId() == 0xA);
             CHECK(foundA->GetName() == "type_A");
             CHECK(foundA->GetNamespace().IsGlobal());
 
-            auto typeB = std::make_unique<Type>();
-            typeB->SetTypeId(0xB);
-            typeB->SetName("type_B");
-            typeB->SetNamespace("some::scope");
+            RegisterTypeB();
 
-            registry.Register(std::move(typeB));
+            auto foundB = registry_.Find(0xB);
+            REQUIRE(foundB != nullptr);
+            CHECK(foundB->GetTypeId() == 0xB);
+            CHECK(foundB->GetName() == "type_B");
+            CHECK(foundB->GetNamespace().ToString() == "some::scope");
+        }
 
-            auto foundB = registry.Find(0xB);
+        SECTION("By Id")
+        {
+            uint64_t invalidId = 0xdeadbeef;
+            CHECK(registry_.Find(invalidId) == nullptr);
+
+            RegisterTypeA();
+
+            auto foundA = registry_.Find(0xA);
+            REQUIRE(foundA != nullptr);
+            CHECK(foundA->GetTypeId() == 0xA);
+            CHECK(foundA->GetName() == "type_A");
+            CHECK(foundA->GetNamespace().IsGlobal());
+
+            RegisterTypeB();
+
+            auto foundB = registry_.Find(0xB);
             REQUIRE(foundB != nullptr);
             CHECK(foundB->GetTypeId() == 0xB);
             CHECK(foundB->GetName() == "type_B");

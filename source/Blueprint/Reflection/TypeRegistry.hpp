@@ -18,6 +18,8 @@ namespace reflection
         void Register(std::unique_ptr<Type> type);
 
         bool Contains(uint64_t typeId) const;
+
+        const Type* Find(const std::string& type) const;
         const Type* Find(uint64_t typeId) const;
 
         size_t GetTypeCount() const;
