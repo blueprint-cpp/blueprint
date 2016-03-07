@@ -12,7 +12,6 @@ using namespace blueprint::reflection;
 struct NamespaceVisitorFixture
 {
     TypeRegistry typeRegistry_;
-    Namespace namespace_;
 };
 
 TEST_CASE_METHOD(NamespaceVisitorFixture, "TestNamespaceVisitor")
