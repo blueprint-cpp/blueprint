@@ -1,5 +1,7 @@
 #include "TestHelpers/BufferParser.hpp"
 
+#if defined(EXTERN_CLANG_ENABLED)
+
 namespace blueprint
 {
 namespace unittest
@@ -33,3 +35,5 @@ namespace unittest
     }
 }
 }
+
+#endif

@@ -1,5 +1,7 @@
 #include <catch/catch.hpp>
 
+#if defined(EXTERN_CLANG_ENABLED)
+
 #include "TestHelpers/BufferParser.hpp"
 #include "Blueprint/Parser/Visitors/EnumVisitor.hpp"
 #include "Blueprint/Reflection/EnumType.hpp"
@@ -88,3 +90,5 @@ TEST_CASE_METHOD(EnumVisitorFixture, "TestEnumVisitor")
         CHECK(enumType->GetEntries()[1].second == 3);
     }
 }
+
+#endif

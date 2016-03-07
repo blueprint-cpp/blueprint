@@ -1,5 +1,7 @@
 #pragma once
 
+#if defined(EXTERN_CLANG_ENABLED)
+
 #include "Blueprint/Parser/Clang/Index.hpp"
 
 namespace blueprint
@@ -19,3 +21,5 @@ namespace unittest
     };
 }
 }
+
+#endif
