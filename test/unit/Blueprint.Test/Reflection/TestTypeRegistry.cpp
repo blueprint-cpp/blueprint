@@ -14,7 +14,7 @@ struct TypeRegistryFixture
         type->SetTypeId(0xA);
         type->SetName("type_A");
 
-        return std::move(type);
+        return type;
     }
 
     std::unique_ptr<Type> CreateTypeB()
@@ -25,7 +25,7 @@ struct TypeRegistryFixture
         type->SetName("type_B");
         type->SetNamespace("some::scope");
 
-        return std::move(type);
+        return type;
     }
 
     void RegisterTypeA()
