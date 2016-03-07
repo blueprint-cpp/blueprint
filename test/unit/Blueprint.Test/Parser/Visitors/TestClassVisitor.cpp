@@ -2,10 +2,10 @@
 
 #if defined(EXTERN_CLANG_ENABLED)
 
-#include "TestHelpers/BufferParser.hpp"
 #include "Blueprint/Parser/Visitors/ClassVisitor.hpp"
 #include "Blueprint/Reflection/ClassType.hpp"
 #include "Blueprint/Reflection/TypeRegistry.hpp"
+#include "TestHelpers/BufferParser.hpp"
 
 using namespace blueprint;
 using namespace blueprint::reflection;
@@ -29,9 +29,9 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
 
         unittest::BufferParser parser;
 
-        auto tu     = parser.Parse(fileBuffer);
-        auto cursor = parser.FindChildOfKind(tu.GetCursor(), CXCursor_StructDecl);
+        auto tu = parser.Parse(fileBuffer);
 
+        auto cursor = parser.FindChildOfKind(tu.GetCursor(), CXCursor_StructDecl);
         REQUIRE(cursor.IsNull() == false);
 
         ClassVisitor visitor;

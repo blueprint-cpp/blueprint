@@ -2,10 +2,10 @@
 
 #if defined(EXTERN_CLANG_ENABLED)
 
-#include "TestHelpers/BufferParser.hpp"
 #include "Blueprint/Parser/Visitors/EnumVisitor.hpp"
 #include "Blueprint/Reflection/EnumType.hpp"
 #include "Blueprint/Reflection/TypeRegistry.hpp"
+#include "TestHelpers/BufferParser.hpp"
 
 using namespace blueprint;
 using namespace blueprint::reflection;
@@ -32,9 +32,8 @@ TEST_CASE_METHOD(EnumVisitorFixture, "TestEnumVisitor")
 
         unittest::BufferParser parser;
 
-        auto tu     = parser.Parse(fileBuffer);
+        auto tu = parser.Parse(fileBuffer);
         auto cursor = parser.FindChildOfKind(tu.GetCursor(), CXCursor_EnumDecl);
-
         REQUIRE(cursor.IsNull() == false);
 
         EnumVisitor visitor;
@@ -67,9 +66,8 @@ TEST_CASE_METHOD(EnumVisitorFixture, "TestEnumVisitor")
 
         unittest::BufferParser parser;
 
-        auto tu     = parser.Parse(fileBuffer);
+        auto tu = parser.Parse(fileBuffer);
         auto cursor = parser.FindChildOfKind(tu.GetCursor(), CXCursor_EnumDecl);
-
         REQUIRE(cursor.IsNull() == false);
 
         EnumVisitor visitor;
