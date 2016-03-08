@@ -11,15 +11,21 @@ namespace clang
     class TranslationUnit
     {
     public:
+        TranslationUnit() = default;
+        TranslationUnit(TranslationUnit&& other);
         TranslationUnit(CXTranslationUnit translationUnit);
         ~TranslationUnit();
 
-        bool IsValid() const;
+        TranslationUnit& operator=(TranslationUnit&& other);
 
+        operator CXTranslationUnit() const;
+        operator bool() const;
+
+    public:
         Cursor GetCursor() const;
 
     private:
-        CXTranslationUnit translationUnit_;
+        CXTranslationUnit translationUnit_{nullptr};
     };
 }
 }

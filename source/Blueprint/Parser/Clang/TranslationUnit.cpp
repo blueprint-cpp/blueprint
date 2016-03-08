@@ -10,19 +10,45 @@ namespace clang
         : translationUnit_(translationUnit)
     {}
 
-    TranslationUnit::~TranslationUnit()
+    TranslationUnit::TranslationUnit(TranslationUnit&& other)
+        : translationUnit_(std::move(other.translationUnit_))
     {
-        clang_disposeTranslationUnit(translationUnit_);
+        other.translationUnit_ = nullptr;
     }
 
-    bool TranslationUnit::IsValid() const
+    TranslationUnit::~TranslationUnit()
+    {
+        if (translationUnit_)
+        {
+            clang_disposeTranslationUnit(translationUnit_);
+        }
+    }
+
+    TranslationUnit& TranslationUnit::operator=(TranslationUnit&& other)
+    {
+        if (translationUnit_)
+        {
+            clang_disposeTranslationUnit(translationUnit_);
+        }
+
+        translationUnit_ = std::move(other.translationUnit_);
+        other.translationUnit_ = nullptr;
+        return *this;
+    }
+
+    TranslationUnit::operator CXTranslationUnit() const
+    {
+        return translationUnit_;
+    }
+
+    TranslationUnit::operator bool() const
     {
         return translationUnit_ != nullptr;
     }
 
     Cursor TranslationUnit::GetCursor() const
     {
-        return IsValid()
+        return translationUnit_
             ? clang_getTranslationUnitCursor(translationUnit_)
             : clang_getNullCursor();
     }
