@@ -3,6 +3,7 @@
 #if defined(EXTERN_CLANG_ENABLED)
 
 #include "Blueprint/Parser/Clang/Cursor.hpp"
+#include "Blueprint/Parser/Clang/Diagnostic.hpp"
 
 namespace blueprint
 {
@@ -23,6 +24,8 @@ namespace clang
 
     public:
         Cursor GetCursor() const;
+
+        std::vector<Diagnostic> GetDiagnostics() const;
 
     private:
         CXTranslationUnit translationUnit_{nullptr};

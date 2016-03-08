@@ -19,7 +19,7 @@ namespace clang
         std::string Get();
 
     private:
-        CXString string_;;
+        CXString string_;
     };
 }
 }

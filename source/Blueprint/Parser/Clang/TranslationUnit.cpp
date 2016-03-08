@@ -52,6 +52,20 @@ namespace clang
             ? clang_getTranslationUnitCursor(translationUnit_)
             : clang_getNullCursor();
     }
+
+    std::vector<Diagnostic> TranslationUnit::GetDiagnostics() const
+    {
+        std::vector<Diagnostic> diagnostics;
+
+        int count = clang_getNumDiagnostics(translationUnit_);
+
+        for (int i = 0; i < count; ++i)
+        {
+            diagnostics.emplace_back(clang_getDiagnostic(translationUnit_, i));
+        }
+
+        return diagnostics;
+    }
 }
 }
 
