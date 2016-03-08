@@ -13,7 +13,10 @@ namespace clang
     public:
         Diagnostic() = default;
         Diagnostic(CXDiagnostic diagnostic);
+        Diagnostic(Diagnostic&& other);
         ~Diagnostic();
+
+        Diagnostic& operator=(Diagnostic&& other);
 
         operator CXDiagnostic() const;
         operator bool() const;

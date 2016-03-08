@@ -10,12 +10,31 @@ namespace clang
         : diagnostic_(diagnostic)
     {}
 
+    Diagnostic::Diagnostic(Diagnostic&& other)
+        : diagnostic_(std::move(other.diagnostic_))
+    {
+        other.diagnostic_ = nullptr;
+    }
+
     Diagnostic::~Diagnostic()
     {
         if (diagnostic_)
         {
             clang_disposeDiagnostic(diagnostic_);
         }
+    }
+
+    Diagnostic& Diagnostic::operator=(Diagnostic&& other)
+    {
+        if (diagnostic_)
+        {
+            clang_disposeDiagnostic(diagnostic_);
+        }
+
+        diagnostic_ = std::move(other.diagnostic_);
+        other.diagnostic_ = nullptr;
+
+        return *this;
     }
 
     Diagnostic::operator CXDiagnostic() const

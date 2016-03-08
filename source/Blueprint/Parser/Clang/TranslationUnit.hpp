@@ -13,8 +13,8 @@ namespace clang
     {
     public:
         TranslationUnit() = default;
-        TranslationUnit(TranslationUnit&& other);
         TranslationUnit(CXTranslationUnit translationUnit);
+        TranslationUnit(TranslationUnit&& other);
         ~TranslationUnit();
 
         TranslationUnit& operator=(TranslationUnit&& other);

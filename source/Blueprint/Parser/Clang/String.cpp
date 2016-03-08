@@ -6,13 +6,39 @@ namespace blueprint
 {
 namespace clang
 {
+    String::String()
+        : string_{ nullptr, 0 }
+    {}
+
     String::String(CXString string)
         : string_(string)
     {}
 
+    String::String(String&& other)
+        : string_(std::move(other.string_))
+    {
+        other.string_ = { nullptr, 0 };
+    }
+
     String::~String()
     {
-        clang_disposeString(string_);
+        if (string_.data)
+        {
+            clang_disposeString(string_);
+        }
+    }
+
+    String& String::operator=(String&& other)
+    {
+        if (string_.data)
+        {
+            clang_disposeString(string_);
+        }
+
+        string_ = std::move(other.string_);
+        other.string_ = { nullptr, 0 };
+
+        return *this;
     }
 
     std::string String::Get()

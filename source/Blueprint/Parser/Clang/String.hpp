@@ -13,8 +13,12 @@ namespace clang
     class String
     {
     public:
+        String();
         String(CXString string);
+        String(String&& other);
         ~String();
+
+        String& operator=(String&& other);
 
         std::string Get();
 

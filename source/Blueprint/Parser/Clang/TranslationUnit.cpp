@@ -33,6 +33,7 @@ namespace clang
 
         translationUnit_ = std::move(other.translationUnit_);
         other.translationUnit_ = nullptr;
+
         return *this;
     }
 
