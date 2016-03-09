@@ -2,6 +2,8 @@
 
 #if defined(EXTERN_CLANG_ENABLED)
 
+#include "Blueprint/Parser/CommandLineArguments.hpp"
+
 namespace blueprint
 {
 namespace clang
@@ -18,13 +20,22 @@ namespace clang
         clang_disposeIndex(index_);
     }
 
-    TranslationUnit Index::ParseSourceFile(const std::string& file, int argc, const char** argv, unsigned options) const
+    TranslationUnit Index::ParseSourceFile(const std::string& file, const CommandLineArguments& arguments, unsigned options) const
     {
+        std::vector<const char*> args;
+
+        args.reserve(arguments.GetArguments().size());
+
+        for (auto& argument : arguments.GetArguments())
+        {
+            args.push_back(argument.c_str());
+        }
+
         return clang_parseTranslationUnit(
             index_,
             file.c_str(),
-            argv,
-            argc,
+            &args[0],
+            args.size(),
             nullptr, // unsavedFiles
             0,       // unsavedFilesCount
             options

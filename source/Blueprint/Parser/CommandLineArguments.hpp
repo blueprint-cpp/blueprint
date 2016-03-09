@@ -11,7 +11,7 @@ namespace blueprint
     {
     public:
         void Add(const std::string& argument);
-        const std::vector<std::string>& GetArguments();
+        const std::vector<std::string>& GetArguments() const;
 
         void ImportConfig(const Configuration* config);
 

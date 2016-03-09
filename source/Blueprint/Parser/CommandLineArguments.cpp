@@ -9,6 +9,11 @@ namespace blueprint
         arguments_.push_back(argument);
     }
 
+    const std::vector<std::string>& CommandLineArguments::GetArguments() const
+    {
+        return arguments_;
+    }
+
     void CommandLineArguments::ImportConfig(const Configuration* config)
     {
         if (config == nullptr)
@@ -25,10 +30,5 @@ namespace blueprint
         {
             Add("-I" + include);
         }
-    }
-
-    const std::vector<std::string>& CommandLineArguments::GetArguments()
-    {
-        return arguments_;
     }
 }

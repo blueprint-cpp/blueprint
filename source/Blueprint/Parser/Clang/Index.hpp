@@ -4,6 +4,8 @@
 
 #include "Blueprint/Parser/Clang/TranslationUnit.hpp"
 
+namespace blueprint { class CommandLineArguments; }
+
 namespace blueprint
 {
 namespace clang
@@ -19,7 +21,7 @@ namespace clang
             return index_;
         }
 
-        TranslationUnit ParseSourceFile(const std::string& file, int argc, const char** argv, unsigned options) const;
+        TranslationUnit ParseSourceFile(const std::string& file, const CommandLineArguments& arguments, unsigned options) const;
 
     private:
         CXIndex index_;
