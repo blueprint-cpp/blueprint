@@ -1,4 +1,4 @@
-#include "Blueprint/Parser/ClangParser.hpp"
+#include "Blueprint/Parser/Parser.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
     }
 
 #if defined(EXTERN_CLANG_ENABLED)
-    blueprint::ClangParser parser;
+    blueprint::Parser parser;
     parser.ParseWorkspace(filename);
 #endif
 

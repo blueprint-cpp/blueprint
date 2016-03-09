@@ -1,11 +1,11 @@
 #pragma once
 
+#if defined(EXTERN_CLANG_ENABLED)
+
 #include <filesystem/path.h>
 
 #include <memory>
 #include <string>
-
-#if defined(EXTERN_CLANG_ENABLED)
 
 namespace blueprint
 {
@@ -13,11 +13,11 @@ namespace blueprint
     class Project;
     class Workspace;
 
-    class ClangParser
+    class Parser
     {
     public:
-        ClangParser();
-        ~ClangParser();
+        Parser();
+        ~Parser();
 
         bool ParseWorkspace(const filesystem::path& filePath);
         bool ParseWorkspace(const Workspace* workspace);
@@ -31,6 +31,8 @@ namespace blueprint
     private:
         class Impl;
         std::unique_ptr<Impl> pimpl_;
+
+        bool verbose_{false};
     };
 }
 
