@@ -1,8 +1,8 @@
 -- premake5.lua
 
-require("extern.catch")
 require("extern.clang")
 require("extern.filesystem")
+require("extern.philsquared")
 require("extern.json")
 
 function GenerateWorkspace()
@@ -54,8 +54,9 @@ function AddProject( projectName, sourcePath, projectKind, targetName, projectDe
     configuration { "vs*" }
         buildoptions { "/wd4706" }
 
-    AddExternClangLib()
     AddExternCatch()
+    AddExternClara()
+    AddExternClangLib()
     AddExternFileSystem()
     AddExternJson()
 end
