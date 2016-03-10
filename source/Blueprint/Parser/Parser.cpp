@@ -81,6 +81,12 @@ namespace blueprint
 
     bool Parser::ParseWorkspace(const filesystem::path& filePath)
     {
+        if (filePath.str().empty())
+        {
+            std::cout << "invalid workspace filename" << std::endl;
+            return false;
+        }
+
         WorkingDirectory::SetCurrent(filePath.make_absolute().parent_path().str());
         std::cout << "{ cwd : " << WorkingDirectory::GetCurrent() << " }" << std::endl;
 
@@ -118,6 +124,12 @@ namespace blueprint
 
     bool Parser::ParseProject(const filesystem::path& filePath)
     {
+        if (filePath.str().empty())
+        {
+            std::cout << "invalid project filename" << std::endl;
+            return false;
+        }
+
         auto project = JsonImporter::ImportProject(filePath);
         return ParseProject(project.get());
     }
