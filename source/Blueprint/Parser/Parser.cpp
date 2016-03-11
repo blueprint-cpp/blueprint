@@ -119,6 +119,11 @@ namespace blueprint
             }
         }
 
+        if (listTypes_)
+        {
+            pimpl_->GetTypeRegistry().Dump();
+        }
+
         return true;
     }
 
