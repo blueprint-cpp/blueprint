@@ -30,3 +30,6 @@ before_script:
 
 script:
     - build/build.sh
+
+after_success:
+    - test/functional/blueprint/run-blueprint.sh
