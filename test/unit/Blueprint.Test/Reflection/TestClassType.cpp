@@ -27,12 +27,16 @@ TEST_CASE("TestClassType")
 
     SECTION("Fields")
     {
-        classType.AddField("field_A");
-        REQUIRE(classType.GetFields().size() == 1);
-        CHECK(classType.GetFields()[0] == "field_A");
+        Field fieldA("field_A", 4, 8);
 
-        classType.AddField("field_B");
+        classType.AddField(fieldA);
+        REQUIRE(classType.GetFields().size() == 1);
+        CHECK(classType.GetFields()[0] == fieldA);
+
+        Field fieldB("field_B", 12, 16);
+
+        classType.AddField(fieldB);
         REQUIRE(classType.GetFields().size() == 2);
-        CHECK(classType.GetFields()[1] == "field_B");
+        CHECK(classType.GetFields()[1] == fieldB);
     }
 }

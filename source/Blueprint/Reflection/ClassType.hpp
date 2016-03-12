@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Blueprint/Reflection/Field.hpp"
 #include "Blueprint/Reflection/Type.hpp"
 
 namespace blueprint
@@ -12,12 +13,12 @@ namespace reflection
         void AddMethod(const std::string& method);
         const std::vector<std::string>& GetMethods() const;
 
-        void AddField(const std::string& field);
-        const std::vector<std::string>& GetFields() const;
+        void AddField(const Field& field);
+        const std::vector<Field>& GetFields() const;
 
     private:
         std::vector<std::string> methods_;
-        std::vector<std::string> fields_;
+        std::vector<Field> fields_;
     };
 }
 }
