@@ -4,6 +4,24 @@ namespace blueprint
 {
 namespace reflection
 {
+    Field::Field(const std::string& name, size_t size, size_t offset)
+        : name_(name)
+        , size_(size)
+        , offset_(offset)
+    {}
+
+    bool Field::operator==(const Field& other) const
+    {
+        return !(*this != other);
+    }
+
+    bool Field::operator!=(const Field& other) const
+    {
+        return name_ != other.name_
+            || size_ != other.size_
+            || offset_ != other.offset_;
+    }
+
     void Field::SetName(const std::string& name)
     {
         name_ = name;

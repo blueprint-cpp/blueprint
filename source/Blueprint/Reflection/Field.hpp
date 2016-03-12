@@ -9,6 +9,13 @@ namespace reflection
     class Field
     {
     public:
+        Field() = default;
+        Field(const std::string& name, size_t size, size_t offset);
+
+        bool operator==(const Field& other) const;
+        bool operator!=(const Field& other) const;
+
+    public:
         void SetName(const std::string& name);
         const std::string& GetName() const;
 
