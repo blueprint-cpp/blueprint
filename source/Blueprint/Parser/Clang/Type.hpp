@@ -28,6 +28,9 @@ namespace clang
 
         uint64_t GetTypeId() const;
 
+        size_t GetSizeOf() const;
+        size_t GetOffsetOf(const std::string& fieldName) const;
+
     private:
         CXType type_;
     };

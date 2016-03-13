@@ -31,5 +31,7 @@ namespace reflection
         size_t size_{0};
         size_t offset_{0};
     };
+
+    std::ostream& operator<<(std::ostream& stream, const Field& field);
 }
 }

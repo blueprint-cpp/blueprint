@@ -24,7 +24,11 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
     {
         std::string fileBuffer = R"(
             struct SomeStruct
-            {};
+            {
+                int   valueA;
+                float valueB;
+                bool  valueC;
+            };
         )";
 
         unittest::BufferParser parser;
@@ -45,13 +49,22 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
 
         auto classType = dynamic_cast<const ClassType*>(type);
         REQUIRE(classType != nullptr);
+
+        REQUIRE(classType->GetFields().size() == 3);
+        CHECK(classType->GetFields()[0] == Field("valueA", sizeof(int),   0));
+        CHECK(classType->GetFields()[1] == Field("valueB", sizeof(float), sizeof(int)));
+        CHECK(classType->GetFields()[2] == Field("valueC", sizeof(bool),  sizeof(int) + sizeof(float)));
     }
 
     SECTION("Class")
     {
         std::string fileBuffer = R"(
             class SomeClass
-            {};
+            {
+                int   valueA;
+                float valueB;
+                bool  valueC;
+            };
         )";
 
         unittest::BufferParser parser;
@@ -72,6 +85,11 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
 
         auto classType = dynamic_cast<const ClassType*>(type);
         REQUIRE(classType != nullptr);
+
+        REQUIRE(classType->GetFields().size() == 3);
+        CHECK(classType->GetFields()[0] == Field("valueA", sizeof(int),   0));
+        CHECK(classType->GetFields()[1] == Field("valueB", sizeof(float), sizeof(int)));
+        CHECK(classType->GetFields()[2] == Field("valueC", sizeof(bool),  sizeof(int) + sizeof(float)));
     }
 }
 

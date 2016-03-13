@@ -44,6 +44,9 @@ namespace clang
         SourceLocation GetSourceLocation() const;
         Type GetType() const;
 
+        size_t GetOffsetOfField() const;
+
+    public:
         std::vector<Cursor> GetChildren() const;
 
         void VisitChildren(CXCursorVisitor visitor, CXClientData data) const;

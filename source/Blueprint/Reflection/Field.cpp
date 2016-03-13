@@ -1,5 +1,7 @@
 #include "Blueprint/Reflection/Field.hpp"
 
+#include <ostream>
+
 namespace blueprint
 {
 namespace reflection
@@ -50,6 +52,12 @@ namespace reflection
     size_t Field::GetOffset() const
     {
         return offset_;
+    }
+
+    std::ostream& operator<<(std::ostream& stream, const Field& field)
+    {
+        stream << "Field(" << field.GetName() << ", " << field.GetSize() << ", " << field.GetOffset() << ")";
+        return stream;
     }
 }
 }

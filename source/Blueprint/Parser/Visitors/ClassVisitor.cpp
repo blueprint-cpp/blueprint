@@ -39,7 +39,15 @@ namespace blueprint
 
                 case CXCursor_FieldDecl:
                 {
-                    // TODO
+                    auto fieldName = child.GetSpelling().Get();
+                    auto fieldType = child.GetType();
+
+                    reflection::Field field;
+                    field.SetName(fieldName);
+                    field.SetSize(fieldType.GetSizeOf());
+                    field.SetOffset(child.GetOffsetOfField());
+
+                    classType->AddField(field);
                 }
                 break;
 

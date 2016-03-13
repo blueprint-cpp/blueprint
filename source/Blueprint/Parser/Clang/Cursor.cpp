@@ -2,6 +2,8 @@
 
 #if defined(EXTERN_CLANG_ENABLED)
 
+#include <cassert>
+
 namespace blueprint
 {
 namespace clang
@@ -71,6 +73,14 @@ namespace clang
     Type Cursor::GetType() const
     {
         return clang_getCursorType(cursor_);
+    }
+
+    size_t Cursor::GetOffsetOfField() const
+    {
+        assert(GetKind() == CXCursor_FieldDecl);
+
+        // strange, clang returns the offset in bits instead of bytes...
+        return clang_Cursor_getOffsetOfField(cursor_) / 8;
     }
 
     std::vector<Cursor> Cursor::GetChildren() const

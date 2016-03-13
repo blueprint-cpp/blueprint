@@ -2,6 +2,8 @@
 
 #include "Blueprint/Reflection/Field.hpp"
 
+#include <sstream>
+
 TEST_CASE("TestField")
 {
     using namespace blueprint::reflection;
@@ -91,5 +93,20 @@ TEST_CASE("TestField")
             field.SetOffset(8);
             CHECK(field.GetOffset() == 8);
         }
+    }
+
+    SECTION("Output Stream")
+    {
+        std::stringstream streamA;
+        std::stringstream streamB;
+
+        Field fieldA("field_A", 1, 2);
+        Field fieldB("field_B", 3, 4);
+
+        streamA << fieldA;
+        streamB << fieldB;
+
+        CHECK(streamA.str() == "Field(field_A, 1, 2)");
+        CHECK(streamB.str() == "Field(field_B, 3, 4)");
     }
 }

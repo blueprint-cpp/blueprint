@@ -26,6 +26,16 @@ namespace clang
         std::hash<std::string> hashFunctor;
         return hashFunctor(GetSpelling().Get());
     }
+
+    size_t Type::GetSizeOf() const
+    {
+        return clang_Type_getSizeOf(type_);
+    }
+
+    size_t Type::GetOffsetOf(const std::string& fieldName) const
+    {
+        return clang_Type_getOffsetOf(type_, fieldName.c_str());
+    }
 }
 }
 
