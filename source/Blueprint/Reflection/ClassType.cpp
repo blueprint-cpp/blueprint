@@ -6,6 +6,16 @@ namespace blueprint
 {
 namespace reflection
 {
+    void ClassType::AddBaseClass(const ClassType* baseClass)
+    {
+        baseClasses_.push_back(baseClass);
+    }
+
+    const std::vector<const ClassType*>& ClassType::GetBaseClasses() const
+    {
+        return baseClasses_;
+    }
+
     void ClassType::AddMethod(const std::string& method)
     {
         methods_.push_back(method);

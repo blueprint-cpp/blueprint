@@ -10,6 +10,9 @@ namespace reflection
     class ClassType : public Type
     {
     public:
+        void AddBaseClass(const ClassType* baseClass);
+        const std::vector<const ClassType*>& GetBaseClasses() const;
+
         void AddMethod(const std::string& method);
         const std::vector<std::string>& GetMethods() const;
 
@@ -19,6 +22,8 @@ namespace reflection
         virtual void Accept(TypeVisitor& visitor) const override;
 
     private:
+        std::vector<const ClassType*> baseClasses_;
+
         std::vector<std::string> methods_;
         std::vector<Field> fields_;
     };

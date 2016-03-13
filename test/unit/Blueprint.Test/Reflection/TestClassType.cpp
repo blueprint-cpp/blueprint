@@ -10,8 +10,24 @@ TEST_CASE("TestClassType")
 
     SECTION("Default State")
     {
+        CHECK(classType.GetBaseClasses().empty());
         CHECK(classType.GetMethods().empty());
         CHECK(classType.GetFields().empty());
+    }
+
+    SECTION("Base Classes")
+    {
+        ClassType parentA;
+
+        classType.AddBaseClass(&parentA);
+        REQUIRE(classType.GetBaseClasses().size() == 1);
+        CHECK(classType.GetBaseClasses()[0] == &parentA);
+
+        ClassType parentB;
+
+        classType.AddBaseClass(&parentB);
+        REQUIRE(classType.GetBaseClasses().size() == 2);
+        CHECK(classType.GetBaseClasses()[1] == &parentB);
     }
 
     SECTION("Methods")
