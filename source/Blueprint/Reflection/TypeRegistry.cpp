@@ -49,6 +49,8 @@ namespace reflection
 
     void TypeRegistry::Accept(TypeVisitor& visitor) const
     {
+        visitor.Visit(*this);
+
         for (auto& kv : types_)
         {
             kv.second->Accept(visitor);

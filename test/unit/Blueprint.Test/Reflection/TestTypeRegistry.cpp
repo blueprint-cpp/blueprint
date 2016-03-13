@@ -132,12 +132,18 @@ TEST_CASE_METHOD(TypeRegistryFixture, "TestTypeRegistry")
             virtual void Visit(const ClassType& /*type*/) override {}
             virtual void Visit(const EnumType&  /*type*/) override {}
 
+            virtual void Visit(const TypeRegistry& registry) override
+            {
+                visitedRegistry = &registry;
+            }
+
             void FakeVisit(const Type* type)
             {
                 visited.insert(type->GetTypeId());
             }
 
             std::unordered_set<uint64_t> visited;
+            const TypeRegistry* visitedRegistry{nullptr};
         };
 
         struct FadeVisitedType : public Type
@@ -154,6 +160,8 @@ TEST_CASE_METHOD(TypeRegistryFixture, "TestTypeRegistry")
 
         FakeVisitor visitor;
         registry_.Accept(visitor);
+
+        CHECK(visitor.visitedRegistry == &registry_);
 
         REQUIRE(visitor.visited.size() == 3);
         CHECK(visitor.visited.find(0xA) != visitor.visited.end());
