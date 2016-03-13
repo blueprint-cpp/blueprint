@@ -1,5 +1,7 @@
 #include "Blueprint/Reflection/EnumType.hpp"
 
+#include "Blueprint/Reflection/Visitors/TypeVisitor.hpp"
+
 namespace blueprint
 {
 namespace reflection
@@ -16,7 +18,7 @@ namespace reflection
 
     void EnumType::Accept(TypeVisitor& visitor) const
     {
-        (void)visitor;
+        visitor.Visit(*this);
     }
 }
 }

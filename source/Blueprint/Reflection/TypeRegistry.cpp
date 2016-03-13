@@ -3,9 +3,6 @@
 #include "Blueprint/Reflection/Visitors/TypeVisitor.hpp"
 #include "Blueprint/Reflection/Type.hpp"
 
-#include <algorithm>
-#include <iostream>
-
 namespace blueprint
 {
 namespace reflection
@@ -54,32 +51,6 @@ namespace reflection
         for (auto& kv : types_)
         {
             kv.second->Accept(visitor);
-        }
-    }
-
-    void TypeRegistry::Dump() const
-    {
-        std::cout << std::endl;
-        std::cout << "Type Registry : " << types_.size() << " types" << std::endl;
-        std::cout << std::endl;
-
-        std::vector<const Type*> types;
-        types.reserve(types_.size());
-
-        for (auto& kv : types_)
-        {
-            types.emplace_back(kv.second.get());
-        }
-
-        std::sort(types.begin(), types.end(), [](auto lhs, auto rhs)
-        {
-            return lhs->GetFullName() < rhs->GetFullName();
-        });
-
-        for (auto type : types)
-        {
-            //std::cout << type->GetSourceLocation().ToString() << std::endl;
-            std::cout << type->GetFullName() << std::endl;
         }
     }
 }

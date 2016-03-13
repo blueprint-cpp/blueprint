@@ -28,8 +28,6 @@ namespace reflection
     public:
         void Accept(TypeVisitor& visitor) const;
 
-        void Dump() const;
-
     private:
         std::unordered_map<uint64_t, std::unique_ptr<Type>> types_;
     };

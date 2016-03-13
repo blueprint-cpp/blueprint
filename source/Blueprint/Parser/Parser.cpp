@@ -5,12 +5,16 @@
 #include "Blueprint/Parser/Clang/Index.hpp"
 #include "Blueprint/Parser/Visitors/NamespaceVisitor.hpp"
 #include "Blueprint/Parser/CommandLineArguments.hpp"
+#include "Blueprint/Reflection/Visitors/TypeEnumerator.hpp"
+#include "Blueprint/Reflection/ClassType.hpp"
+#include "Blueprint/Reflection/EnumType.hpp"
 #include "Blueprint/Reflection/TypeRegistry.hpp"
 #include "Blueprint/Utilities/ScopeTimer.hpp"
 #include "Blueprint/Utilities/WorkingDirectory.hpp"
 #include "Blueprint/Workspace/JsonImporter.hpp"
 #include "Blueprint/Workspace/Workspace.hpp"
 
+#include <algorithm>
 #include <iostream>
 
 namespace blueprint
@@ -51,6 +55,49 @@ namespace blueprint
             return extension == "h"
                 || extension == "hh"
                 || extension == "hpp";
+        }
+
+        void Dump(const reflection::TypeRegistry& registry)
+        {
+            reflection::TypeEnumerator enumerator;
+            registry.Accept(enumerator);
+
+            std::cout << std::endl;
+            std::cout << "> registry :" << std::endl;
+
+            auto sorter = [](auto lhs, auto rhs)
+            {
+                return lhs->GetFullName() < rhs->GetFullName();
+            };
+
+            auto classes = enumerator.GetClasses();
+            auto enums = enumerator.GetEnums();
+
+            if (!classes.empty())
+            {
+                std::cout << ">> classes : (" << classes.size() << ")" << std::endl;
+
+                std::sort(classes.begin(), classes.end(), sorter);
+
+                for (auto& type : classes)
+                {
+                    std::cout << ">>> " << type->GetFullName() << std::endl;
+                }
+            }
+
+            if (!enums.empty())
+            {
+                std::cout << ">> enum : (" << enums.size() << ")" << std::endl;
+
+                std::sort(enums.begin(), enums.end(), sorter);
+
+                for (auto& type : enums)
+                {
+                    std::cout << ">>> " << type->GetFullName() << std::endl;
+                }
+            }
+
+            std::cout << std::endl;
         }
     }
 
@@ -121,7 +168,7 @@ namespace blueprint
 
         if (listTypes_)
         {
-            pimpl_->GetTypeRegistry().Dump();
+            internal::Dump(pimpl_->GetTypeRegistry());
         }
 
         return true;

@@ -1,5 +1,7 @@
 #include "Blueprint/Reflection/ClassType.hpp"
 
+#include "Blueprint/Reflection/Visitors/TypeVisitor.hpp"
+
 namespace blueprint
 {
 namespace reflection
@@ -26,7 +28,7 @@ namespace reflection
 
     void ClassType::Accept(TypeVisitor& visitor) const
     {
-        (void)visitor;
+        visitor.Visit(*this);
     }
 }
 }
