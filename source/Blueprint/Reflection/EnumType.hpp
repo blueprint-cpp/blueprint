@@ -15,6 +15,8 @@ namespace reflection
         void AddEntry(const std::string& name, int value);
         const Entries& GetEntries() const;
 
+        virtual void Accept(TypeVisitor& visitor) const override;
+
     private:
         Entries entries_;
     };

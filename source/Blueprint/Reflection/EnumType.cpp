@@ -13,5 +13,10 @@ namespace reflection
     {
         return entries_;
     }
+
+    void EnumType::Accept(TypeVisitor& visitor) const
+    {
+        (void)visitor;
+    }
 }
 }

@@ -6,7 +6,12 @@ TEST_CASE("TestType")
 {
     using namespace blueprint::reflection;
 
-    Type type;
+    struct FakeType : public Type
+    {
+        virtual void Accept(TypeVisitor& /*visitor*/) const override {}
+    };
+
+    FakeType type;
 
     SECTION("Default State")
     {

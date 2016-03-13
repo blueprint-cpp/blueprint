@@ -23,5 +23,10 @@ namespace reflection
     {
         return fields_;
     }
+
+    void ClassType::Accept(TypeVisitor& visitor) const
+    {
+        (void)visitor;
+    }
 }
 }

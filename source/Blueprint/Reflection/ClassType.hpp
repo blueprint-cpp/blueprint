@@ -16,6 +16,8 @@ namespace reflection
         void AddField(const Field& field);
         const std::vector<Field>& GetFields() const;
 
+        virtual void Accept(TypeVisitor& visitor) const override;
+
     private:
         std::vector<std::string> methods_;
         std::vector<Field> fields_;

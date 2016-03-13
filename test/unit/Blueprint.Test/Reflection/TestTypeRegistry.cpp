@@ -1,31 +1,46 @@
 #include <catch/catch.hpp>
 
+#include "Blueprint/Reflection/Visitors/TypeVisitor.hpp"
 #include "Blueprint/Reflection/Type.hpp"
 #include "Blueprint/Reflection/TypeRegistry.hpp"
 
+#include <unordered_set>
+
 using namespace blueprint::reflection;
+
+struct FakeType : public Type
+{
+    virtual void Accept(TypeVisitor&) const override {}
+};
 
 struct TypeRegistryFixture
 {
-    std::unique_ptr<Type> CreateTypeA()
+    template<typename T, typename... Args>
+    std::unique_ptr<T> CreateType(uint64_t typeId, const std::string& typeName, const std::string& typeNamespace, Args&&... args)
     {
-        auto type = std::make_unique<Type>();
+        auto type = std::make_unique<T>(std::forward<Args>(args)...);
 
-        type->SetTypeId(0xA);
-        type->SetName("type_A");
+        type->SetTypeId(typeId);
+        type->SetName(typeName);
+        type->SetNamespace(typeNamespace);
 
         return type;
     }
 
+    std::unique_ptr<Type> CreateTypeA()
+    {
+        return CreateType<FakeType>(0xA, "type_A", "");
+    }
+
     std::unique_ptr<Type> CreateTypeB()
     {
-        auto type = std::make_unique<Type>();
+        return CreateType<FakeType>(0xB, "type_B", "some::scope");
+    }
 
-        type->SetTypeId(0xB);
-        type->SetName("type_B");
-        type->SetNamespace("some::scope");
-
-        return type;
+    template<typename T, typename... Args>
+    void RegisterType(uint64_t typeId, const std::string& typeName, Args&&... args)
+    {
+        registry_.Register(CreateType<T>(typeId, typeName, std::forward<Args>(args)...));
     }
 
     void RegisterTypeA()
@@ -108,5 +123,41 @@ TEST_CASE_METHOD(TypeRegistryFixture, "TestTypeRegistry")
             CHECK(foundB->GetName() == "type_B");
             CHECK(foundB->GetNamespace().ToString() == "some::scope");
         }
+    }
+
+    SECTION("Accept")
+    {
+        struct FakeVisitor : public TypeVisitor
+        {
+            virtual void Visit(const ClassType& /*type*/) override {}
+            virtual void Visit(const EnumType&  /*type*/) override {}
+
+            void FakeVisit(const Type* type)
+            {
+                visited.insert(type->GetTypeId());
+            }
+
+            std::unordered_set<uint64_t> visited;
+        };
+
+        struct FadeVisitedType : public Type
+        {
+            virtual void Accept(TypeVisitor& visitor) const
+            {
+                static_cast<FakeVisitor&>(visitor).FakeVisit(this);
+            }
+        };
+
+        RegisterType<FadeVisitedType>(0xA, "fake_A", "");
+        RegisterType<FadeVisitedType>(0xB, "fake_B", "");
+        RegisterType<FadeVisitedType>(0xC, "fake_C", "");
+
+        FakeVisitor visitor;
+        registry_.Accept(visitor);
+
+        REQUIRE(visitor.visited.size() == 3);
+        CHECK(visitor.visited.find(0xA) != visitor.visited.end());
+        CHECK(visitor.visited.find(0xB) != visitor.visited.end());
+        CHECK(visitor.visited.find(0xC) != visitor.visited.end());
     }
 }

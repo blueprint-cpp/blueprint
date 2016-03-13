@@ -8,6 +8,7 @@ namespace blueprint
 namespace reflection
 {
     class Type;
+    class TypeVisitor;
 
     class TypeRegistry
     {
@@ -23,6 +24,9 @@ namespace reflection
         const Type* Find(uint64_t typeId) const;
 
         size_t GetTypeCount() const;
+
+    public:
+        void Accept(TypeVisitor& visitor) const;
 
         void Dump() const;
 

@@ -1,5 +1,6 @@
 #include "Blueprint/Reflection/TypeRegistry.hpp"
 
+#include "Blueprint/Reflection/Visitors/TypeVisitor.hpp"
 #include "Blueprint/Reflection/Type.hpp"
 
 #include <algorithm>
@@ -44,6 +45,14 @@ namespace reflection
     size_t TypeRegistry::GetTypeCount() const
     {
         return types_.size();
+    }
+
+    void TypeRegistry::Accept(TypeVisitor& visitor) const
+    {
+        for (auto& kv : types_)
+        {
+            kv.second->Accept(visitor);
+        }
     }
 
     void TypeRegistry::Dump() const

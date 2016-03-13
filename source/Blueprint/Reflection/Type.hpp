@@ -7,6 +7,8 @@ namespace blueprint
 {
 namespace reflection
 {
+    class TypeVisitor;
+
     class Type
     {
     public:
@@ -25,6 +27,9 @@ namespace reflection
 
         void SetSourceLocation(const SourceLocation& location);
         const SourceLocation& GetSourceLocation() const;
+
+    public:
+        virtual void Accept(TypeVisitor& visitor) const = 0;
 
     private:
         uint64_t typeId_{0};
