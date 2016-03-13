@@ -13,7 +13,7 @@ namespace reflection
         Namespace() = default;
         Namespace(const char* ns);
         Namespace(const std::string& ns);
-        Namespace(const std::vector<std::string>& names);
+        explicit Namespace(const std::vector<std::string>& names);
 
         Namespace Push(const std::string& ns) const;
         Namespace Pop() const;

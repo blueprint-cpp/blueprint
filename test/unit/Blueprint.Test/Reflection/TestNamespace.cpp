@@ -6,31 +6,43 @@ TEST_CASE("TestNamespace")
 {
     using namespace blueprint::reflection;
 
-    SECTION("Global namespace if default constructed")
+    SECTION("Construction")
     {
-        Namespace ns;
+        SECTION("Default")
+        {
+            Namespace ns;
 
-        CHECK(ns.IsGlobal() == true);
-        CHECK(ns.GetDepth() == 0);
-        CHECK(ns.ToString() == "");
-    }
+            CHECK(ns.IsGlobal() == true);
+            CHECK(ns.GetDepth() == 0);
+            CHECK(ns.ToString() == "");
+        }
 
-    SECTION("Single level namespace")
-    {
-        Namespace ns("foo");
+        SECTION("Emptry string")
+        {
+            Namespace ns("");
 
-        CHECK(ns.IsGlobal() == false);
-        CHECK(ns.GetDepth() == 1);
-        CHECK(ns.ToString() == "foo");
-    }
+            CHECK(ns.IsGlobal() == true);
+            CHECK(ns.GetDepth() == 0);
+            CHECK(ns.ToString() == "");
+        }
 
-    SECTION("Multi level namespace")
-    {
-        Namespace ns("level_1::level_2::level_3");
+        SECTION("Single level namespace")
+        {
+            Namespace ns("foo");
 
-        CHECK(ns.IsGlobal() == false);
-        CHECK(ns.GetDepth() == 3);
-        CHECK(ns.ToString() == "level_1::level_2::level_3");
+            CHECK(ns.IsGlobal() == false);
+            CHECK(ns.GetDepth() == 1);
+            CHECK(ns.ToString() == "foo");
+        }
+
+        SECTION("Multi level namespace")
+        {
+            Namespace ns("level_1::level_2::level_3");
+
+            CHECK(ns.IsGlobal() == false);
+            CHECK(ns.GetDepth() == 3);
+            CHECK(ns.ToString() == "level_1::level_2::level_3");
+        }
     }
 
     SECTION("Push")

@@ -67,18 +67,21 @@ namespace reflection
     {
         std::vector<std::string> names;
 
-        size_t prev = 0;
-        size_t curr = 0;
-
-        while ((curr = ns.find("::", curr)) != std::string::npos)
+        if (!ns.empty())
         {
+            size_t prev = 0;
+            size_t curr = 0;
+
+            while ((curr = ns.find("::", curr)) != std::string::npos)
+            {
+                names.push_back(ns.substr(prev, curr - prev));
+
+                curr = curr + 2;
+                prev = curr;
+            }
+
             names.push_back(ns.substr(prev, curr - prev));
-
-            curr = curr + 2;
-            prev = curr;
         }
-
-        names.push_back(ns.substr(prev, curr - prev));
 
         return names;
     }
