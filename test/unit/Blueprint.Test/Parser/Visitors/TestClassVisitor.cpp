@@ -91,6 +91,81 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
         CHECK(classType->GetFields()[1] == Field("valueB", sizeof(float), sizeof(int)));
         CHECK(classType->GetFields()[2] == Field("valueC", sizeof(bool),  sizeof(int) + sizeof(float)));
     }
+
+    SECTION("Inheritance")
+    {
+        SECTION("Single")
+        {
+            std::string fileBuffer = R"(
+                class Base {};
+                class Derived : public Base {};
+            )";
+
+            unittest::BufferParser parser;
+
+            auto tu = parser.Parse(fileBuffer);
+
+            for (auto& child : tu.GetCursor().GetChildren())
+            {
+                if (child.IsOfKind(CXCursor_ClassDecl))
+                {
+                    ClassVisitor visitor;
+                    visitor.Visit(visitContext_, child);
+                }
+            }
+
+            CHECK(typeRegistry_.GetTypeCount() == 2);
+
+            auto base = dynamic_cast<const ClassType*>(typeRegistry_.Find("Base"));
+            auto derived = dynamic_cast<const ClassType*>(typeRegistry_.Find("Derived"));
+
+            CHECK(base != nullptr);
+            REQUIRE(derived != nullptr);
+
+            REQUIRE(derived->GetBaseClasses().size() == 1);
+            REQUIRE(derived->GetBaseClasses()[0] == base);
+        }
+
+        SECTION("Multiple")
+        {
+            std::string fileBuffer = R"(
+                class BaseA {};
+                class BaseB {};
+                class BaseC {};
+                class Derived : public BaseA, public BaseB, public BaseC {};
+            )";
+
+            unittest::BufferParser parser;
+
+            auto tu = parser.Parse(fileBuffer);
+
+            for (auto& child : tu.GetCursor().GetChildren())
+            {
+                if (child.IsOfKind(CXCursor_ClassDecl))
+                {
+                    ClassVisitor visitor;
+                    visitor.Visit(visitContext_, child);
+                }
+            }
+
+            CHECK(typeRegistry_.GetTypeCount() == 4);
+
+            auto baseA = dynamic_cast<const ClassType*>(typeRegistry_.Find("BaseA"));
+            auto baseB = dynamic_cast<const ClassType*>(typeRegistry_.Find("BaseB"));
+            auto baseC = dynamic_cast<const ClassType*>(typeRegistry_.Find("BaseC"));
+            auto derived = dynamic_cast<const ClassType*>(typeRegistry_.Find("Derived"));
+
+            CHECK(baseA != nullptr);
+            CHECK(baseB != nullptr);
+            CHECK(baseC != nullptr);
+            REQUIRE(derived != nullptr);
+
+            REQUIRE(derived->GetBaseClasses().size() == 3);
+            REQUIRE(derived->GetBaseClasses()[0] == baseA);
+            REQUIRE(derived->GetBaseClasses()[1] == baseB);
+            REQUIRE(derived->GetBaseClasses()[2] == baseC);
+        }
+    }
 }
 
 #endif

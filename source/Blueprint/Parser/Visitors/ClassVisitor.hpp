@@ -14,7 +14,7 @@ namespace blueprint
         static void Visit(VisitContext& context, const clang::Cursor& cursor);
 
     private:
-        static void FillClass(reflection::ClassType* classType, const clang::Cursor& cursor);
+        static void FillClass(VisitContext& context, reflection::ClassType* classType, const clang::Cursor& cursor);
     };
 }
 

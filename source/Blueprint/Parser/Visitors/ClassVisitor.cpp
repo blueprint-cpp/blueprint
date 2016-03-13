@@ -18,12 +18,12 @@ namespace blueprint
             auto type = std::make_unique<reflection::ClassType>();
             context.FillType(type.get(), cursor);
 
-            FillClass(type.get(), cursor);
+            FillClass(context, type.get(), cursor);
             context.RegisterType(std::move(type));
         }
     }
 
-    void ClassVisitor::FillClass(reflection::ClassType* classType, const clang::Cursor& cursor)
+    void ClassVisitor::FillClass(VisitContext& context, reflection::ClassType* classType, const clang::Cursor& cursor)
     {
         assert(classType != nullptr);
 
@@ -31,9 +31,15 @@ namespace blueprint
         {
             switch (child.GetKind())
             {
+                case CXCursor_CXXBaseSpecifier:
+                {
+                    classType->AddBaseClass(context.FindClass(child.GetType()));
+                }
+                break;
+
                 case CXCursor_CXXMethod:
                 {
-                    // TODO
+                    classType->AddMethod(child.GetSpelling().Get());
                 }
                 break;
 

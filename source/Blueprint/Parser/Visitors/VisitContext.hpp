@@ -8,6 +8,7 @@
 
 namespace blueprint { namespace clang { class Cursor; } }
 namespace blueprint { namespace clang { class Type; } }
+namespace blueprint { namespace reflection { class ClassType; } }
 namespace blueprint { namespace reflection { class Type; } }
 namespace blueprint { namespace reflection { class TypeRegistry; } }
 
@@ -19,8 +20,10 @@ namespace blueprint
         VisitContext(reflection::TypeRegistry& typeRegistry, const reflection::Namespace& ns);
 
         bool IsTypeRegistered(const clang::Type& type) const;
-        void RegisterType(std::unique_ptr<reflection::Type> type);
+        const reflection::Type* FindType(const clang::Type& type) const;
+        const reflection::ClassType* FindClass(const clang::Type& type) const;
 
+        void RegisterType(std::unique_ptr<reflection::Type> type);
         void FillType(reflection::Type* type, const clang::Cursor& cursor);
 
     private:
