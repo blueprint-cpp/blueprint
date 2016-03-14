@@ -36,7 +36,7 @@ namespace reflection
 
     std::string SourceLocation::ToString() const
     {
-        std::string file = !file_.empty() ? file_.str() : "<invalid>";
+        std::string file = !file_.empty() ? file_.str(filesystem::path::posix_path) : "<invalid>";
         return file + " (" + std::to_string(line_) + ":" + std::to_string(column_) + ")";
     }
 }

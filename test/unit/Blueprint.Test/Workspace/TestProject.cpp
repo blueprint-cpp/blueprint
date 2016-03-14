@@ -1,6 +1,7 @@
 #include <catch/catch.hpp>
 
 #include "Blueprint/Workspace/Project.hpp"
+#include "TestHelpers/FileSystem.hpp"
 
 using namespace blueprint;
 
@@ -25,10 +26,10 @@ TEST_CASE("TestProject")
     SECTION("File")
     {
         project.SetFile("some/file");
-        CHECK(project.GetFile().str() == "some/file");
+        CHECK(project.GetFile() == "some/file");
 
         project.SetFile("some/other/file");
-        CHECK(project.GetFile().str() == "some/other/file");
+        CHECK(project.GetFile() == "some/other/file");
     }
 
     SECTION("Configurations")
