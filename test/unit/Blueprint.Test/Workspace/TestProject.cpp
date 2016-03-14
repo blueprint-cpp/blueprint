@@ -26,10 +26,10 @@ TEST_CASE("TestProject")
     SECTION("File")
     {
         project.SetFile("some/file");
-        CHECK(project.GetFile() == "some/file");
+        CHECK(NormalizedPath(project.GetFile()) == "some/file");
 
         project.SetFile("some/other/file");
-        CHECK(project.GetFile() == "some/other/file");
+        CHECK(NormalizedPath(project.GetFile()) == "some/other/file");
     }
 
     SECTION("Configurations")

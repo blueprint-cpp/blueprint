@@ -27,10 +27,10 @@ TEST_CASE("TestWorkspace")
     SECTION("File")
     {
         workspace.SetFile("some/file");
-        CHECK(workspace.GetFile() == "some/file");
+        CHECK(NormalizedPath(workspace.GetFile()) == "some/file");
 
         workspace.SetFile("some/other/file");
-        CHECK(workspace.GetFile() == "some/other/file");
+        CHECK(NormalizedPath(workspace.GetFile()) == "some/other/file");
     }
 
     SECTION("Projects")

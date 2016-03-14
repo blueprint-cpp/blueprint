@@ -20,10 +20,10 @@ TEST_CASE("TestSourceLocation")
     SECTION("File")
     {
         location.SetFile("some/file");
-        CHECK(location.GetFile() == "some/file");
+        CHECK(NormalizedPath(location.GetFile()) == "some/file");
 
         location.SetFile("some/other/file");
-        CHECK(location.GetFile() == "some/other/file");
+        CHECK(NormalizedPath(location.GetFile()) == "some/other/file");
     }
 
     SECTION("Line")
