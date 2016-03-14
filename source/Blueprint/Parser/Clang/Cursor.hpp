@@ -33,6 +33,7 @@ namespace clang
         bool IsDefinition() const;
         bool IsOfKind(CXCursorKind kind) const;
         CXCursorKind GetKind() const;
+        String GetKindSpelling() const;
 
         String GetSpelling() const;
         String GetDisplayName() const;
@@ -50,6 +51,8 @@ namespace clang
         std::vector<Cursor> GetChildren() const;
 
         void VisitChildren(CXCursorVisitor visitor, CXClientData data) const;
+
+        void DebugPrint(size_t indent = 0, bool ignoreSystemHeaders = true);
 
     private:
         CXCursor cursor_;

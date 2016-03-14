@@ -3,6 +3,7 @@
 #if defined(EXTERN_CLANG_ENABLED)
 
 #include <cassert>
+#include <iostream>
 
 namespace blueprint
 {
@@ -38,6 +39,11 @@ namespace clang
     CXCursorKind Cursor::GetKind() const
     {
         return cursor_.kind;
+    }
+
+    String Cursor::GetKindSpelling() const
+    {
+        return clang_getCursorKindSpelling(cursor_.kind);
     }
 
     String Cursor::GetSpelling() const
@@ -102,6 +108,21 @@ namespace clang
     void Cursor::VisitChildren(CXCursorVisitor visitor, CXClientData data) const
     {
         clang_visitChildren(cursor_, visitor, data);
+    }
+
+    void Cursor::DebugPrint(size_t indent, bool ignoreSystemHeaders)
+    {
+        if (ignoreSystemHeaders && IsInSystemHeader())
+        {
+            return;
+        }
+
+        std::cout << std::string(indent, ' ') << GetKindSpelling().Get() << " : " << GetSpelling().Get() << std::endl;
+
+        for (auto& child : GetChildren())
+        {
+            child.DebugPrint(indent + 2);
+        }
     }
 }
 }
