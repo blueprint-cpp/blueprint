@@ -14,6 +14,10 @@ namespace reflection
         TypeHandle() = default;
         TypeHandle(uint64_t typeId);
 
+        bool operator==(const TypeHandle& other) const;
+        bool operator!=(const TypeHandle& other) const;
+
+    public:
         uint64_t GetTypeId() const;
         const Type* GetType() const;
 

@@ -26,6 +26,28 @@ TEST_CASE("TestTypeHandle")
         }
     }
 
+    SECTION("Comparison")
+    {
+        TypeHandle original(0xA);
+        TypeHandle same(0xA);
+        TypeHandle copy(original);
+        TypeHandle different(0xB);
+
+        SECTION("Equality")
+        {
+            CHECK((original == same) == true);
+            CHECK((original == copy) == true);
+            CHECK((original == different) == false);
+        }
+
+        SECTION("Inequality")
+        {
+            CHECK((original != same) == false);
+            CHECK((original != copy) == false);
+            CHECK((original != different) == true);
+        }
+    }
+
     SECTION("GetType")
     {
         auto typeA = std::make_unique<ClassType>();

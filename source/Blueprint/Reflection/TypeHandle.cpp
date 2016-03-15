@@ -10,6 +10,16 @@ namespace reflection
         : typeId_(typeId)
     {}
 
+    bool TypeHandle::operator==(const TypeHandle& other) const
+    {
+        return typeId_ == other.typeId_;
+    }
+
+    bool TypeHandle::operator!=(const TypeHandle& other) const
+    {
+        return !(*this == other);
+    }
+
     uint64_t TypeHandle::GetTypeId() const
     {
         return typeId_;
