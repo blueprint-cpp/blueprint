@@ -43,7 +43,7 @@ namespace reflection
         return names_.empty();
     }
 
-    int Namespace::GetDepth() const
+    size_t Namespace::GetDepth() const
     {
         return names_.size();
     }

@@ -35,7 +35,7 @@ namespace clang
             index_,
             file.c_str(),
             &args[0],
-            args.size(),
+            (int)args.size(),
             nullptr, // unsavedFiles
             0,       // unsavedFilesCount
             options

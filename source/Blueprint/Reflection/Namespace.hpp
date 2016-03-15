@@ -19,7 +19,7 @@ namespace reflection
         Namespace Pop() const;
 
         bool IsGlobal() const;
-        int GetDepth() const;
+        size_t GetDepth() const;
 
         std::string ToString() const;
 

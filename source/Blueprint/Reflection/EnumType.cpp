@@ -6,7 +6,7 @@ namespace blueprint
 {
 namespace reflection
 {
-    void EnumType::AddEntry(const std::string& name, int value)
+    void EnumType::AddEntry(const std::string& name, size_t value)
     {
         entries_.push_back(std::make_pair(name, value));
     }
