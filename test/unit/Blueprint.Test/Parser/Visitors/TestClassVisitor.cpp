@@ -38,8 +38,7 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
         auto cursor = parser.FindChildOfKind(tu.GetCursor(), CXCursor_StructDecl);
         REQUIRE(cursor.IsNull() == false);
 
-        ClassVisitor visitor;
-        visitor.Visit(visitContext_, cursor);
+        ClassVisitor::Visit(visitContext_, cursor);
 
         CHECK(typeRegistry_.GetTypeCount() == 1);
 
@@ -77,8 +76,7 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
 
         REQUIRE(cursor.IsNull() == false);
 
-        ClassVisitor visitor;
-        visitor.Visit(visitContext_, cursor);
+        ClassVisitor::Visit(visitContext_, cursor);
 
         CHECK(typeRegistry_.GetTypeCount() == 1);
 
@@ -116,8 +114,7 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
             {
                 if (child.IsOfKind(CXCursor_ClassDecl))
                 {
-                    ClassVisitor visitor;
-                    visitor.Visit(visitContext_, child);
+                    ClassVisitor::Visit(visitContext_, child);
                 }
             }
 
@@ -150,8 +147,7 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
             {
                 if (child.IsOfKind(CXCursor_ClassDecl))
                 {
-                    ClassVisitor visitor;
-                    visitor.Visit(visitContext_, child);
+                    ClassVisitor::Visit(visitContext_, child);
                 }
             }
 

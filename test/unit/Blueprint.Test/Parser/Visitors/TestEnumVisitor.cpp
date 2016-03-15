@@ -36,8 +36,7 @@ TEST_CASE_METHOD(EnumVisitorFixture, "TestEnumVisitor")
         auto cursor = parser.FindChildOfKind(tu.GetCursor(), CXCursor_EnumDecl);
         REQUIRE(cursor.IsNull() == false);
 
-        EnumVisitor visitor;
-        visitor.Visit(visitContext_, cursor);
+        EnumVisitor::Visit(visitContext_, cursor);
 
         CHECK(typeRegistry_.GetTypeCount() == 1);
 
@@ -71,8 +70,7 @@ TEST_CASE_METHOD(EnumVisitorFixture, "TestEnumVisitor")
         auto cursor = parser.FindChildOfKind(tu.GetCursor(), CXCursor_EnumDecl);
         REQUIRE(cursor.IsNull() == false);
 
-        EnumVisitor visitor;
-        visitor.Visit(visitContext_, cursor);
+        EnumVisitor::Visit(visitContext_, cursor);
 
         CHECK(typeRegistry_.GetTypeCount() == 1);
 
