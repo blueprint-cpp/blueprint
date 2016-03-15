@@ -51,9 +51,9 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
         REQUIRE(classType != nullptr);
 
         REQUIRE(classType->GetFields().size() == 3);
-        CHECK(classType->GetFields()[0] == Field("valueA", sizeof(int),   0));
-        CHECK(classType->GetFields()[1] == Field("valueB", sizeof(float), sizeof(int)));
-        CHECK(classType->GetFields()[2] == Field("valueC", sizeof(bool),  sizeof(int) + sizeof(float)));
+        CHECK(classType->GetFields()[0] == Field(0, "valueA", sizeof(int),   0));
+        CHECK(classType->GetFields()[1] == Field(0, "valueB", sizeof(float), sizeof(int)));
+        CHECK(classType->GetFields()[2] == Field(0, "valueC", sizeof(bool),  sizeof(int) + sizeof(float)));
 
         size_t expectedPadding = 3;
         CHECK(classType->GetSize() == sizeof(int) + sizeof(float) + sizeof(bool) + expectedPadding);
@@ -90,9 +90,9 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
         REQUIRE(classType != nullptr);
 
         REQUIRE(classType->GetFields().size() == 3);
-        CHECK(classType->GetFields()[0] == Field("valueA", sizeof(int),   0));
-        CHECK(classType->GetFields()[1] == Field("valueB", sizeof(float), sizeof(int)));
-        CHECK(classType->GetFields()[2] == Field("valueC", sizeof(bool),  sizeof(int) + sizeof(float)));
+        CHECK(classType->GetFields()[0] == Field(0, "valueA", sizeof(int),   0));
+        CHECK(classType->GetFields()[1] == Field(0, "valueB", sizeof(float), sizeof(int)));
+        CHECK(classType->GetFields()[2] == Field(0, "valueC", sizeof(bool),  sizeof(int) + sizeof(float)));
 
         size_t expectedPadding = 3;
         CHECK(classType->GetSize() == sizeof(int) + sizeof(float) + sizeof(bool) + expectedPadding);

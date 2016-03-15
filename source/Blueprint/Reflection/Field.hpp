@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Blueprint/Reflection/TypeHandle.hpp"
+
 #include <string>
 
 namespace blueprint
@@ -10,12 +12,15 @@ namespace reflection
     {
     public:
         Field() = default;
-        Field(const std::string& name, size_t size, size_t offset);
+        Field(uint64_t typeId, const std::string& name, size_t size, size_t offset);
 
         bool operator==(const Field& other) const;
         bool operator!=(const Field& other) const;
 
     public:
+        void SetType(const TypeHandle& type);
+        const TypeHandle& GetType() const;
+
         void SetName(const std::string& name);
         const std::string& GetName() const;
 
@@ -26,6 +31,8 @@ namespace reflection
         size_t GetOffset() const;
 
     private:
+        TypeHandle type_;
+
         std::string name_;
 
         size_t size_{0};

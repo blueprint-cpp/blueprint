@@ -43,13 +43,13 @@ TEST_CASE("TestClassType")
 
     SECTION("Fields")
     {
-        Field fieldA("field_A", 4, 8);
+        Field fieldA(0xA, "field_A", 4, 8);
 
         classType.AddField(fieldA);
         REQUIRE(classType.GetFields().size() == 1);
         CHECK(classType.GetFields()[0] == fieldA);
 
-        Field fieldB("field_B", 12, 16);
+        Field fieldB(0xB, "field_B", 12, 16);
 
         classType.AddField(fieldB);
         REQUIRE(classType.GetFields().size() == 2);

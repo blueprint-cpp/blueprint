@@ -6,8 +6,9 @@ namespace blueprint
 {
 namespace reflection
 {
-    Field::Field(const std::string& name, size_t size, size_t offset)
-        : name_(name)
+    Field::Field(uint64_t typeId, const std::string& name, size_t size, size_t offset)
+        : type_(typeId)
+        , name_(name)
         , size_(size)
         , offset_(offset)
     {}
@@ -19,9 +20,20 @@ namespace reflection
 
     bool Field::operator!=(const Field& other) const
     {
-        return name_ != other.name_
+        return type_ != other.type_
+            || name_ != other.name_
             || size_ != other.size_
             || offset_ != other.offset_;
+    }
+
+    void Field::SetType(const TypeHandle& type)
+    {
+        type_ = type;
+    }
+
+    const TypeHandle& Field::GetType() const
+    {
+        return type_;
     }
 
     void Field::SetName(const std::string& name)
@@ -56,7 +68,7 @@ namespace reflection
 
     std::ostream& operator<<(std::ostream& stream, const Field& field)
     {
-        stream << "Field(" << field.GetName() << ", " << field.GetSize() << ", " << field.GetOffset() << ")";
+        stream << "Field(" << field.GetType().GetTypeId() << ", " << field.GetName() << ", " << field.GetSize() << ", " << field.GetOffset() << ")";
         return stream;
     }
 }
