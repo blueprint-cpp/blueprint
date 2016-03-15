@@ -52,6 +52,7 @@ TEST_CASE_METHOD(EnumVisitorFixture, "TestEnumVisitor")
         CHECK(enumType->GetEntries()[0].second == 0);
         CHECK(enumType->GetEntries()[1].first  == "SM_Value_B");
         CHECK(enumType->GetEntries()[1].second == 1);
+        CHECK(enumType->GetSize() == sizeof(int));
     }
 
     SECTION("Enum Class")
@@ -86,6 +87,7 @@ TEST_CASE_METHOD(EnumVisitorFixture, "TestEnumVisitor")
         CHECK(enumType->GetEntries()[0].second == 8);
         CHECK(enumType->GetEntries()[1].first  == "Value_B");
         CHECK(enumType->GetEntries()[1].second == 3);
+        CHECK(enumType->GetSize() == sizeof(int));
     }
 }
 

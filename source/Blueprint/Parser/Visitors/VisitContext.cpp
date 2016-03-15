@@ -40,7 +40,10 @@ namespace blueprint
     {
         assert(type != nullptr);
 
-        type->SetTypeId(cursor.GetType().GetTypeId());
+        auto cursorType = cursor.GetType();
+
+        type->SetTypeId(cursorType.GetTypeId());
+        type->SetSize(cursorType.GetSizeOf());
         type->SetName(cursor.GetSpelling().Get());
         type->SetNamespace(namespace_);
 

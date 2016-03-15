@@ -30,6 +30,15 @@ TEST_CASE("TestType")
         CHECK(type.GetTypeId() == 0xB);
     }
 
+    SECTION("Size")
+    {
+        type.SetSize(69);
+        CHECK(type.GetSize() == 69);
+
+        type.SetSize(1337);
+        CHECK(type.GetSize() == 1337);
+    }
+
     SECTION("Name")
     {
         type.SetName("some_name");

@@ -17,6 +17,9 @@ namespace reflection
         void SetTypeId(uint64_t typeId);
         uint64_t GetTypeId() const;
 
+        void SetSize(size_t size);
+        size_t GetSize() const;
+
         void SetName(const std::string& name);
         const std::string& GetName() const;
 
@@ -33,6 +36,8 @@ namespace reflection
 
     private:
         uint64_t typeId_{0};
+        size_t size_{0};
+
         std::string name_;
         Namespace namespace_;
 

@@ -14,6 +14,16 @@ namespace reflection
         return typeId_;
     }
 
+    void Type::SetSize(size_t size)
+    {
+        size_ = size;
+    }
+
+    size_t Type::GetSize() const
+    {
+        return size_;
+    }
+
     void Type::SetName(const std::string& name)
     {
         name_ = name;
