@@ -8,6 +8,8 @@ require("extern.json")
 function GenerateWorkspace()
     workspace( "Blueprint" )
 
+    platforms { "x64" }
+
     configurations { "Debug", "Release" }
         location( _ACTION )
 
