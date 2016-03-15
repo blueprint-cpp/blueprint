@@ -56,6 +56,22 @@ struct TypeRegistryFixture
     TypeRegistry registry_;
 };
 
+TEST_CASE("TestTypeRegistry Singleton")
+{
+    CHECK(TypeRegistry::HasInstance() == false);
+    CHECK(TypeRegistry::GetInstance() == nullptr);
+
+    {
+        TypeRegistry registry;
+
+        CHECK(TypeRegistry::HasInstance() == true);
+        CHECK(TypeRegistry::GetInstance() == &registry);
+    }
+
+    CHECK(TypeRegistry::HasInstance() == false);
+    CHECK(TypeRegistry::GetInstance() == nullptr);
+}
+
 TEST_CASE_METHOD(TypeRegistryFixture, "TestTypeRegistry")
 {
     SECTION("Default State")

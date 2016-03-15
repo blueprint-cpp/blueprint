@@ -7,8 +7,17 @@ namespace blueprint
 {
 namespace reflection
 {
-    TypeRegistry::TypeRegistry() = default;
-    TypeRegistry::~TypeRegistry() = default;
+    TypeRegistry* TypeRegistry::instance_ = nullptr;
+
+    TypeRegistry::TypeRegistry()
+    {
+        instance_ = this;
+    }
+
+    TypeRegistry::~TypeRegistry()
+    {
+        instance_ = nullptr;
+    }
 
     void TypeRegistry::Register(std::unique_ptr<Type> type)
     {

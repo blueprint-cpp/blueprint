@@ -16,6 +16,10 @@ namespace reflection
         TypeRegistry();
         ~TypeRegistry();
 
+        static bool HasInstance() { return instance_ != nullptr; }
+        static TypeRegistry* GetInstance() { return instance_; }
+
+    public:
         void Register(std::unique_ptr<Type> type);
 
         bool Contains(uint64_t typeId) const;
@@ -30,6 +34,8 @@ namespace reflection
 
     private:
         std::unordered_map<uint64_t, std::unique_ptr<Type>> types_;
+
+        static TypeRegistry* instance_;
     };
 }
 }
