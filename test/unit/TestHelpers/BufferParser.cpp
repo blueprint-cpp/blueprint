@@ -10,7 +10,7 @@ namespace unittest
     {
         unsavedFile_.Filename = "dummy.cpp";
         unsavedFile_.Contents = buffer.c_str();
-        unsavedFile_.Length   = buffer.length();
+        unsavedFile_.Length   = (unsigned long)buffer.length();
 
         return clang_createTranslationUnitFromSourceFile(
             CXIndex(index_),
