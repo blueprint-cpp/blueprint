@@ -52,7 +52,7 @@ namespace clang
 
         void VisitChildren(CXCursorVisitor visitor, CXClientData data) const;
 
-        void DebugPrint(size_t indent = 0, bool ignoreSystemHeaders = true);
+        void DebugPrint(size_t indent = 0, bool ignoreSystemHeaders = true) const;
 
     private:
         CXCursor cursor_;

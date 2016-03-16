@@ -3,6 +3,7 @@
 #if defined(EXTERN_CLANG_ENABLED)
 
 #include "Blueprint/Parser/Clang/Cursor.hpp"
+#include "Blueprint/Parser/Visitors/EnumVisitor.hpp"
 #include "Blueprint/Reflection/ClassType.hpp"
 
 #include <cassert>
@@ -54,6 +55,23 @@ namespace blueprint
                     field.SetOffset(child.GetOffsetOfField());
 
                     classType->AddField(field);
+                }
+                break;
+
+                case CXCursor_ClassDecl:
+                case CXCursor_StructDecl:
+                {
+                    ClassVisitor::Visit(context, child);
+
+                    classType->AddNestedType(context.FindType(child.GetType()));
+                }
+                break;
+
+                case CXCursor_EnumDecl:
+                {
+                    EnumVisitor::Visit(context, child);
+
+                    classType->AddNestedType(context.FindType(child.GetType()));
                 }
                 break;
 

@@ -110,14 +110,14 @@ namespace clang
         clang_visitChildren(cursor_, visitor, data);
     }
 
-    void Cursor::DebugPrint(size_t indent, bool ignoreSystemHeaders)
+    void Cursor::DebugPrint(size_t indent, bool ignoreSystemHeaders) const
     {
         if (ignoreSystemHeaders && IsInSystemHeader())
         {
             return;
         }
 
-        std::cout << std::string(indent, ' ') << GetKindSpelling().Get() << " : " << GetSpelling().Get() << std::endl;
+        std::cout << std::string(indent, ' ') << GetKindSpelling().Get() << " : " << GetType().GetSpelling().Get() << std::endl;
 
         for (auto& child : GetChildren())
         {
