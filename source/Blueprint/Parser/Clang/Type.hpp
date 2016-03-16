@@ -21,8 +21,11 @@ namespace clang
         }
 
     public:
-        bool IsOfKind(CXTypeKind kind) const;
+        Type GetCanonical() const;
         CXTypeKind GetKind() const;
+
+        bool IsOfKind(CXTypeKind kind) const;
+        bool IsBuiltInType() const;
 
         String GetSpelling() const;
 
