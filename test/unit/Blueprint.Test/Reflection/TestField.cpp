@@ -14,7 +14,7 @@ TEST_CASE("TestField")
         {
             Field field;
 
-            CHECK(field.GetType().GetTypeId() == 0);
+            CHECK(field.GetType().GetId() == 0);
             CHECK(field.GetName() == "");
             CHECK(field.GetSize() == 0);
             CHECK(field.GetOffset() == 0);
@@ -24,14 +24,14 @@ TEST_CASE("TestField")
         {
             Field fieldA(0xA, "field_A", 1, 2);
 
-            CHECK(fieldA.GetType().GetTypeId() == 0xA);
+            CHECK(fieldA.GetType().GetId() == 0xA);
             CHECK(fieldA.GetName() == "field_A");
             CHECK(fieldA.GetSize() == 1);
             CHECK(fieldA.GetOffset() == 2);
 
             Field fieldB(0xB, "field_B", 3, 4);
 
-            CHECK(fieldB.GetType().GetTypeId() == 0xB);
+            CHECK(fieldB.GetType().GetId() == 0xB);
             CHECK(fieldB.GetName() == "field_B");
             CHECK(fieldB.GetSize() == 3);
             CHECK(fieldB.GetOffset() == 4);
@@ -76,10 +76,10 @@ TEST_CASE("TestField")
         SECTION("Type")
         {
             field.SetType(0xA);
-            CHECK(field.GetType().GetTypeId() == 0xA);
+            CHECK(field.GetType().GetId() == 0xA);
 
             field.SetType(0xB);
-            CHECK(field.GetType().GetTypeId() == 0xB);
+            CHECK(field.GetType().GetId() == 0xB);
         }
 
         SECTION("Name")

@@ -17,9 +17,12 @@ namespace reflection
         bool operator==(const TypeHandle& other) const;
         bool operator!=(const TypeHandle& other) const;
 
+        operator bool() const;
+        const Type* operator->() const;
+
     public:
-        uint64_t GetTypeId() const;
-        const Type* GetType() const;
+        uint64_t GetId() const;
+        const Type* Get() const;
 
     public:
         uint64_t typeId_{0};

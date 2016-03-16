@@ -20,12 +20,22 @@ namespace reflection
         return !(*this == other);
     }
 
-    uint64_t TypeHandle::GetTypeId() const
+    TypeHandle::operator bool() const
+    {
+        return Get() != nullptr;
+    }
+
+    const Type* TypeHandle::operator->() const
+    {
+        return Get();
+    }
+
+    uint64_t TypeHandle::GetId() const
     {
         return typeId_;
     }
 
-    const Type* TypeHandle::GetType() const
+    const Type* TypeHandle::Get() const
     {
         auto registry = TypeRegistry::GetInstance();
         return registry ? registry->Find(typeId_) : nullptr;
