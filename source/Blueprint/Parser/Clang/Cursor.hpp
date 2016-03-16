@@ -14,16 +14,10 @@ namespace clang
     class Cursor
     {
     public:
-        Cursor() = default;
+        Cursor();
+        Cursor(CXCursor cursor);
 
-        Cursor(CXCursor cursor)
-            : cursor_(cursor)
-        {}
-
-        explicit operator CXCursor() const
-        {
-            return cursor_;
-        }
+        explicit operator CXCursor() const;
 
     public:
         bool IsInSystemHeader() const;

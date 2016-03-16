@@ -9,6 +9,19 @@ namespace blueprint
 {
 namespace clang
 {
+    Cursor::Cursor()
+        : cursor_(clang_getNullCursor())
+    {}
+
+    Cursor::Cursor(CXCursor cursor)
+        : cursor_(cursor)
+    {}
+
+    Cursor::operator CXCursor() const
+    {
+        return cursor_;
+    }
+
     bool Cursor::IsInSystemHeader() const
     {
         auto location = clang_getCursorLocation(cursor_);
