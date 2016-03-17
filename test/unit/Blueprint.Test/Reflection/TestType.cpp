@@ -18,6 +18,7 @@ TEST_CASE("TestType")
         CHECK(type.GetTypeId() == 0);
         CHECK(type.GetName() == "");
         CHECK(type.GetNamespace().IsGlobal());
+        CHECK(type.GetParentType().GetId() == 0);
         CHECK(type.GetFullName() == "");
     }
 
@@ -55,6 +56,15 @@ TEST_CASE("TestType")
 
         type.SetNamespace("some::other::namespace");
         CHECK(type.GetNamespace().ToString() == "some::other::namespace");
+    }
+
+    SECTION("ParentType")
+    {
+        type.SetParentType(0xA);
+        CHECK(type.GetParentType().GetId() == 0xA);
+
+        type.SetParentType(0xB);
+        CHECK(type.GetParentType().GetId() == 0xB);
     }
 
     SECTION("FullName")

@@ -2,6 +2,7 @@
 
 #include "Blueprint/Reflection/Namespace.hpp"
 #include "Blueprint/Reflection/SourceLocation.hpp"
+#include "Blueprint/Reflection/TypeHandle.hpp"
 
 namespace blueprint
 {
@@ -26,6 +27,9 @@ namespace reflection
         void SetNamespace(const Namespace& ns);
         const Namespace& GetNamespace() const;
 
+        void SetParentType(const TypeHandle& parentType);
+        const TypeHandle& GetParentType() const;
+
         std::string GetFullName() const;
 
         void SetSourceLocation(const SourceLocation& location);
@@ -40,6 +44,8 @@ namespace reflection
 
         std::string name_;
         Namespace namespace_;
+
+        TypeHandle parentType_;
 
         SourceLocation location_;
     };

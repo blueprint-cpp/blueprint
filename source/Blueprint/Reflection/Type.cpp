@@ -44,6 +44,16 @@ namespace reflection
         return namespace_;
     }
 
+    void Type::SetParentType(const TypeHandle& parentType)
+    {
+        parentType_ = parentType;
+    }
+
+    const TypeHandle& Type::GetParentType() const
+    {
+        return parentType_;
+    }
+
     std::string Type::GetFullName() const
     {
         if (!name_.empty() && !namespace_.IsGlobal())
