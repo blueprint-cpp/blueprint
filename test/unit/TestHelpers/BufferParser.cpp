@@ -25,7 +25,7 @@ namespace unittest
     {
         for (auto& child : cursor.GetChildren())
         {
-            if (child.GetKind() == kind)
+            if (!child.IsInSystemHeader() && child.GetKind() == kind)
             {
                 return child;
             }
