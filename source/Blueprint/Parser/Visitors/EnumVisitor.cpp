@@ -11,12 +11,17 @@ namespace blueprint
 {
     void EnumVisitor::Visit(VisitContext& context, const clang::Cursor& cursor)
     {
+        Visit(context, cursor, clang::Cursor());
+    }
+
+    void EnumVisitor::Visit(VisitContext& context, const clang::Cursor& cursor, const clang::Cursor& parent)
+    {
         assert(cursor.IsOfKind(CXCursor_EnumDecl));
 
         if (cursor.IsDefinition() && !context.IsTypeRegistered(cursor.GetType()))
         {
             auto type = std::make_unique<reflection::EnumType>();
-            context.FillType(type.get(), cursor);
+            context.FillType(type.get(), cursor, parent);
 
             FillEnum(type.get(), cursor);
             context.RegisterType(std::move(type));

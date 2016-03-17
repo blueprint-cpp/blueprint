@@ -36,7 +36,7 @@ namespace blueprint
         typeRegistry_.Register(std::move(type));
     }
 
-    void VisitContext::FillType(reflection::Type* type, const clang::Cursor& cursor)
+    void VisitContext::FillType(reflection::Type* type, const clang::Cursor& cursor, const clang::Cursor& parent)
     {
         assert(type != nullptr);
 
@@ -46,6 +46,11 @@ namespace blueprint
         type->SetSize(cursorType.GetSizeOf());
         type->SetName(cursor.GetSpelling().Get());
         type->SetNamespace(namespace_);
+
+        if (!parent.IsNull())
+        {
+            type->SetParentType(parent.GetType().GetTypeId());
+        }
 
         auto cursorLocation = cursor.GetSourceLocation();
 

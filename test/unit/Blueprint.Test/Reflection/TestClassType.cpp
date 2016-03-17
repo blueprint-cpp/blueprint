@@ -1,7 +1,6 @@
 #include <catch/catch.hpp>
 
 #include "Blueprint/Reflection/ClassType.hpp"
-#include "Blueprint/Reflection/EnumType.hpp"
 
 TEST_CASE("TestClassType")
 {
@@ -34,17 +33,25 @@ TEST_CASE("TestClassType")
 
     SECTION("Nested Types")
     {
-        ClassType nestedA;
+        SECTION("Invalid handles are ignored")
+        {
+            classType.AddNestedType(TypeHandle());
+            CHECK(classType.GetNestedTypes().empty());
 
-        classType.AddNestedType(&nestedA);
-        REQUIRE(classType.GetNestedTypes().size() == 1);
-        CHECK(classType.GetNestedTypes()[0] == &nestedA);
+            classType.AddNestedType(0);
+            CHECK(classType.GetNestedTypes().empty());
+        }
 
-        EnumType nestedB;
+        SECTION("Valid handles are added")
+        {
+            classType.AddNestedType(0xA);
+            REQUIRE(classType.GetNestedTypes().size() == 1);
+            CHECK(classType.GetNestedTypes()[0].GetId() == 0xA);
 
-        classType.AddNestedType(&nestedB);
-        REQUIRE(classType.GetNestedTypes().size() == 2);
-        CHECK(classType.GetNestedTypes()[1] == &nestedB);
+            classType.AddNestedType(0xB);
+            REQUIRE(classType.GetNestedTypes().size() == 2);
+            CHECK(classType.GetNestedTypes()[1].GetId() == 0xB);
+        }
     }
 
     SECTION("Methods")

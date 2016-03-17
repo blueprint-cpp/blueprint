@@ -12,12 +12,17 @@ namespace blueprint
 {
     void ClassVisitor::Visit(VisitContext& context, const clang::Cursor& cursor)
     {
+        Visit(context, cursor, clang::Cursor());
+    }
+
+    void ClassVisitor::Visit(VisitContext& context, const clang::Cursor& cursor, const clang::Cursor& parent)
+    {
         assert(cursor.IsOfKind(CXCursor_ClassDecl) || cursor.IsOfKind(CXCursor_StructDecl));
 
         if (cursor.IsDefinition() && !context.IsTypeRegistered(cursor.GetType()))
         {
             auto type = std::make_unique<reflection::ClassType>();
-            context.FillType(type.get(), cursor);
+            context.FillType(type.get(), cursor, parent);
 
             FillClass(context, type.get(), cursor);
             context.RegisterType(std::move(type));
@@ -61,17 +66,17 @@ namespace blueprint
                 case CXCursor_ClassDecl:
                 case CXCursor_StructDecl:
                 {
-                    ClassVisitor::Visit(context, child);
+                    ClassVisitor::Visit(context, child, cursor);
 
-                    classType->AddNestedType(context.FindType(child.GetType()));
+                    classType->AddNestedType(child.GetType().GetTypeId());
                 }
                 break;
 
                 case CXCursor_EnumDecl:
                 {
-                    EnumVisitor::Visit(context, child);
+                    EnumVisitor::Visit(context, child, cursor);
 
-                    classType->AddNestedType(context.FindType(child.GetType()));
+                    classType->AddNestedType(child.GetType().GetTypeId());
                 }
                 break;
 

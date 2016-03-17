@@ -4,6 +4,7 @@
 
 #include "Blueprint/Parser/Visitors/ClassVisitor.hpp"
 #include "Blueprint/Reflection/ClassType.hpp"
+#include "Blueprint/Reflection/EnumType.hpp"
 #include "Blueprint/Reflection/TypeRegistry.hpp"
 #include "TestHelpers/BufferParser.hpp"
 
@@ -94,7 +95,6 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
 
         size_t expectedPadding = 3;
         CHECK(classType->GetSize() == sizeof(int) + sizeof(float) + sizeof(bool) + expectedPadding);
-
     }
 
     SECTION("Inheritance")
@@ -168,6 +168,62 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
             REQUIRE(derived->GetBaseClasses()[1] == baseB);
             REQUIRE(derived->GetBaseClasses()[2] == baseC);
         }
+    }
+
+    SECTION("Nested Types")
+    {
+        std::string fileBuffer = R"(
+            class SomeClass
+            {
+                class NestedA
+                {
+                    enum NestedB
+                    {};
+                };
+                class NestedC
+                {};
+            };
+        )";
+
+        unittest::BufferParser parser;
+
+        auto tu     = parser.Parse(fileBuffer);
+        auto cursor = parser.FindChildOfKind(tu.GetCursor(), CXCursor_ClassDecl);
+
+        REQUIRE(cursor.IsNull() == false);
+
+        ClassVisitor::Visit(visitContext_, cursor);
+
+        CHECK(typeRegistry_.GetTypeCount() == 4);
+
+        auto someClass = dynamic_cast<const ClassType*>(typeRegistry_.Find("SomeClass"));
+        auto nestedA   = dynamic_cast<const ClassType*>(typeRegistry_.Find("NestedA"));
+        auto nestedB   = dynamic_cast<const EnumType* >(typeRegistry_.Find("NestedB"));
+        auto nestedC   = dynamic_cast<const ClassType*>(typeRegistry_.Find("NestedC"));
+
+        REQUIRE(someClass != nullptr);
+        REQUIRE(nestedA != nullptr);
+        REQUIRE(nestedB != nullptr);
+        REQUIRE(nestedC != nullptr);
+
+        CHECK(someClass->GetName() == "SomeClass");
+        CHECK(nestedA->GetName() == "NestedA");
+        CHECK(nestedB->GetName() == "NestedB");
+        CHECK(nestedC->GetName() == "NestedC");
+
+        CHECK(someClass->GetParentType().GetId() == 0);
+        CHECK(nestedA->GetParentType().Get() == someClass);
+        CHECK(nestedB->GetParentType().Get() == nestedA);
+        CHECK(nestedC->GetParentType().Get() == someClass);
+
+        REQUIRE(someClass->GetNestedTypes().size() == 2);
+        CHECK(someClass->GetNestedTypes()[0].Get() == nestedA);
+        CHECK(someClass->GetNestedTypes()[1].Get() == nestedC);
+
+        REQUIRE(nestedA->GetNestedTypes().size() == 1);
+        CHECK(nestedA->GetNestedTypes()[0].Get() == nestedB);
+
+        REQUIRE(nestedC->GetNestedTypes().empty());
     }
 }
 
