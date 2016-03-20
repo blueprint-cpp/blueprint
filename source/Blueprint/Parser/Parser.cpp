@@ -9,9 +9,9 @@
 #include "Blueprint/Reflection/ClassType.hpp"
 #include "Blueprint/Reflection/EnumType.hpp"
 #include "Blueprint/Reflection/TypeRegistry.hpp"
+#include "Blueprint/Utilities/JsonImporter.hpp"
 #include "Blueprint/Utilities/ScopeTimer.hpp"
 #include "Blueprint/Utilities/WorkingDirectory.hpp"
-#include "Blueprint/Workspace/JsonImporter.hpp"
 #include "Blueprint/Workspace/Workspace.hpp"
 
 #include <algorithm>
