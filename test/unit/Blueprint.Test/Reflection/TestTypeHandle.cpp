@@ -15,14 +15,14 @@ TEST_CASE("TestTypeHandle")
         {
             TypeHandle handle;
 
-            CHECK(handle.GetTypeId() == 0);
+            CHECK(handle.GetId() == 0);
         }
 
         SECTION("With TypeId")
         {
             TypeHandle handle(0xA);
 
-            CHECK(handle.GetTypeId() == 0xA);
+            CHECK(handle.GetId() == 0xA);
         }
     }
 
@@ -61,8 +61,8 @@ TEST_CASE("TestTypeHandle")
 
         SECTION("Returns null if not registered in the registry")
         {
-            CHECK(handleA.GetType() == nullptr);
-            CHECK(handleB.GetType() == nullptr);
+            CHECK(handleA.Get() == nullptr);
+            CHECK(handleB.Get() == nullptr);
         }
 
         SECTION("Returns types if properly registered in the registry")
@@ -75,8 +75,8 @@ TEST_CASE("TestTypeHandle")
             registry.Register(std::move(typeA));
             registry.Register(std::move(typeB));
 
-            CHECK(handleA.GetType() == addressA);
-            CHECK(handleB.GetType() == addressB);
+            CHECK(handleA.Get() == addressA);
+            CHECK(handleB.Get() == addressB);
         }
     }
 }

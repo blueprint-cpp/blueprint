@@ -18,8 +18,8 @@ namespace reflection
         bool operator!=(const TypeHandle& other) const;
 
     public:
-        uint64_t GetTypeId() const;
-        const Type* GetType() const;
+        uint64_t GetId() const;
+        const Type* Get() const;
 
     public:
         uint64_t typeId_{0};

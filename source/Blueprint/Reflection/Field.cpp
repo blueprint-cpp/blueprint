@@ -68,7 +68,7 @@ namespace reflection
 
     std::ostream& operator<<(std::ostream& stream, const Field& field)
     {
-        stream << "Field(" << field.GetType().GetTypeId() << ", " << field.GetName() << ", " << field.GetSize() << ", " << field.GetOffset() << ")";
+        stream << "Field(" << field.GetType().GetId() << ", " << field.GetName() << ", " << field.GetSize() << ", " << field.GetOffset() << ")";
         return stream;
     }
 }
