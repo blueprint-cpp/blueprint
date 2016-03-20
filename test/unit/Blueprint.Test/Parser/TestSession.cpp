@@ -2,12 +2,12 @@
 
 #if defined(EXTERN_CLANG_ENABLED)
 
-#include "Blueprint/Parser/ParsingSession.hpp"
+#include "Blueprint/Parser/Session.hpp"
 #include "TestHelpers/FileSystem.hpp"
 
-TEST_CASE("TestParsingSession")
+TEST_CASE("TestSession")
 {
-    blueprint::ParsingSession session;
+    blueprint::Session session;
 
     SECTION("Default State")
     {

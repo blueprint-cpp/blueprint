@@ -12,6 +12,7 @@ TEST_CASE("TestWorkspace")
     SECTION("Default State")
     {
         CHECK(workspace.GetName() == "");
+        CHECK(workspace.GetFile().empty());
         CHECK(workspace.GetProjects().empty());
     }
 

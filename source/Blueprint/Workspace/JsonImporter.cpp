@@ -49,6 +49,33 @@ namespace blueprint
         }
     }
 
+    std::unique_ptr<Session> JsonImporter::ImportSession(const filesystem::path& sessionFile)
+    {
+        auto json = internal::ParseJsonFile(sessionFile);
+
+        if (json.is_object())
+        {
+            auto session = std::make_unique<Session>();
+
+            session->SetWorkspace(json["workspace"]);
+            session->SetOutputDirectory(json["outputdir"]);
+
+            auto& arguments = json["arguments"];
+
+            if (arguments.is_array())
+            {
+                for (auto& argument : arguments)
+                {
+                    session->AddArgument(argument);
+                }
+            }
+
+            return session;
+        }
+
+        return nullptr;
+    }
+
     std::unique_ptr<Workspace> JsonImporter::ImportWorkspace(const filesystem::path& workspaceFile)
     {
         auto json = internal::ParseJsonFile(workspaceFile);

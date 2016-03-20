@@ -6,7 +6,7 @@
 
 namespace blueprint
 {
-    class ParsingSession
+    class Session
     {
     public:
         void SetWorkspace(const filesystem::path& workspace);
