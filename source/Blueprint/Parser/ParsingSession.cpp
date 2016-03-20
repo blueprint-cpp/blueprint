@@ -1,4 +1,4 @@
-#include "blueprint/Parser/ParsingSession.hpp"
+#include "Blueprint/Parser/ParsingSession.hpp"
 
 #if defined(EXTERN_CLANG_ENABLED)
 
