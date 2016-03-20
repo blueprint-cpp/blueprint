@@ -1,4 +1,7 @@
 /build/blueprint
 /build/gmake
 /build/vs20*
+/build/premake5.exe
+/build/premake5
+/externs/llvm-*
 /output
