@@ -1,7 +1,7 @@
 #include <catch/catch.hpp>
 
+#include "Blueprint/Utilities/JsonImporter.hpp"
 #include "Blueprint/Utilities/WorkingDirectory.hpp"
-#include "Blueprint/Workspace/JsonImporter.hpp"
 
 #include <json/json.hpp>
 
