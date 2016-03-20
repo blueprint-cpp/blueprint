@@ -76,6 +76,11 @@ namespace clang
         return clang_getCursorLocation(cursor_);
     }
 
+    SourceRange Cursor::GetSourceRange() const
+    {
+        return clang_getCursorExtent(cursor_);
+    }
+
     Type Cursor::GetType() const
     {
         return clang_getCursorType(cursor_);

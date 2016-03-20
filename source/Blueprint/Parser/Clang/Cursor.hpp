@@ -2,7 +2,7 @@
 
 #if defined(EXTERN_CLANG_ENABLED)
 
-#include "Blueprint/Parser/Clang/SourceLocation.hpp"
+#include "Blueprint/Parser/Clang/SourceRange.hpp"
 #include "Blueprint/Parser/Clang/Type.hpp"
 
 #include <vector>
@@ -43,6 +43,7 @@ namespace clang
         Cursor GetLexicalParent() const;
 
         SourceLocation GetSourceLocation() const;
+        SourceRange GetSourceRange() const;
         Type GetType() const;
 
         size_t GetOffsetOfField() const;
