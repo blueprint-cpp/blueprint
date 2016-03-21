@@ -109,8 +109,8 @@ function AddExternClangLib()
         libclang = "clang"
         libclangPath = "/usr/local/opt/llvm37/lib/llvm-3.7/lib"
     elseif os.get() == "linux" then
-        libclang = ":libclang-3.7.so.1"
-        libclangPath = "/usr/lib/llvm-3.7/lib"
+        libclang = ":libclang-3.8.so.1"
+        libclangPath = "/usr/lib/llvm-3.8/lib"
     elseif os.get() == "windows" then
         libclang = "libclang"
         libclangPath = "../externs/llvm-3.8.0/lib"
