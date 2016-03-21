@@ -11,6 +11,8 @@ namespace reflection
     class TypeVisitor
     {
     public:
+        virtual ~TypeVisitor() = default;
+
         virtual void Visit(const TypeRegistry& registry) = 0;
         virtual void Visit(const ClassType& type) = 0;
         virtual void Visit(const EnumType& type) = 0;

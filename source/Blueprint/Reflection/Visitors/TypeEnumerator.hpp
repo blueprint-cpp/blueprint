@@ -12,9 +12,8 @@ namespace reflection
     {
     public:
         virtual void Visit(const TypeRegistry& /*registry*/) override {}
-
         virtual void Visit(const ClassType& type) override;
-        virtual void Visit(const EnumType&  type) override;
+        virtual void Visit(const EnumType& type) override;
 
     public:
         const std::vector<const ClassType*>& GetClasses() const;

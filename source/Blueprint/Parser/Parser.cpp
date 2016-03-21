@@ -82,6 +82,11 @@ namespace blueprint
                 for (auto& type : classes)
                 {
                     std::cout << ">>> " << type->GetFullName() << std::endl;
+
+                    for (auto& base : type->GetBaseClasses())
+                    {
+                        std::cout << ">>>> extends " << base->GetFullName() << std::endl;
+                    }
                 }
             }
 
