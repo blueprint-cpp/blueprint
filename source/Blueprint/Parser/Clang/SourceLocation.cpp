@@ -14,12 +14,14 @@ namespace clang
         CXFile file;
         unsigned line;
         unsigned column;
+        unsigned offset;
 
-        clang_getSpellingLocation(sourceLocation_, &file, &line, &column, nullptr);
+        clang_getSpellingLocation(sourceLocation_, &file, &line, &column, &offset);
 
         file_ = String(clang_getFileName(file)).Get();
         line_ = line;
         column_ = column;
+        offset_ = offset;
     }
 
     const filesystem::path& SourceLocation::GetFile() const
@@ -35,6 +37,11 @@ namespace clang
     size_t SourceLocation::GetColumn() const
     {
         return column_;
+    }
+
+    size_t SourceLocation::GetOffset() const
+    {
+        return offset_;
     }
 }
 }

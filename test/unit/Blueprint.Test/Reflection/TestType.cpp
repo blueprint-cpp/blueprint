@@ -79,22 +79,22 @@ TEST_CASE("TestType")
         }
     }
 
-    SECTION("SourceLocation")
+    SECTION("Source Location")
     {
         SourceLocation locationA;
         locationA.SetFile("file_A");
-        locationA.SetLine(11);
-        locationA.SetColumn(22);
+        locationA.SetStartPosition(SourcePosition(11, 22, 33));
+        locationA.SetEndPosition(SourcePosition(44, 55, 66));
 
         type.SetSourceLocation(locationA);
-        CHECK(type.GetSourceLocation().ToString() == "file_A (11:22)");
+        CHECK(type.GetSourceLocation().ToString() == "file_A (11:22:33)-(44:55:66)");
 
         SourceLocation locationB;
         locationB.SetFile("file_B");
-        locationB.SetLine(33);
-        locationB.SetColumn(44);
+        locationB.SetStartPosition(SourcePosition(77, 88, 99));
+        locationB.SetEndPosition(SourcePosition(11, 22, 33));
 
         type.SetSourceLocation(locationB);
-        CHECK(type.GetSourceLocation().ToString() == "file_B (33:44)");
+        CHECK(type.GetSourceLocation().ToString() == "file_B (77:88:99)-(11:22:33)");
     }
 }

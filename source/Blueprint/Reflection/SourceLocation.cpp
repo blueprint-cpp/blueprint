@@ -14,30 +14,41 @@ namespace reflection
         return file_;
     }
 
-    void SourceLocation::SetLine(size_t line)
+    void SourceLocation::SetStartPosition(const SourcePosition& start)
     {
-        line_ = line;
+        start_ = start;
     }
 
-    size_t SourceLocation::GetLine() const
+    const SourcePosition& SourceLocation::GetStartPosition() const
     {
-        return line_;
+        return start_;
     }
 
-    void SourceLocation::SetColumn(size_t column)
+    SourcePosition& SourceLocation::GetStartPosition()
     {
-        column_ = column;
+        return start_;
     }
 
-    size_t SourceLocation::GetColumn() const
+    void SourceLocation::SetEndPosition(const SourcePosition& end)
     {
-        return column_;
+        end_ = end;
+    }
+
+    const SourcePosition& SourceLocation::GetEndPosition() const
+    {
+        return end_;
+    }
+
+    SourcePosition& SourceLocation::GetEndPosition()
+    {
+        return end_;
     }
 
     std::string SourceLocation::ToString() const
     {
-        std::string file = !file_.empty() ? file_.str(filesystem::path::posix_path) : "<invalid>";
-        return file + " (" + std::to_string(line_) + ":" + std::to_string(column_) + ")";
+        return (!file_.empty() ? file_.str(filesystem::path::posix_path) : "<invalid>")
+            + " " + start_.ToString()
+            + "-" + end_.ToString();
     }
 }
 }

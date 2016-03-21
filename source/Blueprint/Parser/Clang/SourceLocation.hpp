@@ -17,6 +17,7 @@ namespace clang
         const filesystem::path& GetFile() const;
         size_t GetLine() const;
         size_t GetColumn() const;
+        size_t GetOffset() const;
 
         std::string ToString() const;
 
@@ -26,6 +27,7 @@ namespace clang
         filesystem::path file_;
         size_t line_{0};
         size_t column_{0};
+        size_t offset_{0};
     };
 }
 }

@@ -12,9 +12,8 @@ TEST_CASE("TestSourceLocation")
     SECTION("Default State")
     {
         CHECK(location.GetFile().empty());
-        CHECK(location.GetLine() == 0);
-        CHECK(location.GetColumn() == 0);
-        CHECK(location.ToString() == "<invalid> (0:0)");
+        CHECK(location.GetStartPosition() == SourcePosition());
+        CHECK(location.GetEndPosition() == SourcePosition());
     }
 
     SECTION("File")
@@ -26,33 +25,17 @@ TEST_CASE("TestSourceLocation")
         CHECK(NormalizedPath(location.GetFile()) == "some/other/file");
     }
 
-    SECTION("Line")
-    {
-        location.SetLine(666);
-        CHECK(location.GetLine() == 666);
-
-        location.SetLine(1337);
-        CHECK(location.GetLine() == 1337);
-    }
-
-    SECTION("Column")
-    {
-        location.SetColumn(666);
-        CHECK(location.GetColumn() == 666);
-
-        location.SetColumn(1337);
-        CHECK(location.GetColumn() == 1337);
-    }
-
     SECTION("ToString")
     {
+        CHECK(location.ToString() == "<invalid> (0:0:0)-(0:0:0)");
+
         location.SetFile("some/file");
-        CHECK(location.ToString() == "some/file (0:0)");
+        CHECK(location.ToString() == "some/file (0:0:0)-(0:0:0)");
 
-        location.SetLine(7);
-        CHECK(location.ToString() == "some/file (7:0)");
+        location.SetStartPosition(SourcePosition(1, 2, 3));
+        CHECK(location.ToString() == "some/file (1:2:3)-(0:0:0)");
 
-        location.SetColumn(13);
-        CHECK(location.ToString() == "some/file (7:13)");
+        location.SetEndPosition(SourcePosition(4, 5, 6));
+        CHECK(location.ToString() == "some/file (1:2:3)-(4:5:6)");
     }
 }

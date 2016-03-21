@@ -47,15 +47,23 @@ namespace blueprint
         type->SetName(cursor.GetSpelling().Get());
         type->SetNamespace(namespace_);
 
-        auto cursorLocation = cursor.GetSourceLocation();
+        auto cursorRange = cursor.GetSourceRange();
+        auto cursorStart = cursorRange.GetStart();
+        auto cursorEnd = cursorRange.GetEnd();
 
-        reflection::SourceLocation typeLocation;
+        reflection::SourceLocation location;
 
-        typeLocation.SetFile(cursorLocation.GetFile());
-        typeLocation.SetLine(cursorLocation.GetLine());
-        typeLocation.SetColumn(cursorLocation.GetColumn());
+        location.SetFile(cursorRange.GetStart().GetFile());
 
-        type->SetSourceLocation(typeLocation);
+        location.GetStartPosition().SetLine(cursorStart.GetLine());
+        location.GetStartPosition().SetColumn(cursorStart.GetColumn());
+        location.GetStartPosition().SetOffset(cursorStart.GetOffset());
+
+        location.GetEndPosition().SetLine(cursorEnd.GetLine());
+        location.GetEndPosition().SetColumn(cursorEnd.GetColumn());
+        location.GetEndPosition().SetOffset(cursorEnd.GetOffset());
+
+        type->SetSourceLocation(location);
     }
 }
 
