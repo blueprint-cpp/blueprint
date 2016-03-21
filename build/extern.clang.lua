@@ -107,7 +107,7 @@ function AddExternClangLib()
 
     if os.get() == "macosx" then
         libclang = "clang"
-        libclangPath = "/usr/local/opt/llvm37/lib/llvm-3.7/lib"
+        libclangPath = "/usr/local/opt/llvm38/lib/llvm-3.8/lib"
     elseif os.get() == "linux" then
         libclang = ":libclang-3.8.so.1"
         libclangPath = "/usr/lib/llvm-3.8/lib"
