@@ -1,7 +1,5 @@
 #pragma once
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Parser/Visitors/VisitContext.hpp"
 
 namespace blueprint { namespace reflection { class EnumType; } }
@@ -18,5 +16,3 @@ namespace blueprint
         static void FillEnum(reflection::EnumType* enumType, const clang::Cursor& cursor);
     };
 }
-
-#endif

@@ -1,7 +1,5 @@
 #pragma once
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Reflection/Namespace.hpp"
 
 #include <memory>
@@ -31,5 +29,3 @@ namespace blueprint
         reflection::Namespace namespace_;
     };
 }
-
-#endif

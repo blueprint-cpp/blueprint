@@ -1,7 +1,5 @@
 #pragma once
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Reflection/Namespace.hpp"
 
 namespace blueprint { namespace clang { class Cursor; } }
@@ -22,5 +20,3 @@ namespace blueprint
         reflection::Namespace namespace_;
     };
 }
-
-#endif

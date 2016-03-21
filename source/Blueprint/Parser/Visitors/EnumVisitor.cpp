@@ -1,7 +1,5 @@
 #include "Blueprint/Parser/Visitors/EnumVisitor.hpp"
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Parser/Clang/Cursor.hpp"
 #include "Blueprint/Reflection/EnumType.hpp"
 
@@ -42,5 +40,3 @@ namespace blueprint
         }
     }
 }
-
-#endif

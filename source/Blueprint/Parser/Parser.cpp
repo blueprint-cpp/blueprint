@@ -1,7 +1,5 @@
 #include "Blueprint/Parser/Parser.hpp"
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Parser/Clang/Index.hpp"
 #include "Blueprint/Parser/Visitors/NamespaceVisitor.hpp"
 #include "Blueprint/Parser/CommandLineArguments.hpp"
@@ -265,5 +263,3 @@ namespace blueprint
         return true;
     }
 }
-
-#endif

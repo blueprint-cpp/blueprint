@@ -1,7 +1,5 @@
 #pragma once
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include <filesystem/path.h>
 
 #include <memory>
@@ -41,5 +39,3 @@ namespace blueprint
         bool verbose_{false};
     };
 }
-
-#endif

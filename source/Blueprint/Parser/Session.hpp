@@ -1,7 +1,5 @@
 #pragma once
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include <filesystem/path.h>
 
 namespace blueprint
@@ -25,5 +23,3 @@ namespace blueprint
         filesystem::path outputDirectory_;
     };
 }
-
-#endif

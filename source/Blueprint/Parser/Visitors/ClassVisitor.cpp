@@ -1,7 +1,5 @@
 #include "Blueprint/Parser/Visitors/ClassVisitor.hpp"
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Parser/Clang/Cursor.hpp"
 #include "Blueprint/Parser/Visitors/EnumVisitor.hpp"
 #include "Blueprint/Reflection/ClassType.hpp"
@@ -86,5 +84,3 @@ namespace blueprint
         }
     }
 }
-
-#endif

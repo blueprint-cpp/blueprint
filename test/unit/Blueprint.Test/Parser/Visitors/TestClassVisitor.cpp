@@ -1,7 +1,5 @@
 #include <catch/catch.hpp>
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Parser/Visitors/ClassVisitor.hpp"
 #include "Blueprint/Reflection/ClassType.hpp"
 #include "Blueprint/Reflection/EnumType.hpp"
@@ -226,5 +224,3 @@ TEST_CASE_METHOD(ClassVisitorFixture, "TestClassVisitor")
         REQUIRE(nestedC->GetNestedTypes().empty());
     }
 }
-
-#endif

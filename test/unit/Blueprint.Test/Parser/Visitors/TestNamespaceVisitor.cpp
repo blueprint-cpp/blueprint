@@ -4,8 +4,6 @@
 #include "Blueprint/Reflection/TypeRegistry.hpp"
 #include "TestHelpers/BufferParser.hpp"
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 using namespace blueprint;
 using namespace blueprint::reflection;
 
@@ -71,5 +69,3 @@ TEST_CASE_METHOD(NamespaceVisitorFixture, "TestNamespaceVisitor")
         CHECK(typeRegistry_.Find("scopeA::scopeB::SomeEnum") != nullptr);
     }
 }
-
-#endif

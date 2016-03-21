@@ -1,7 +1,5 @@
 #include "Blueprint/Parser/Clang/Cursor.hpp"
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include <cassert>
 #include <iostream>
 
@@ -155,5 +153,3 @@ namespace clang
     }
 }
 }
-
-#endif

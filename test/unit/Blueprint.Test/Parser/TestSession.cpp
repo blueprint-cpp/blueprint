@@ -1,7 +1,5 @@
 #include <catch/catch.hpp>
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Parser/Session.hpp"
 #include "TestHelpers/FileSystem.hpp"
 
@@ -47,5 +45,3 @@ TEST_CASE("TestSession")
         CHECK(session.GetArguments()[1] == "arg_B");
     }
 }
-
-#endif

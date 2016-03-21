@@ -1,7 +1,5 @@
 #pragma once
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Parser/Clang/Cursor.hpp"
 #include "Blueprint/Parser/Clang/Diagnostic.hpp"
 
@@ -32,5 +30,3 @@ namespace clang
     };
 }
 }
-
-#endif

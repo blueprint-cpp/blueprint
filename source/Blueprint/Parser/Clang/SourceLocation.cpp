@@ -1,7 +1,5 @@
 #include "Blueprint/Parser/Clang/SourceLocation.hpp"
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Parser/Clang/String.hpp"
 
 namespace blueprint
@@ -45,5 +43,3 @@ namespace clang
     }
 }
 }
-
-#endif

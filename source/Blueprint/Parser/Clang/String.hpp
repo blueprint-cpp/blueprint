@@ -1,7 +1,5 @@
 #pragma once
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include <clang-c/Index.h>
 
 #include <string>
@@ -27,5 +25,3 @@ namespace clang
     };
 }
 }
-
-#endif

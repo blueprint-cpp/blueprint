@@ -1,7 +1,5 @@
 #pragma once
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Parser/Clang/SourceRange.hpp"
 #include "Blueprint/Parser/Clang/Type.hpp"
 
@@ -54,5 +52,3 @@ namespace clang
     };
 }
 }
-
-#endif

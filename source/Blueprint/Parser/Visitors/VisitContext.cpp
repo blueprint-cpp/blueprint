@@ -1,7 +1,5 @@
 #include "Blueprint/Parser/Visitors/VisitContext.hpp"
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Parser/Clang/Cursor.hpp"
 #include "Blueprint/Reflection/ClassType.hpp"
 #include "Blueprint/Reflection/Namespace.hpp"
@@ -71,5 +69,3 @@ namespace blueprint
         type->SetSourceLocation(location);
     }
 }
-
-#endif

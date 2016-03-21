@@ -1,7 +1,5 @@
 #pragma once
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Parser/Clang/TranslationUnit.hpp"
 
 namespace blueprint { class CommandLineArguments; }
@@ -28,5 +26,3 @@ namespace clang
     };
 }
 }
-
-#endif

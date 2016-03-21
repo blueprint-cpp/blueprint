@@ -1,7 +1,5 @@
 #include "Blueprint/Parser/Session.hpp"
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 namespace blueprint
 {
     void Session::SetWorkspace(const filesystem::path& workspace)
@@ -34,5 +32,3 @@ namespace blueprint
         return arguments_;
     }
 }
-
-#endif

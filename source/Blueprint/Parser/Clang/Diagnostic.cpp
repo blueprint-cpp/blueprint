@@ -1,7 +1,5 @@
 #include "Blueprint/Parser/Clang/Diagnostic.hpp"
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 namespace blueprint
 {
 namespace clang
@@ -58,5 +56,3 @@ namespace clang
     }
 }
 }
-
-#endif

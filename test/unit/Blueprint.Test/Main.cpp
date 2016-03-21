@@ -20,10 +20,8 @@ int main(int argc, const char* argv[])
 {
     ChangeCWD(argc, argv);
 
-#if defined(EXTERN_CLANG_ENABLED)
     std::cout << "{ libclang index version " << CINDEX_VERSION_STRING << " }" << std::endl;
     std::cout << "{ libclang " << blueprint::clang::String(clang_getClangVersion()).Get() << " }" << std::endl;
-#endif
 
     return Catch::Session().run();
 }

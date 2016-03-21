@@ -99,14 +99,10 @@ namespace blueprint
             return 0;
         }
 
-    #if defined(EXTERN_CLANG_ENABLED)
         blueprint::Parser parser;
         parser.SetListTypes(options.listTypes);
         parser.SetVerbose(options.verbose);
         parser.ParseWorkspace(options.filename);
-    #else
-        std::cout << "clang is not available" << std::endl;
-    #endif
 
         return 0;
     }

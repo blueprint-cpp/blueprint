@@ -1,7 +1,5 @@
 #include <catch/catch.hpp>
 
-#if defined(EXTERN_CLANG_ENABLED)
-
 #include "Blueprint/Parser/Visitors/EnumVisitor.hpp"
 #include "Blueprint/Reflection/EnumType.hpp"
 #include "Blueprint/Reflection/TypeRegistry.hpp"
@@ -88,5 +86,3 @@ TEST_CASE_METHOD(EnumVisitorFixture, "TestEnumVisitor")
         CHECK(enumType->GetSize() == sizeof(int));
     }
 }
-
-#endif
