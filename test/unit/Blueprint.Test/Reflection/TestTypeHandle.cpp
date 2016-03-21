@@ -5,10 +5,36 @@
 #include "Blueprint/Reflection/TypeHandle.hpp"
 #include "Blueprint/Reflection/TypeRegistry.hpp"
 
+using namespace blueprint::reflection;
+
+namespace
+{
+    struct RegisteredTypes
+    {
+        RegisteredTypes()
+        {
+            auto typeA = std::make_unique<ClassType>();
+            auto typeB = std::make_unique<EnumType>();
+
+            typeA->SetTypeId(0xA);
+            typeB->SetTypeId(0xB);
+
+            addressA = typeA.get();
+            addressB = typeB.get();
+
+            registry.Register(std::move(typeA));
+            registry.Register(std::move(typeB));
+        }
+
+        const Type* addressA{nullptr};
+        const Type* addressB{nullptr};
+
+        TypeRegistry registry;
+    };
+}
+
 TEST_CASE("TestTypeHandle")
 {
-    using namespace blueprint::reflection;
-
     SECTION("Construction")
     {
         SECTION("Default")
@@ -48,14 +74,34 @@ TEST_CASE("TestTypeHandle")
         }
     }
 
-    SECTION("GetType")
+    SECTION("Validity")
     {
-        auto typeA = std::make_unique<ClassType>();
-        auto typeB = std::make_unique<EnumType>();
+        TypeHandle handleA(0xA);
+        TypeHandle handleB(0xB);
 
-        typeA->SetTypeId(0xA);
-        typeB->SetTypeId(0xB);
+        SECTION("Invalid if type not registered")
+        {
+            const bool testA = handleA;
+            const bool testB = handleB;
 
+            CHECK(testA == false);
+            CHECK(testB == false);
+        }
+
+        SECTION("Valid if type is registered")
+        {
+            RegisteredTypes types;
+
+            const bool testA = handleA;
+            const bool testB = handleB;
+
+            CHECK(testA == true);
+            CHECK(testB == true);
+        }
+    }
+
+    SECTION("Get")
+    {
         TypeHandle handleA(0xA);
         TypeHandle handleB(0xB);
 
@@ -67,16 +113,13 @@ TEST_CASE("TestTypeHandle")
 
         SECTION("Returns types if properly registered in the registry")
         {
-            auto addressA = typeA.get();
-            auto addressB = typeB.get();
+            RegisteredTypes types;
 
-            TypeRegistry registry;
+            CHECK(handleA.Get() == types.addressA);
+            CHECK(handleB.Get() == types.addressB);
 
-            registry.Register(std::move(typeA));
-            registry.Register(std::move(typeB));
-
-            CHECK(handleA.Get() == addressA);
-            CHECK(handleB.Get() == addressB);
+            CHECK(handleA->GetTypeId() == 0xA);
+            CHECK(handleB->GetTypeId() == 0xB);
         }
     }
 }

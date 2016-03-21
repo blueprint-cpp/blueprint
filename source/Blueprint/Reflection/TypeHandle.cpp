@@ -20,6 +20,16 @@ namespace reflection
         return !(*this == other);
     }
 
+    TypeHandle::operator bool() const
+    {
+        return Get() != nullptr;
+    }
+
+    const Type* TypeHandle::operator->() const
+    {
+        return Get();
+    }
+
     uint64_t TypeHandle::GetId() const
     {
         return typeId_;
