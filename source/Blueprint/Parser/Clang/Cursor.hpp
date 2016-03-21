@@ -14,16 +14,10 @@ namespace clang
     class Cursor
     {
     public:
-        Cursor() = default;
+        Cursor();
+        Cursor(CXCursor cursor);
 
-        Cursor(CXCursor cursor)
-            : cursor_(cursor)
-        {}
-
-        explicit operator CXCursor() const
-        {
-            return cursor_;
-        }
+        explicit operator CXCursor() const;
 
     public:
         bool IsInSystemHeader() const;
@@ -53,7 +47,7 @@ namespace clang
 
         void VisitChildren(CXCursorVisitor visitor, CXClientData data) const;
 
-        void DebugPrint(size_t indent = 0, bool ignoreSystemHeaders = true);
+        void DebugPrint(size_t indent = 0, bool ignoreSystemHeaders = true) const;
 
     private:
         CXCursor cursor_;

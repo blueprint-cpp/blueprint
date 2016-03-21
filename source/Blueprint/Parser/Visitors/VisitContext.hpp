@@ -24,7 +24,7 @@ namespace blueprint
         const reflection::ClassType* FindClass(const clang::Type& type) const;
 
         void RegisterType(std::unique_ptr<reflection::Type> type);
-        void FillType(reflection::Type* type, const clang::Cursor& cursor);
+        void FillType(reflection::Type* type, const clang::Cursor& cursor, const clang::Cursor& parent);
 
     private:
         reflection::TypeRegistry& typeRegistry_;

@@ -11,6 +11,7 @@ TEST_CASE("TestClassType")
     SECTION("Default State")
     {
         CHECK(classType.GetBaseClasses().empty());
+        CHECK(classType.GetNestedTypes().empty());
         CHECK(classType.GetMethods().empty());
         CHECK(classType.GetFields().empty());
     }
@@ -28,6 +29,29 @@ TEST_CASE("TestClassType")
         classType.AddBaseClass(&parentB);
         REQUIRE(classType.GetBaseClasses().size() == 2);
         CHECK(classType.GetBaseClasses()[1] == &parentB);
+    }
+
+    SECTION("Nested Types")
+    {
+        SECTION("Invalid handles are ignored")
+        {
+            classType.AddNestedType(TypeHandle());
+            CHECK(classType.GetNestedTypes().empty());
+
+            classType.AddNestedType(0);
+            CHECK(classType.GetNestedTypes().empty());
+        }
+
+        SECTION("Valid handles are added")
+        {
+            classType.AddNestedType(0xA);
+            REQUIRE(classType.GetNestedTypes().size() == 1);
+            CHECK(classType.GetNestedTypes()[0].GetId() == 0xA);
+
+            classType.AddNestedType(0xB);
+            REQUIRE(classType.GetNestedTypes().size() == 2);
+            CHECK(classType.GetNestedTypes()[1].GetId() == 0xB);
+        }
     }
 
     SECTION("Methods")

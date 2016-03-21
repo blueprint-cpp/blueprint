@@ -3,6 +3,7 @@
 #if defined(EXTERN_CLANG_ENABLED)
 
 #include "Blueprint/Parser/Clang/Cursor.hpp"
+#include "Blueprint/Parser/Visitors/EnumVisitor.hpp"
 #include "Blueprint/Reflection/ClassType.hpp"
 
 #include <cassert>
@@ -11,12 +12,17 @@ namespace blueprint
 {
     void ClassVisitor::Visit(VisitContext& context, const clang::Cursor& cursor)
     {
+        Visit(context, cursor, clang::Cursor());
+    }
+
+    void ClassVisitor::Visit(VisitContext& context, const clang::Cursor& cursor, const clang::Cursor& parent)
+    {
         assert(cursor.IsOfKind(CXCursor_ClassDecl) || cursor.IsOfKind(CXCursor_StructDecl));
 
         if (cursor.IsDefinition() && !context.IsTypeRegistered(cursor.GetType()))
         {
             auto type = std::make_unique<reflection::ClassType>();
-            context.FillType(type.get(), cursor);
+            context.FillType(type.get(), cursor, parent);
 
             FillClass(context, type.get(), cursor);
             context.RegisterType(std::move(type));
@@ -54,6 +60,23 @@ namespace blueprint
                     field.SetOffset(child.GetOffsetOfField());
 
                     classType->AddField(field);
+                }
+                break;
+
+                case CXCursor_ClassDecl:
+                case CXCursor_StructDecl:
+                {
+                    ClassVisitor::Visit(context, child, cursor);
+
+                    classType->AddNestedType(child.GetType().GetTypeId());
+                }
+                break;
+
+                case CXCursor_EnumDecl:
+                {
+                    EnumVisitor::Visit(context, child, cursor);
+
+                    classType->AddNestedType(child.GetType().GetTypeId());
                 }
                 break;
 

@@ -13,6 +13,9 @@ namespace reflection
         void AddBaseClass(const ClassType* baseClass);
         const std::vector<const ClassType*>& GetBaseClasses() const;
 
+        void AddNestedType(const TypeHandle& nestedType);
+        const std::vector<TypeHandle>& GetNestedTypes() const;
+
         void AddMethod(const std::string& method);
         const std::vector<std::string>& GetMethods() const;
 
@@ -23,6 +26,7 @@ namespace reflection
 
     private:
         std::vector<const ClassType*> baseClasses_;
+        std::vector<TypeHandle> nestedTypes_;
 
         std::vector<std::string> methods_;
         std::vector<Field> fields_;

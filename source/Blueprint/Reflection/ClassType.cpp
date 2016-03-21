@@ -16,6 +16,19 @@ namespace reflection
         return baseClasses_;
     }
 
+    void ClassType::AddNestedType(const TypeHandle& nestedType)
+    {
+        if (nestedType.GetId() != 0)
+        {
+            nestedTypes_.push_back(nestedType);
+        }
+    }
+
+    const std::vector<TypeHandle>& ClassType::GetNestedTypes() const
+    {
+        return nestedTypes_;
+    }
+
     void ClassType::AddMethod(const std::string& method)
     {
         methods_.push_back(method);

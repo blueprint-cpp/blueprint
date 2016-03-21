@@ -6,9 +6,9 @@ namespace blueprint
 {
 namespace clang
 {
-    bool Type::IsOfKind(CXTypeKind kind) const
+    Type Type::GetCanonical() const
     {
-        return type_.kind == kind;
+        return clang_getCanonicalType(type_);
     }
 
     CXTypeKind Type::GetKind() const
@@ -16,9 +16,24 @@ namespace clang
         return type_.kind;
     }
 
+    bool Type::IsOfKind(CXTypeKind kind) const
+    {
+        return type_.kind == kind;
+    }
+
+    bool Type::IsBuiltInType() const
+    {
+        return type_.kind >= CXType_FirstBuiltin && type_.kind <= CXType_LastBuiltin;
+    }
+
     String Type::GetSpelling() const
     {
         return clang_getTypeSpelling(type_);
+    }
+
+    String Type::GetKindSpelling(CXTypeKind kind)
+    {
+        return clang_getTypeKindSpelling(kind);
     }
 
     uint64_t Type::GetTypeId() const

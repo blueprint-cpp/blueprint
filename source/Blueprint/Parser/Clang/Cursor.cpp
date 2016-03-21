@@ -9,6 +9,19 @@ namespace blueprint
 {
 namespace clang
 {
+    Cursor::Cursor()
+        : cursor_(clang_getNullCursor())
+    {}
+
+    Cursor::Cursor(CXCursor cursor)
+        : cursor_(cursor)
+    {}
+
+    Cursor::operator CXCursor() const
+    {
+        return cursor_;
+    }
+
     bool Cursor::IsInSystemHeader() const
     {
         auto location = clang_getCursorLocation(cursor_);
@@ -115,14 +128,25 @@ namespace clang
         clang_visitChildren(cursor_, visitor, data);
     }
 
-    void Cursor::DebugPrint(size_t indent, bool ignoreSystemHeaders)
+    void Cursor::DebugPrint(size_t indent, bool ignoreSystemHeaders) const
     {
         if (ignoreSystemHeaders && IsInSystemHeader())
         {
             return;
         }
 
-        std::cout << std::string(indent, ' ') << GetKindSpelling().Get() << " : " << GetSpelling().Get() << std::endl;
+        std::cout << std::string(indent, ' ') << GetKindSpelling().Get() << " : " << GetType().GetSpelling().Get();
+
+        if (GetType().IsBuiltInType())
+        {
+            std::cout << " (builtin)";
+        }
+        else if (GetType().GetCanonical().IsBuiltInType())
+        {
+            std::cout << " (canonical -> " << GetType().GetCanonical().GetSpelling().Get() << ")";
+        }
+
+        std::cout << std::endl;
 
         for (auto& child : GetChildren())
         {
