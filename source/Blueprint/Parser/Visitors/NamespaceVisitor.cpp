@@ -11,6 +11,8 @@
 
 namespace blueprint
 {
+namespace clang
+{
     NamespaceVisitor::NamespaceVisitor(reflection::TypeRegistry& typeRegistry)
         : typeRegistry_(typeRegistry)
     {}
@@ -73,4 +75,5 @@ namespace blueprint
             }
         }
     }
+}
 }

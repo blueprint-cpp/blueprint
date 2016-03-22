@@ -7,6 +7,8 @@
 
 namespace blueprint
 {
+namespace clang
+{
     void EnumVisitor::Visit(VisitContext& context, const clang::Cursor& cursor)
     {
         Visit(context, cursor, clang::Cursor());
@@ -39,4 +41,5 @@ namespace blueprint
             enumType->AddEntry(child.GetSpelling().Get(), value);
         }
     }
+}
 }

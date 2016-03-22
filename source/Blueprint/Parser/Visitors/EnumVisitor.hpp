@@ -6,6 +6,8 @@ namespace blueprint { namespace reflection { class EnumType; } }
 
 namespace blueprint
 {
+namespace clang
+{
     class EnumVisitor
     {
     public:
@@ -15,4 +17,5 @@ namespace blueprint
     private:
         static void FillEnum(reflection::EnumType* enumType, const clang::Cursor& cursor);
     };
+}
 }

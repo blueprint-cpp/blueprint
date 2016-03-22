@@ -7,6 +7,8 @@ namespace blueprint { namespace reflection { class TypeRegistry; } }
 
 namespace blueprint
 {
+namespace clang
+{
     class NamespaceVisitor
     {
     public:
@@ -19,4 +21,5 @@ namespace blueprint
         reflection::TypeRegistry& typeRegistry_;
         reflection::Namespace namespace_;
     };
+}
 }

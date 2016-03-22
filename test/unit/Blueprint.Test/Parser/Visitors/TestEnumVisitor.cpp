@@ -6,6 +6,7 @@
 #include "TestHelpers/BufferParser.hpp"
 
 using namespace blueprint;
+using namespace blueprint::clang;
 using namespace blueprint::reflection;
 
 struct EnumVisitorFixture

@@ -8,6 +8,8 @@
 
 namespace blueprint
 {
+namespace clang
+{
     void ClassVisitor::Visit(VisitContext& context, const clang::Cursor& cursor)
     {
         Visit(context, cursor, clang::Cursor());
@@ -83,4 +85,5 @@ namespace blueprint
             }
         }
     }
+}
 }

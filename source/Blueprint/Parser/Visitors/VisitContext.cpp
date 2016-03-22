@@ -9,6 +9,8 @@
 
 namespace blueprint
 {
+namespace clang
+{
     VisitContext::VisitContext(reflection::TypeRegistry& typeRegistry, const reflection::Namespace& ns)
         : typeRegistry_(typeRegistry)
         , namespace_(ns)
@@ -68,4 +70,5 @@ namespace blueprint
 
         type->SetSourceLocation(location);
     }
+}
 }

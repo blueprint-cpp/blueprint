@@ -6,6 +6,8 @@ namespace blueprint { namespace reflection { class ClassType; } }
 
 namespace blueprint
 {
+namespace clang
+{
     class ClassVisitor
     {
     public:
@@ -15,4 +17,5 @@ namespace blueprint
     private:
         static void FillClass(VisitContext& context, reflection::ClassType* classType, const clang::Cursor& cursor);
     };
+}
 }

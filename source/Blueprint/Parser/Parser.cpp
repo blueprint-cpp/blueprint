@@ -256,7 +256,7 @@ namespace blueprint
                 std::cout << " (visit: " << time << "s)";
             });*/
 
-            NamespaceVisitor visitor(pimpl_->GetTypeRegistry());
+            clang::NamespaceVisitor visitor(pimpl_->GetTypeRegistry());
             visitor.Visit(translationUnit.GetCursor());
         }
 
