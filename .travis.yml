@@ -15,16 +15,19 @@ compiler:
 addons:
   apt:
     sources: [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise' ]
-    packages: [ 'clang-3.8' ]
+    packages:
+        - clang-3.8
+        - libsqlite3-dev
 
 before_install:
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install llvm38; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+        brew update;
+        brew install llvm38;
+        brew install sqlite;
+      fi
 
 before_script:
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then CXX=clang++-3.8; fi
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then $CXX --version; fi
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then clang --version; fi
+    - clang-3.8 --version
     - build/buildtools-premake/bin/build.sh
     - build/buildtools-premake/bin/premake.sh --version
 
