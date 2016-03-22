@@ -2,8 +2,9 @@
 
 require("extern.clang")
 require("extern.filesystem")
-require("extern.philsquared")
 require("extern.json")
+require("extern.philsquared")
+require("extern.sqlite")
 
 function GenerateWorkspace()
     workspace( "Blueprint" )
@@ -61,6 +62,7 @@ function AddProject( projectName, sourcePath, projectKind, targetName, projectDe
     AddExternClangLib()
     AddExternFileSystem()
     AddExternJson()
+    AddExternSqlite()
 end
 
 function AddLibProject( projectName, sourcePath )
