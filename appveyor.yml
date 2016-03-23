@@ -1,15 +1,6 @@
 install:
-    - cd build
-    - appveyor DownloadFile https://github.com/premake/premake-core/releases/download/v5.0.0-alpha8/premake-5.0.0-alpha8-windows.zip
-    - 7z x premake-5.0.0-alpha8-windows.zip
-    - premake5.exe --version
-    - premake5.exe vs2015
-    - cd ..
+    - ps: build/setup-dependencies.ps1
 
-    - cd externs
-    - appveyor DownloadFile http://llvm.org/releases/3.8.0/LLVM-3.8.0-win64.exe
-    - 7z x LLVM-3.8.0-win64.exe
-    - rename $_OUTDIR llvm-3.8.0
-    - rmdir /S /Q $COMMONFILES
-    - rmdir /S /Q $PLUGINSDIR
+    - cd build
+    - dependencies\premake\premake5.exe vs2015
     - cd ..
