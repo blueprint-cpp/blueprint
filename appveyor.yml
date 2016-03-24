@@ -1,6 +1,6 @@
 install:
-    - ps: build/setup-dependencies.ps1
+    - choco install wget
+    - choco list -localonly
 
-    - cd build
-    - dependencies\premake\premake5.exe vs2015
-    - cd ..
+    - build\setup-dependencies.bat
+    - build\generate.bat
