@@ -2,7 +2,7 @@
 
 #if defined(_MSC_VER)
     #pragma warning(push)
-    #pragma warning(disable : 4705)
+    #pragma warning(disable : 4267)
 #endif
 
 #include <sqlite3pp/sqlite3pp.h>
