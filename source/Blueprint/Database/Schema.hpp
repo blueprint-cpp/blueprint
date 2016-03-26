@@ -1,6 +1,6 @@
 #pragma once
 
-#include <sqlite3pp/sqlite3pp.h>
+namespace sqlite3pp { class database; }
 
 namespace blueprint
 {

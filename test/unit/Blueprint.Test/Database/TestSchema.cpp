@@ -1,7 +1,7 @@
 #include <catch/catch.hpp>
 
 #include "Blueprint/Database/Schema.hpp"
-#include "Blueprint/Utilities/SqliteHelpers.hpp"
+#include "Blueprint/Database/SqliteHelpers.hpp"
 
 namespace
 {

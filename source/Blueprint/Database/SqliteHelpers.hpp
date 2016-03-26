@@ -1,6 +1,6 @@
 #pragma once
 
-#include <sqlite3pp/sqlite3pp.h>
+#include "Blueprint/Database/SqliteApi.hpp"
 
 namespace blueprint
 {

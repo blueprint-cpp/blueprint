@@ -1,5 +1,7 @@
 #include "Blueprint/Database/Schema.hpp"
 
+#include "Blueprint/Database/SqliteApi.hpp"
+
 namespace blueprint
 {
 namespace database
