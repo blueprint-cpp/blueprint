@@ -33,9 +33,10 @@ TEST_CASE("TestSchema")
 
         SECTION("Tables")
         {
-            CHECK(GetTableCount(db) == 5);
+            CHECK(GetTableCount(db) == 6);
             CHECK(ContainsTable(db, "sqlite_sequence"));
             CHECK(ContainsTable(db, "SourceFile"));
+            CHECK(ContainsTable(db, "SourceRange"));
             CHECK(ContainsTable(db, "SourceLocation"));
             CHECK(ContainsTable(db, "Namespace"));
             CHECK(ContainsTable(db, "Type"));
@@ -63,25 +64,47 @@ TEST_CASE("TestSchema")
             REQUIRE(++it == select.end());
         }
 
-        SECTION("SourceLocation")
+        SECTION("SourceRange")
         {
-            sqlite3pp::command insert(db, "INSERT INTO SourceLocation (file, line, column, offset) VALUES (?, ?, ?, ?)");
+            sqlite3pp::command insert(db, "INSERT INTO SourceRange (file, start, end) VALUES (?, ?, ?)");
 
-            CHECK(SQLITE_OK == ExecuteCommand(insert, 0xA, 1, 2, 3));
-            CHECK(SQLITE_OK == ExecuteCommand(insert, 0xB, 4, 5, 6));
+            CHECK(SQLITE_OK == ExecuteCommand(insert, "file_A", 11, 22));
+            CHECK(SQLITE_OK == ExecuteCommand(insert, "file_B", 33, 44));
 
-            sqlite3pp::query select(db, "SELECT * FROM SourceLocation");
-            REQUIRE(select.column_count() == 5);
+            sqlite3pp::query select(db, "SELECT * FROM SourceRange");
+            REQUIRE(select.column_count() == 4);
 
-            auto compare = [](auto row, auto arg1, auto arg2, auto arg3, auto arg4, auto arg5)
+            auto compare = [](auto row, auto arg1, auto arg2, auto arg3, auto arg4)
             {
-                auto columns = row.template get_columns<int, int, int, int, int>(0, 1, 2, 3, 4);
-                return columns == std::make_tuple(arg1, arg2, arg3, arg4, arg5);
+                auto columns = row.template get_columns<int, const char*, int, int>(0, 1, 2, 3);
+                return columns == std::make_tuple(arg1, arg2, arg3, arg4);
             };
 
             auto it = select.begin();
-            CHECK(compare(*it,     1, 0xA, 1, 2, 3));
-            CHECK(compare(*(++it), 2, 0xB, 4, 5, 6));
+            CHECK(compare(*it,     1, std::string("file_A"), 11, 22));
+            CHECK(compare(*(++it), 2, std::string("file_B"), 33, 44));
+            REQUIRE(++it == select.end());
+        }
+
+        SECTION("SourceLocation")
+        {
+            sqlite3pp::command insert(db, "INSERT INTO SourceLocation (line, column, offset) VALUES (?, ?, ?)");
+
+            CHECK(SQLITE_OK == ExecuteCommand(insert, 11, 22, 33));
+            CHECK(SQLITE_OK == ExecuteCommand(insert, 44, 55, 66));
+
+            sqlite3pp::query select(db, "SELECT * FROM SourceLocation");
+            REQUIRE(select.column_count() == 4);
+
+            auto compare = [](auto row, auto arg1, auto arg2, auto arg3, auto arg4)
+            {
+                auto columns = row.template get_columns<int, int, int, int>(0, 1, 2, 3);
+                return columns == std::make_tuple(arg1, arg2, arg3, arg4);
+            };
+
+            auto it = select.begin();
+            CHECK(compare(*it,     1, 11, 22, 33));
+            CHECK(compare(*(++it), 2, 44, 55, 66));
             REQUIRE(++it == select.end());
         }
 

@@ -18,6 +18,7 @@ namespace database
     void Schema::CreateTables()
     {
         CreateSourceFile();
+        CreateSourceRange();
         CreateSourceLocation();
         CreateNamespace();
         CreateType();
@@ -35,17 +36,32 @@ namespace database
         db_.execute(sql);
     }
 
+    void Schema::CreateSourceRange()
+    {
+        auto sql =
+            "CREATE TABLE SourceRange"
+            "("
+            "    id    INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "    file  INTEGER,"
+            "    start INTEGER,"
+            "    end   INTEGER,"
+            "    FOREIGN KEY (file)  REFERENCES SourceFile(crc)"
+            "    FOREIGN KEY (start) REFERENCES SourceLocation(id)"
+            "    FOREIGN KEY (end)   REFERENCES SourceLocation(id)"
+            ")";
+
+        db_.execute(sql);
+    }
+
     void Schema::CreateSourceLocation()
     {
         auto sql =
             "CREATE TABLE SourceLocation"
             "("
             "    id     INTEGER PRIMARY KEY AUTOINCREMENT,"
-            "    file   INTEGER,"
             "    line   INTEGER,"
             "    column INTEGER,"
-            "    offset INTEGER,"
-            "    FOREIGN KEY (file) REFERENCES SourceFile(crc)"
+            "    offset INTEGER"
             ")";
 
         db_.execute(sql);

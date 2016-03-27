@@ -19,6 +19,7 @@ namespace database
     private:
         void CreateTables();
         void CreateSourceFile();
+        void CreateSourceRange();
         void CreateSourceLocation();
         void CreateNamespace();
         void CreateType();
