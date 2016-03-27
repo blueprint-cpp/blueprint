@@ -20,6 +20,7 @@ namespace reflection
 
         bool IsGlobal() const;
         size_t GetDepth() const;
+        uint64_t GetCrc() const;
 
         std::string ToString() const;
 

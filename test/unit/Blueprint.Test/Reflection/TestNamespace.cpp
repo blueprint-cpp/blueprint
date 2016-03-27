@@ -8,12 +8,15 @@ TEST_CASE("TestNamespace")
 
     SECTION("Construction")
     {
+        std::hash<std::string> hash;
+
         SECTION("Default")
         {
             Namespace ns;
 
             CHECK(ns.IsGlobal() == true);
             CHECK(ns.GetDepth() == 0);
+            CHECK(ns.GetCrc()   == 0);
             CHECK(ns.ToString() == "");
         }
 
@@ -23,6 +26,7 @@ TEST_CASE("TestNamespace")
 
             CHECK(ns.IsGlobal() == true);
             CHECK(ns.GetDepth() == 0);
+            CHECK(ns.GetCrc()   == 0);
             CHECK(ns.ToString() == "");
         }
 
@@ -32,6 +36,7 @@ TEST_CASE("TestNamespace")
 
             CHECK(ns.IsGlobal() == false);
             CHECK(ns.GetDepth() == 1);
+            CHECK(ns.GetCrc()   == hash("foo"));
             CHECK(ns.ToString() == "foo");
         }
 
@@ -41,6 +46,7 @@ TEST_CASE("TestNamespace")
 
             CHECK(ns.IsGlobal() == false);
             CHECK(ns.GetDepth() == 3);
+            CHECK(ns.GetCrc()   == hash("level_1::level_2::level_3"));
             CHECK(ns.ToString() == "level_1::level_2::level_3");
         }
     }

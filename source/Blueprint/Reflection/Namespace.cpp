@@ -48,6 +48,12 @@ namespace reflection
         return names_.size();
     }
 
+    uint64_t Namespace::GetCrc() const
+    {
+        std::hash<std::string> hash;
+        return !names_.empty() ? hash(ToString()) : 0;
+    }
+
     std::string Namespace::ToString() const
     {
         std::string result;
