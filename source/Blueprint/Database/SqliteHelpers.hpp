@@ -14,22 +14,22 @@ namespace sqlite
             statement.bind(index, (int)value);
         }
 
-        void Bind(sqlite3pp::statement& statement, int index, float value)
+        inline void Bind(sqlite3pp::statement& statement, int index, float value)
         {
             statement.bind(index, value);
         }
 
-        void Bind(sqlite3pp::statement& statement, int index, double value)
+        inline void Bind(sqlite3pp::statement& statement, int index, double value)
         {
             statement.bind(index, value);
         }
 
-        void Bind(sqlite3pp::statement& statement, int index, const char* value)
+        inline void Bind(sqlite3pp::statement& statement, int index, const char* value)
         {
             statement.bind(index, value, sqlite3pp::nocopy);
         }
 
-        void Bind(sqlite3pp::statement& statement, int index, const std::string& value)
+        inline void Bind(sqlite3pp::statement& statement, int index, const std::string& value)
         {
             statement.bind(index, value.c_str(), sqlite3pp::copy);
         }

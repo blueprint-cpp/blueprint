@@ -51,18 +51,15 @@ TEST_CASE("TestSchema")
             sqlite3pp::query select(db, "SELECT * FROM SourceFile");
             REQUIRE(select.column_count() == 2);
 
+            auto compare = [](auto row, auto arg1, auto arg2)
+            {
+                auto columns = row.template get_columns<int, const char*>(0, 1);
+                return columns == std::make_tuple(arg1, arg2);
+            };
+
             auto it = select.begin();
-
-            REQUIRE(it != select.end());
-            CHECK((*it).get<int>(0) == 0xA);
-            CHECK((*it).get<const char*>(1) == std::string("some/file"));
-
-            ++it;
-
-            REQUIRE(it != select.end());
-            CHECK((*it).get<int>(0) == 0xB);
-            CHECK((*it).get<const char*>(1) == std::string("some/other/file"));
-
+            CHECK(compare(*it,     0xA, std::string("some/file")));
+            CHECK(compare(*(++it), 0xB, std::string("some/other/file")));
             REQUIRE(++it == select.end());
         }
 
@@ -76,24 +73,15 @@ TEST_CASE("TestSchema")
             sqlite3pp::query select(db, "SELECT * FROM SourceLocation");
             REQUIRE(select.column_count() == 5);
 
+            auto compare = [](auto row, auto arg1, auto arg2, auto arg3, auto arg4, auto arg5)
+            {
+                auto columns = row.template get_columns<int, int, int, int, int>(0, 1, 2, 3, 4);
+                return columns == std::make_tuple(arg1, arg2, arg3, arg4, arg5);
+            };
+
             auto it = select.begin();
-
-            REQUIRE(it != select.end());
-            CHECK((*it).get<int>(0) == 1);
-            CHECK((*it).get<int>(1) == 0xA);
-            CHECK((*it).get<int>(2) == 1);
-            CHECK((*it).get<int>(3) == 2);
-            CHECK((*it).get<int>(4) == 3);
-
-            ++it;
-
-            REQUIRE(it != select.end());
-            CHECK((*it).get<int>(0) == 2);
-            CHECK((*it).get<int>(1) == 0xB);
-            CHECK((*it).get<int>(2) == 4);
-            CHECK((*it).get<int>(3) == 5);
-            CHECK((*it).get<int>(4) == 6);
-
+            CHECK(compare(*it,     1, 0xA, 1, 2, 3));
+            CHECK(compare(*(++it), 2, 0xB, 4, 5, 6));
             REQUIRE(++it == select.end());
         }
 
@@ -107,18 +95,15 @@ TEST_CASE("TestSchema")
             sqlite3pp::query select(db, "SELECT * FROM Namespace");
             REQUIRE(select.column_count() == 2);
 
+            auto compare = [](auto row, auto arg1, auto arg2)
+            {
+                auto columns = row.template get_columns<int, const char*>(0, 1);
+                return columns == std::make_tuple(arg1, arg2);
+            };
+
             auto it = select.begin();
-
-            REQUIRE(it != select.end());
-            CHECK((*it).get<int>(0) == 0xA);
-            CHECK((*it).get<const char*>(1) == std::string("some::scope"));
-
-            ++it;
-
-            REQUIRE(it != select.end());
-            CHECK((*it).get<int>(0) == 0xB);
-            CHECK((*it).get<const char*>(1) == std::string("some::other::scope"));
-
+            CHECK(compare(*it,     0xA, std::string("some::scope")));
+            CHECK(compare(*(++it), 0xB, std::string("some::other::scope")));
             REQUIRE(++it == select.end());
         }
 
@@ -132,25 +117,16 @@ TEST_CASE("TestSchema")
             sqlite3pp::query select(db, "SELECT * FROM Type");
             REQUIRE(select.column_count() == 5);
 
+            auto compare = [](auto row, auto arg1, auto arg2, auto arg3, auto arg4, auto arg5)
+            {
+                auto columns = row.template get_columns<int, const char*, int, int, int>(0, 1, 2, 3, 4);
+                return columns == std::make_tuple(arg1, arg2, arg3, arg4, arg5);
+            };
+
             auto it = select.begin();
-
-            REQUIRE(it != select.end());
-            CHECK((*it).get<int>(0) == 0xA);
-            CHECK((*it).get<const char*>(1) == std::string("type_A"));
-            CHECK((*it).get<int>(2) == 1);
-            CHECK((*it).get<int>(3) == 2);
-            CHECK((*it).get<int>(4) == 3);
-
-            ++it;
-
-            REQUIRE(it != select.end());
-            CHECK((*it).get<int>(0) == 0xB);
-            CHECK((*it).get<const char*>(1) == std::string("type_B"));
-            CHECK((*it).get<int>(2) == 4);
-            CHECK((*it).get<int>(3) == 5);
-            CHECK((*it).get<int>(4) == 6);
-
-            REQUIRE(++it == select.end());
+            CHECK(compare(*it,     0xA, std::string("type_A"), 1, 2, 3));
+            CHECK(compare(*(++it), 0xB, std::string("type_B"), 4, 5, 6));
+            CHECK(++it == select.end());
         }
     }
 }
