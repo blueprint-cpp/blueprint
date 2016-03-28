@@ -23,5 +23,5 @@ int main(int argc, const char* argv[])
     std::cout << "{ libclang index version " << CINDEX_VERSION_STRING << " }" << std::endl;
     std::cout << "{ libclang " << blueprint::clang::String(clang_getClangVersion()).Get() << " }" << std::endl;
 
-    return Catch::Session().run();
+    return Catch::Session().run(argc - 1, &argv[1]);
 }
