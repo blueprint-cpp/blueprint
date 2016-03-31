@@ -1,5 +1,7 @@
 #include "Blueprint/Parser/Parser.hpp"
 
+#include "Blueprint/Database/Database.hpp"
+#include "Blueprint/Database/SqliteApi.hpp"
 #include "Blueprint/Parser/Clang/Index.hpp"
 #include "Blueprint/Parser/Visitors/NamespaceVisitor.hpp"
 #include "Blueprint/Parser/CommandLineArguments.hpp"
@@ -55,13 +57,39 @@ namespace blueprint
                 || extension == "hpp";
         }
 
-        void Dump(const reflection::TypeRegistry& registry)
+        void SaveTypes(const reflection::TypeEnumerator& enumerator)
         {
-            reflection::TypeEnumerator enumerator;
-            registry.Accept(enumerator);
-
             std::cout << std::endl;
-            std::cout << "> registry :" << std::endl;
+            std::cout << "> saving database :" << std::endl;
+
+            ScopeTimer timer([](double time) {
+                std::cout << time << "s" << std::endl;
+            });
+
+            sqlite3pp::database db("registry.db");
+            database::Database database(db);
+
+            auto& classes = enumerator.GetClasses();
+            auto& enums = enumerator.GetEnums();
+
+            std::vector<const reflection::Type*> types;
+            types.reserve(classes.size() + enums.size());
+
+            types.insert(types.end(), classes.begin(), classes.end());
+            types.insert(types.end(), enums.begin(), enums.end());
+
+            database.Initialize();
+            database.InsertTypes(types);
+        }
+
+        void ListTypes(const reflection::TypeEnumerator& enumerator)
+        {
+            std::cout << std::endl;
+            std::cout << "> listing types :" << std::endl;
+
+            ScopeTimer timer([](double time) {
+                std::cout << "> " << time << "s" << std::endl;
+            });
 
             auto sorter = [](auto lhs, auto rhs)
             {
@@ -77,14 +105,9 @@ namespace blueprint
 
                 std::sort(classes.begin(), classes.end(), sorter);
 
-                for (auto& type : classes)
+                for (auto type : classes)
                 {
                     std::cout << ">>> " << type->GetFullName() << std::endl;
-
-                    for (auto& base : type->GetBaseClasses())
-                    {
-                        std::cout << ">>>> extends " << base->GetFullName() << std::endl;
-                    }
                 }
             }
 
@@ -94,13 +117,11 @@ namespace blueprint
 
                 std::sort(enums.begin(), enums.end(), sorter);
 
-                for (auto& type : enums)
+                for (auto type : enums)
                 {
                     std::cout << ">>> " << type->GetFullName() << std::endl;
                 }
             }
-
-            std::cout << std::endl;
         }
     }
 
@@ -169,10 +190,15 @@ namespace blueprint
             }
         }
 
+        reflection::TypeEnumerator enumerator;
+        pimpl_->GetTypeRegistry().Accept(enumerator);
+
         if (listTypes_)
         {
-            internal::Dump(pimpl_->GetTypeRegistry());
+            internal::ListTypes(enumerator);
         }
+
+        internal::SaveTypes(enumerator);
 
         return true;
     }
@@ -230,12 +256,13 @@ namespace blueprint
         unsigned options = CXTranslationUnit_SkipFunctionBodies;
 
         CommandLineArguments arguments;
-        arguments.Add("-std=c++14");
+        arguments.Add("-std=c++14"); // Language standard to compile for
+        arguments.Add("-w");         // Suppress all warnings
         arguments.ImportConfig(config);
 
         if (verbose_)
         {
-            arguments.Add("-v");
+            arguments.Add("-v"); // Show commands to run and use verbose output
         }
 
         clang::TranslationUnit translationUnit;
