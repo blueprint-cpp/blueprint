@@ -5,19 +5,29 @@ notification:
         on_success: change
         on_failure: always
 
-os:
-    - linux
-    - osx
+matrix:
+    include:
+        - os: linux
+          compiler: clang
+          env: COMPILER=clang-3.7
+          addons:
+            apt:
+                sources:  [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.7' ]
+                packages: [ 'clang-3.7', 'libsqlite3-dev' ]
 
-compiler:
-    - clang
+        - os: linux
+          compiler: clang
+          env: COMPILER=clang-3.8
+          addons:
+            apt:
+                sources:  [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise' ]
+                packages: [ 'clang-3.8', 'libsqlite3-dev' ]
 
-addons:
-  apt:
-    sources: [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.7' ]
-    packages:
-        - clang-3.7
-        - libsqlite3-dev
+        - os: osx
+          compiler: clang
+
+    allow_failures:
+        - env: COMPILER=clang-3.8
 
 before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -28,10 +38,8 @@ before_install:
 
 before_script:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-        CXX=clang++-3.7;
+        export CXX=${COMPILER};
         $CXX --version;
-        CC=clang-3.7;
-        $CC --version;
       fi
 
     - build/buildtools-premake/bin/build.sh
