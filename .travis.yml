@@ -16,7 +16,7 @@ addons:
   apt:
     sources: [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise' ]
     packages:
-        - clang-3.8
+        - clang-3.7
         - libsqlite3-dev
 
 before_install:
@@ -28,7 +28,7 @@ before_install:
 
 before_script:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-        CXX=clang++-3.8;
+        CXX=clang++-3.7;
         $CXX --version;
         CC=clang-3.8;
         $CC --version;
