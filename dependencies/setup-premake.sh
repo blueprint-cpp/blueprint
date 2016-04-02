@@ -6,7 +6,6 @@ if [[ ! -d "store" ]]; then mkdir store; fi
 cd store
 
 premake_url="http://github.com/premake/premake-core/releases/download/v5.0.0-alpha8"
-premake_src="premake-5.0.0-alpha8-src.zip"
 premake_dir="premake"
 
 if [[ $(uname) == "Darwin" ]]; then
@@ -28,27 +27,31 @@ if [[ $download_mode == "binary" ]]; then
 
 else
 
-    if [[ ! -e $premake_src ]]; then wget --no-check-certificate $premake_url/$premake_src; fi
+    if [[ ! -d $premake_dir ]]; then mkdir $premake_dir; fi
 
-    if [[ ! -d $premake_dir ]]; then
-        mkdir $premake_dir
-        tar -xvf $premake_src -C $premake_dir
+    if [[ ! -d $premake_dir/premake-core ]]; then
+        cd $premake_dir
 
-        cd $premake_dir/premake-5.0.0-alpha8/build
+        github=https://github.com/premake/premake-core.git
+        branch=release
 
-        if [[ $(uname) == "Darwin" ]]; then
-            cd gmake.macosx
-        else
-            cd gmake.unix
-        fi
+        git clone --depth=1 --recursive -b $branch --single-branch $github premake-core
 
-        make
-
-        cp ../../..
+        cd ..
     fi
 
-    if [[ ! -e $premake_dir/premake5 ]]; then
-        cp $premake_dir/premake-5.0.0-alpha8/bin/release/premake5 $premake_dir
+    if [ ! -f $premake_dir/premake5 ]; then
+        cd $premake_dir/premake-core
+
+        if [[ $(uname) == 'Darwin' ]]; then
+            make -f Bootstrap.mak osx
+        else
+            make -f Bootstrap.mak linux
+        fi
+
+        cp bin/release/premake5 ..
+
+        cd ../..
     fi
 
 fi
