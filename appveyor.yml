@@ -2,5 +2,5 @@ install:
     - choco install wget
     - choco list -localonly
 
-    - build\setup-dependencies.bat
+    - dependencies\setup.bat
     - build\generate.bat
