@@ -30,7 +30,13 @@ matrix:
         - env: COMPILER=clang-3.8
 
 before_install:
-    - dependencies/setup.sh
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+        brew update;
+      fi
+
+    - dependencies/setup-premake.sh
+    - dependencies/setup-sqlite.sh skip-update
+    - dependencies/setup-llvm.sh skip-update
 
 before_script:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
