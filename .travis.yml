@@ -20,7 +20,7 @@ matrix:
           env: COMPILER=clang-3.8
           addons:
             apt:
-                sources:  [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise' ]
+                sources:  [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8' ]
                 packages: [ 'clang-3.8', 'libclang-3.8-dev', 'libsqlite3-dev' ]
 
         - os: osx
