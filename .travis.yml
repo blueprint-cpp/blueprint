@@ -35,8 +35,8 @@ before_install:
       fi
 
     - dependencies/setup-premake.sh
-    - dependencies/setup-sqlite.sh skip-update
-    - dependencies/setup-llvm.sh skip-update
+    - dependencies/setup-sqlite.sh
+    - dependencies/setup-llvm.sh
 
 before_script:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then

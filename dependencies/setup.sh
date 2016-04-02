@@ -9,7 +9,7 @@ if [[ $(uname) == "Darwin" ]]; then
 fi
 
 ./setup-premake.sh
-./setup-sqlite.sh skip-update
-./setup-llvm.sh   skip-update
+./setup-sqlite.sh
+./setup-llvm.sh
 
 popd > /dev/null
