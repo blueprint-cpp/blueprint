@@ -2,9 +2,7 @@
 
 pushd $(dirname $0) > /dev/null
 
-premake=buildtools-premake/bin/premake.sh
-
-$premake gmake
+./generate.sh
 r=$?
 
 if [[ $r -eq 0 ]]; then
