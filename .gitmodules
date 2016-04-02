@@ -1,3 +1,0 @@
-[submodule "build/buildtools-premake"]
-	path = build/buildtools-premake
-	url = https://github.com/eparayre/buildtools-premake.git

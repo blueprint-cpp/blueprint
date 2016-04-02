@@ -42,8 +42,8 @@ before_script:
         $CXX --version;
       fi
 
-    - build/buildtools-premake/bin/build.sh
-    - build/buildtools-premake/bin/premake.sh --version
+    - dependencies/setup.sh
+    - dependencies/store/premake/premake5 --version
 
 script:
     - build/build.sh

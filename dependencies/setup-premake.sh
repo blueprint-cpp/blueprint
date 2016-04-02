@@ -43,7 +43,7 @@ else
     if [ ! -f $premake_dir/premake5 ]; then
         cd $premake_dir/premake-core
 
-        if [[ $(uname) == 'Darwin' ]]; then
+        if [[ $(uname) == "Darwin" ]]; then
             make -f Bootstrap.mak osx
         else
             make -f Bootstrap.mak linux
