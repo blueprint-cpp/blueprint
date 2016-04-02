@@ -2,10 +2,10 @@
 
 if [[ $(uname) == "Darwin" ]]; then
 
-    packages="llvm38"
+    package="llvm38"
 
-    echo brew install $packages
-    brew install $packages
+    echo brew install $package
+    brew install $package
     echo -en "\n"
 
 elif [[ -z ${TRAVIS} ]]; then
