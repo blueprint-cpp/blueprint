@@ -30,20 +30,13 @@ matrix:
         - env: COMPILER=clang-3.8
 
 before_install:
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        brew update;
-        brew install llvm38;
-        brew install sqlite;
-      fi
+    - dependencies/setup.sh
 
 before_script:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
         export CXX=${COMPILER};
         $CXX --version;
       fi
-
-    - dependencies/setup.sh
-    - dependencies/store/premake/premake5 --version
 
 script:
     - build/build.sh
