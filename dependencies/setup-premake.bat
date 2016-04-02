@@ -2,10 +2,10 @@
 
 pushd %~dp0
 
-if not exist "dependencies" (mkdir "dependencies")
-cd dependencies
+if not exist "store" (mkdir "store")
+cd store
 
-set premake_url="https://github.com/premake/premake-core/releases/download/v5.0.0-alpha8/premake-5.0.0-alpha8-windows.zip"
+set premake_url="http://github.com/premake/premake-core/releases/download/v5.0.0-alpha8/premake-5.0.0-alpha8-windows.zip"
 set premake_file="premake-5.0.0-alpha8-windows.zip"
 set premake_dir="premake"
 

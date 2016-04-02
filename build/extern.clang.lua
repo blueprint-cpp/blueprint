@@ -19,7 +19,7 @@ function AddExternClangLib()
         end
     elseif os.is("windows") then
         libclang = "libclang"
-        libclangPath = "dependencies/llvm"
+        libclangPath = "../dependencies/store/llvm"
     end
 
     libclangInclude = path.join(libclangPath, "include")
@@ -36,7 +36,7 @@ function AddExternClangLib()
     links { libclang }
 
     if os.get() == "windows" then
-        prebuildcommands { "copy " .. path.translate("../dependencies/llvm/bin/libclang.dll") .. " $(TargetDir)" }
+        prebuildcommands { "copy " .. path.translate("../../dependencies/store/llvm/bin/libclang.dll") .. " $(TargetDir)" }
     else
         linkoptions { "-Xlinker -rpath " .. libclangLibrary }
     end

@@ -1,6 +1,5 @@
-/build/dependencies
 /build/blueprint
 /build/gmake
 /build/vs20*
-/build/premake5
+/dependencies/store
 /output

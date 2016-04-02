@@ -2,11 +2,11 @@
 
 pushd %~dp0
 
-if not exist "dependencies" (mkdir "dependencies")
-cd dependencies
+if not exist "store" (mkdir "store")
+cd store
 
-set sqlite_src_url="https://www.sqlite.org/2016/sqlite-amalgamation-3110100.zip"
-set sqlite_bin_url="https://www.sqlite.org/2016/sqlite-dll-win64-x64-3110100.zip"
+set sqlite_src_url="http://www.sqlite.org/2016/sqlite-amalgamation-3110100.zip"
+set sqlite_bin_url="http://www.sqlite.org/2016/sqlite-dll-win64-x64-3110100.zip"
 
 set sqlite_src_file="sqlite-amalgamation-3110100.zip"
 set sqlite_bin_file="sqlite-dll-win64-x64-3110100.zip"

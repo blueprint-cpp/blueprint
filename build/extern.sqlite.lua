@@ -13,8 +13,8 @@ function AddExternSqlite()
         sqliteInclude = "/usr/include"
         sqliteLibrary = "/usr/lib/x86_64-linux-gnu"
     elseif os.get() == "windows" then
-        sqliteInclude = "dependencies/sqlite/include"
-        sqliteLibrary = "dependencies/sqlite/lib"
+        sqliteInclude = "../dependencies/store/sqlite/include"
+        sqliteLibrary = "../dependencies/store/sqlite/lib"
     end
 
     includedirs { sqliteInclude, "../externs/sqlite" }
@@ -25,6 +25,6 @@ function AddExternSqlite()
     end
 
     if os.get() == "windows" then
-        prebuildcommands { "copy " .. path.translate("../dependencies/sqlite/lib/sqlite3.dll") .. " $(TargetDir)" }
+        prebuildcommands { "copy " .. path.translate("../../dependencies/store/sqlite/lib/sqlite3.dll") .. " $(TargetDir)" }
     end
 end
