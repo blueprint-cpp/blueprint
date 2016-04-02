@@ -13,7 +13,7 @@ matrix:
           addons:
             apt:
                 sources:  [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.7' ]
-                packages: [ 'clang-3.7', 'libsqlite3-dev' ]
+                packages: [ 'clang-3.7', 'libclang-3.7-dev', 'libsqlite3-dev' ]
 
         - os: linux
           compiler: clang
@@ -21,7 +21,7 @@ matrix:
           addons:
             apt:
                 sources:  [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise' ]
-                packages: [ 'clang-3.8', 'libsqlite3-dev' ]
+                packages: [ 'clang-3.8', 'libclang-3.8-dev', 'libsqlite3-dev' ]
 
         - os: osx
           compiler: clang
