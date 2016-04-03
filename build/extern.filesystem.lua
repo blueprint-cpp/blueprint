@@ -3,5 +3,5 @@
 function AddExternFileSystem()
     configuration {} -- reset filter
 
-    includedirs { "../externs/wjakob/filesystem" }
+    includedirs { "../source/Externs/wjakob/filesystem" }
 end

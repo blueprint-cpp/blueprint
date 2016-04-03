@@ -3,5 +3,5 @@
 function AddExternJson()
     configuration {} -- reset filter
 
-    includedirs { "../externs/nlohmann" }
+    includedirs { "../source/Externs/nlohmann" }
 end

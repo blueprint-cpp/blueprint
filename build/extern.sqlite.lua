@@ -17,7 +17,7 @@ function AddExternSqlite()
         sqliteLibrary = "../dependencies/store/sqlite/lib"
     end
 
-    includedirs { sqliteInclude, "../externs/sqlite" }
+    includedirs { sqliteInclude, "../source/Externs/sqlite" }
 
     if sqliteLibrary then
         libdirs { sqliteLibrary }

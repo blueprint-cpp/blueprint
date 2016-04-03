@@ -3,11 +3,11 @@
 function AddExternCatch()
     configuration {} -- reset filter
 
-    includedirs { "../externs/philsquared" }
+    includedirs { "../source/Externs/philsquared" }
 end
 
 function AddExternClara()
     configuration {} -- reset filter
 
-    includedirs { "../externs/philsquared" }
+    includedirs { "../source/Externs/philsquared" }
 end
