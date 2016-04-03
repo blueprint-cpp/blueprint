@@ -19,5 +19,5 @@ popd > /dev/null
 
 # run premake
 
-premake=../../../build/buildtools-premake/bin/premake.sh
+premake=../../../dependencies/store/premake/premake5
 $premake blueprint
