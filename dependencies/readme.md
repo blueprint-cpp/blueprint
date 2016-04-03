@@ -1,4 +1,4 @@
-# Dependencies
+# dependencies
 
 ## windows
 
