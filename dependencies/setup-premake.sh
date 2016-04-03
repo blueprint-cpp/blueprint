@@ -14,6 +14,10 @@ if [[ $(uname) == "Darwin" ]]; then
 else
     premake_bin="premake-5.0.0-alpha8-linux.tar.gz"
     download_mode="source"
+
+    echo apt-get install libssl-dev
+    sudo apt-get -yq --force-yes install libssl-dev
+    echo -en "\n"
 fi
 
 if [[ $download_mode == "binary" ]]; then
