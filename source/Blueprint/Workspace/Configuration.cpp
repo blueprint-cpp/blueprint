@@ -41,4 +41,9 @@ namespace blueprint
     {
         return precompiledHeader_;
     }
+
+    bool Configuration::HasPrecompiledHeader() const
+    {
+        return !precompiledHeader_.empty();
+    }
 }

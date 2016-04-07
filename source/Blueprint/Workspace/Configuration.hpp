@@ -13,6 +13,7 @@ namespace blueprint
 
         void SetPrecompiledHeader(const std::string& precompiledHeader);
         const std::string& GetPrecompiledHeader() const;
+        bool HasPrecompiledHeader() const;
 
     public:
         using StringArray = std::vector<std::string>;

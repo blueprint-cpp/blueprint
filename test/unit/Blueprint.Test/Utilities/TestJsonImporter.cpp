@@ -60,6 +60,7 @@ TEST_CASE("TestJsonImporter")
         REQUIRE(config != nullptr);
 
         CHECK(config->GetName() == "Debug");
+        CHECK(config->HasPrecompiledHeader() == true);
         CHECK(config->GetPrecompiledHeader() == "../precomp.cpp");
 
         REQUIRE(config->GetDefines().size() == 3);

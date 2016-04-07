@@ -12,6 +12,7 @@ TEST_CASE("TestConfiguration")
         CHECK(config.GetDefines().empty() == true);
         CHECK(config.GetIncludes().empty() == true);
         CHECK(config.GetPrecompiledHeader() == "");
+        CHECK(config.HasPrecompiledHeader() == false);
     }
 
     SECTION("Name")
@@ -27,9 +28,11 @@ TEST_CASE("TestConfiguration")
     {
         config.SetPrecompiledHeader("pch_1");
         CHECK(config.GetPrecompiledHeader() == "pch_1");
+        CHECK(config.HasPrecompiledHeader() == true);
 
         config.SetPrecompiledHeader("pch_2");
         CHECK(config.GetPrecompiledHeader() == "pch_2");
+        CHECK(config.HasPrecompiledHeader() == true);
     }
 
     SECTION("Defines")
