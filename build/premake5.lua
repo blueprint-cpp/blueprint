@@ -6,6 +6,8 @@ require("extern.json")
 require("extern.philsquared")
 require("extern.sqlite")
 
+local usePrecompiledHeaders = true
+
 workspace("Blueprint")
     platforms { "x64" }
 
@@ -62,6 +64,11 @@ project("Blueprint")
         "../source/Blueprint/**.cpp"
     }
 
+    if usePrecompiledHeaders then
+        pchheader("Blueprint/Precompiled.hpp")
+        pchsource("../source/Blueprint/Precompiled.cpp")
+    end
+
     AddExternClangLib()
     AddExternFileSystem()
     AddExternJson()
@@ -82,6 +89,11 @@ project("Blueprint.Test")
         "../test/unit/**.hpp",
         "../test/unit/**.cpp"
     }
+
+    if usePrecompiledHeaders then
+        pchheader("Blueprint.Test/Precompiled.hpp")
+        pchsource("../test/unit/Blueprint.Test/Precompiled.cpp")
+    end
 
     configuration { "gmake" }
         postbuildcommands { "$(TARGET) ../../test/unit/Blueprint.Test" }
