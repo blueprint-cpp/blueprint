@@ -25,6 +25,10 @@ namespace clang
 
         std::vector<Diagnostic> GetDiagnostics() const;
 
+        unsigned GetDefaultSaveOptions() const;
+        void Save(const std::string& file, unsigned options) const;
+        void Save(const std::string& file) const;
+
     private:
         CXTranslationUnit translationUnit_{nullptr};
     };

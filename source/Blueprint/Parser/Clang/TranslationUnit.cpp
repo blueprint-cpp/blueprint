@@ -65,5 +65,20 @@ namespace clang
 
         return diagnostics;
     }
+
+    unsigned TranslationUnit::GetDefaultSaveOptions() const
+    {
+        return clang_defaultSaveOptions(translationUnit_);
+    }
+
+    void TranslationUnit::Save(const std::string& file, unsigned options) const
+    {
+        clang_saveTranslationUnit(translationUnit_, file.c_str(), options);
+    }
+
+    void TranslationUnit::Save(const std::string& file) const
+    {
+        Save(file, GetDefaultSaveOptions());
+    }
 }
 }
