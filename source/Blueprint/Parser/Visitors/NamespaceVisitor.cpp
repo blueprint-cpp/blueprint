@@ -7,8 +7,6 @@
 #include "Blueprint/Reflection/EnumType.hpp"
 #include "Blueprint/Reflection/TypeRegistry.hpp"
 
-#include <cassert>
-
 namespace blueprint
 {
 namespace clang

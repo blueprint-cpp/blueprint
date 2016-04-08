@@ -3,8 +3,6 @@
 #include "Blueprint/Parser/Clang/Cursor.hpp"
 #include "Blueprint/Reflection/EnumType.hpp"
 
-#include <cassert>
-
 namespace blueprint
 {
 namespace clang

@@ -5,8 +5,6 @@
 #include "Blueprint/Reflection/Namespace.hpp"
 #include "Blueprint/Reflection/TypeRegistry.hpp"
 
-#include <cassert>
-
 namespace blueprint
 {
 namespace clang

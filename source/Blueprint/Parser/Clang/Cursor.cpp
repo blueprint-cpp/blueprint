@@ -1,8 +1,5 @@
 #include "Blueprint/Parser/Clang/Cursor.hpp"
 
-#include <cassert>
-#include <iostream>
-
 namespace blueprint
 {
 namespace clang

@@ -4,8 +4,6 @@
 #include "Blueprint/Parser/Visitors/EnumVisitor.hpp"
 #include "Blueprint/Reflection/ClassType.hpp"
 
-#include <cassert>
-
 namespace blueprint
 {
 namespace clang

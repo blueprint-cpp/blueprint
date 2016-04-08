@@ -2,6 +2,7 @@
 #define BLUEPRINT_PRECOMPILED
 
 #include <algorithm>
+#include <cassert>
 #include <chrono>
 #include <functional>
 #include <iostream>
