@@ -67,6 +67,9 @@ project("Blueprint")
     if usePrecompiledHeaders then
         pchheader("Blueprint/Precompiled.hpp")
         pchsource("../source/Blueprint/Precompiled.cpp")
+
+        configuration { "vs*" }
+            buildoptions { "/FI\"Blueprint\\Precompiled.hpp\"" }
     end
 
     AddExternClangLib()
@@ -93,6 +96,9 @@ project("Blueprint.Test")
     if usePrecompiledHeaders then
         pchheader("Blueprint.Test/Precompiled.hpp")
         pchsource("../test/unit/Blueprint.Test/Precompiled.cpp")
+
+        configuration { "vs*" }
+            buildoptions { "/FI\"Blueprint.Test\\Precompiled.hpp\"" }
     end
 
     configuration { "gmake" }
