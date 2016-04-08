@@ -1,7 +1,5 @@
 #pragma once
 
-#include <filesystem/path.h>
-
 namespace blueprint
 {
     class Session

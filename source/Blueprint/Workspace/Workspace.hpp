@@ -2,9 +2,6 @@
 
 #include "Blueprint/Workspace/Project.hpp"
 
-#include <filesystem/path.h>
-#include <memory>
-
 namespace blueprint
 {
     class Workspace

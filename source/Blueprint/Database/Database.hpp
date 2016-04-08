@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 namespace blueprint { namespace reflection { class Type; } }
 namespace blueprint { namespace reflection { class SourceLocation; } }
 namespace sqlite3pp { class database; }

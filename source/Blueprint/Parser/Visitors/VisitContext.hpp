@@ -2,8 +2,6 @@
 
 #include "Blueprint/Reflection/Namespace.hpp"
 
-#include <memory>
-
 namespace blueprint { namespace clang { class Cursor; } }
 namespace blueprint { namespace clang { class Type; } }
 namespace blueprint { namespace reflection { class ClassType; } }

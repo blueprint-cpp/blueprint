@@ -1,7 +1,6 @@
 #pragma once
 
 #include <clang-c/Index.h>
-#include <filesystem/path.h>
 
 namespace blueprint
 {

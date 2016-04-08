@@ -2,8 +2,6 @@
 
 #include "Blueprint/Reflection/Visitors/TypeVisitor.hpp"
 
-#include <vector>
-
 namespace blueprint
 {
 namespace reflection

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Blueprint/Reflection/SourcePosition.hpp"
-#include <filesystem/path.h>
 
 namespace blueprint
 {

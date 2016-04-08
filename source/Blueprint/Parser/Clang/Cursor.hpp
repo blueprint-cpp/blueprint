@@ -3,8 +3,6 @@
 #include "Blueprint/Parser/Clang/SourceRange.hpp"
 #include "Blueprint/Parser/Clang/Type.hpp"
 
-#include <vector>
-
 namespace blueprint
 {
 namespace clang

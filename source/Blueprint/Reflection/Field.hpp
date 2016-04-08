@@ -2,8 +2,6 @@
 
 #include "Blueprint/Reflection/TypeHandle.hpp"
 
-#include <string>
-
 namespace blueprint
 {
 namespace reflection

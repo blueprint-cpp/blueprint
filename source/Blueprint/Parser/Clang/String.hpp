@@ -2,8 +2,6 @@
 
 #include <clang-c/Index.h>
 
-#include <string>
-
 namespace blueprint
 {
 namespace clang

@@ -2,8 +2,6 @@
 
 #include "Blueprint/Utilities/Timer.hpp"
 
-#include <functional>
-
 namespace blueprint
 {
     class ScopeTimer

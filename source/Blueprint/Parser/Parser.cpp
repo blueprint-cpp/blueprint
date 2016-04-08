@@ -14,9 +14,6 @@
 #include "Blueprint/Utilities/WorkingDirectory.hpp"
 #include "Blueprint/Workspace/Workspace.hpp"
 
-#include <algorithm>
-#include <iostream>
-
 namespace blueprint
 {
     namespace internal

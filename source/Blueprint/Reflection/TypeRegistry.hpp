@@ -1,8 +1,5 @@
 #pragma once
 
-#include <memory>
-#include <unordered_map>
-
 namespace blueprint
 {
 namespace reflection

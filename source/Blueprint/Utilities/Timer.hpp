@@ -1,7 +1,5 @@
 #pragma once
 
-#include <chrono>
-
 namespace blueprint
 {
     class Timer
