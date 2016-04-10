@@ -30,6 +30,10 @@ namespace blueprint
         struct FileContext;
         bool ParseSourceFile(FileContext& context);
 
+        void IncludePrecompiled(FileContext& context) const;
+        void SaveDependencies(FileContext& context) const;
+        void SaveArguments(FileContext& context) const;
+
     private:
         class Impl;
         std::unique_ptr<Impl> pimpl_;

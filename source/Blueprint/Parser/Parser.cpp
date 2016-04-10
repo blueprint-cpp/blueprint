@@ -165,8 +165,9 @@ namespace blueprint
 
         CommandLineArguments arguments;
 
-        bool saveDependencies{true};
         bool includePrecompiled{false};
+        bool saveDependencies{true};
+        bool saveArguments{true};
         bool save{false};
     };
 
@@ -341,35 +342,9 @@ namespace blueprint
     {
         std::cout << ">>> file    : " << context.filePath << std::endl;
 
-        if (context.includePrecompiled && context.config->HasPrecompiledHeader())
-        {
-            auto pchFile = context.config->GetPrecompiledHeader();
-
-            if (false)
-            {
-                pchFile = internal::GetFilenameWithoutExtension(context.config->GetPrecompiledSource()) + ".pch";
-                if (!outputDirectory_.str().empty())
-                {
-                    pchFile = (outputDirectory_ / pchFile).str();
-                }
-            }
-
-            context.arguments.Add("-include-pch");
-            context.arguments.Add(pchFile);
-        }
-
-        if (context.saveDependencies)
-        {
-            auto depFile = internal::GetFilenameWithoutExtension(context.filePath) + ".dep";
-            if (!outputDirectory_.str().empty())
-            {
-                depFile = (outputDirectory_ / depFile).str();
-            }
-
-            context.arguments.Add("-MMD");
-            context.arguments.Add("-MF");
-            context.arguments.Add(depFile);
-        }
+        IncludePrecompiled(context);
+        SaveDependencies(context);
+        SaveArguments(context);
 
         clang::TranslationUnit translationUnit;
 
@@ -385,7 +360,7 @@ namespace blueprint
 
         internal::DisplayDiagnostics(translationUnit);
 
-        if (translationUnit)
+        if (result == CXError_Success)
         {
             clang::NamespaceVisitor visitor(pimpl_->GetTypeRegistry());
             visitor.Visit(translationUnit.GetCursor());
@@ -421,5 +396,41 @@ namespace blueprint
         }
 
         return true;
+    }
+
+    void Parser::IncludePrecompiled(FileContext& context) const
+    {
+        if (context.includePrecompiled && context.config->HasPrecompiledHeader())
+        {
+            auto pchFile = internal::GetFilenameWithoutExtension(context.config->GetPrecompiledSource()) + ".pch";
+            auto pchPath = !outputDirectory_.str().empty() ? (outputDirectory_ / pchFile).str() : pchFile;
+
+            context.arguments.Add("-include-pch");
+            context.arguments.Add(pchPath);
+        }
+    }
+
+    void Parser::SaveDependencies(FileContext& context) const
+    {
+        if (context.saveDependencies)
+        {
+            auto depFile = internal::GetFilenameWithoutExtension(context.filePath) + ".dep";
+            auto depPath = !outputDirectory_.str().empty() ? (outputDirectory_ / depFile).str() : depFile;
+
+            context.arguments.Add("-MMD");
+            context.arguments.Add("-MF");
+            context.arguments.Add(depPath);
+        }
+    }
+
+    void Parser::SaveArguments(FileContext& context) const
+    {
+        if (context.saveArguments)
+        {
+            auto argFile = internal::GetFilenameWithoutExtension(context.filePath) + ".txt";
+            auto argPath = !outputDirectory_.str().empty() ? outputDirectory_ / argFile : argFile;
+
+            context.arguments.Save(argPath);
+        }
     }
 }
