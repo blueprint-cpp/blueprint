@@ -2,9 +2,15 @@
 
 pushd $(dirname $0) > /dev/null
 
+root=../../..
+
 # build blueprint
 
-../../../build/build.sh
+$root/build/build.sh
+
+if [[ $? -ne 0 ]]; then
+    exit $?
+fi
 
 # run blueprint-premake
 
@@ -12,9 +18,10 @@ pushd $(dirname $0) > /dev/null
 
 # run blueprint
 
-blueprint=../../../output/bin/Debug/Blueprint
-workspace=../../../build/blueprint/Blueprint.wks.json
+blueprint=$root/output/bin/Debug/Blueprint
+workspace=$root/build/blueprint/Blueprint.wks.json
+outputdir=../../output/blueprint
 
-$blueprint -l -f $workspace
+$blueprint -l -f $workspace -o $outputdir
 
 popd > /dev/null

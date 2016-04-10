@@ -13,6 +13,7 @@ namespace blueprint
         {
             std::string processName;
             std::string filename;
+            std::string outputDir;
 
             bool showHelp{false};
             bool listTypes{false};
@@ -41,6 +42,10 @@ namespace blueprint
             commandLine["-f"]["--file"]
                 .describe("filename of the workspace to parse")
                 .bind(&Options::filename, "filename");
+
+            commandLine["-o"]["--outputdir"]
+                .describe("output directory")
+                .bind(&Options::outputDir, "path");
 
             return commandLine;
         }
@@ -102,6 +107,7 @@ namespace blueprint
         blueprint::Parser parser;
         parser.SetListTypes(options.listTypes);
         parser.SetVerbose(options.verbose);
+        parser.SetOutputDirectory(options.outputDir);
         parser.ParseWorkspace(options.filename);
 
         return 0;
