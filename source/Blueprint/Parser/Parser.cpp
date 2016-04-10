@@ -324,7 +324,7 @@ namespace blueprint
     {
         std::cout << ">>> file    : " << context.filePath << std::endl;
 
-        if (context.includePrecompiled)
+        if (context.includePrecompiled && context.config->HasPrecompiledHeader())
         {
             auto pchFile = context.config->GetPrecompiledHeader();
 
