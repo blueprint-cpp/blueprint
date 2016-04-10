@@ -80,6 +80,7 @@ namespace blueprint
             });
 
             sqlite3pp::database db((outputDir / "registry.db").str().c_str());
+            sqlite3pp::transaction transaction(db);
             database::Database database(db);
 
             auto& classes = enumerator.GetClasses();
@@ -93,6 +94,8 @@ namespace blueprint
 
             database.Initialize();
             database.InsertTypes(types);
+
+            transaction.commit();
         }
 
         void ListTypes(const reflection::TypeEnumerator& enumerator)
