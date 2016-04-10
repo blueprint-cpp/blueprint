@@ -44,6 +44,14 @@ namespace blueprint
             }
         }
 
+        std::string GetFilenameWithoutExtension(const filesystem::path& filePath)
+        {
+            auto extension = filePath.extension();
+            auto filename = filePath.filename();
+
+            return !extension.empty() ? filename.substr(0, filename.length() - extension.length() - 1) : filename;
+        }
+
         bool IsSourceFile(const filesystem::path& file)
         {
             auto extension = file.extension();
@@ -273,6 +281,10 @@ namespace blueprint
         arguments.Add("-std=c++14"); // Language standard to compile for
         arguments.Add("-w");         // Suppress all warnings
 
+    #if defined(_MSC_VER)
+        arguments.Add("-fms-compatibility-version=19");
+    #endif
+
         if (verbose_)
         {
             arguments.Add("-v"); // Show commands to run and use verbose output
@@ -302,6 +314,11 @@ namespace blueprint
             {
                 if (internal::IsHeaderFile(source))
                 {
+                    if (config->HasPrecompiledHeader() && config->GetPrecompiledSource() == source)
+                    {
+                        continue;
+                    }
+
                     FileContext context;
 
                     context.config = config;
@@ -330,20 +347,20 @@ namespace blueprint
 
             if (false)
             {
-                pchFile = context.config->GetPrecompiledSource() + ".pch";
+                pchFile = internal::GetFilenameWithoutExtension(context.config->GetPrecompiledSource()) + ".pch";
                 if (!outputDirectory_.str().empty())
                 {
                     pchFile = (outputDirectory_ / pchFile).str();
                 }
             }
 
-            context.arguments.Add("--include");
+            context.arguments.Add("-include-pch");
             context.arguments.Add(pchFile);
         }
 
         if (context.saveDependencies)
         {
-            auto depFile = context.filePath.filename() + ".d";
+            auto depFile = internal::GetFilenameWithoutExtension(context.filePath) + ".dep";
             if (!outputDirectory_.str().empty())
             {
                 depFile = (outputDirectory_ / depFile).str();
@@ -375,7 +392,7 @@ namespace blueprint
 
             if (context.save)
             {
-                auto saveFile = context.filePath.filename() + ".pch";
+                auto saveFile = internal::GetFilenameWithoutExtension(context.filePath) + ".pch";
                 auto savePath = !outputDirectory_.str().empty() ? outputDirectory_ / saveFile : saveFile;
 
                 translationUnit.Save(savePath.str());
@@ -392,6 +409,7 @@ namespace blueprint
                     case CXError_Crashed: return "crashed";
                     case CXError_InvalidArguments: return "invalid arguments";
                     case CXError_ASTReadError: return "ast read error";
+                    default: return "unknow error code";
                 }
             };
 
