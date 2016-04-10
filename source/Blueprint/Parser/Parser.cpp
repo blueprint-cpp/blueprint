@@ -343,7 +343,18 @@ namespace blueprint
 
     bool Parser::ParseSourceFile(FileContext& context)
     {
-        std::cout << ">>> file    : " << context.filePath << std::endl;
+        if (context.config->HasPrecompiledHeader() && context.config->GetPrecompiledSource() == context.filePath.str())
+        {
+            std::cout << ">>> pch     : " << context.filePath << std::endl;
+        }
+        else if (internal::IsSourceFile(context.filePath))
+        {
+            std::cout << ">>> source  : " << context.filePath << std::endl;
+        }
+        else if (internal::IsHeaderFile(context.filePath))
+        {
+            std::cout << ">>> header  : " << context.filePath << std::endl;
+        }
 
         IncludePrecompiled(context);
         SaveDependencies(context);
