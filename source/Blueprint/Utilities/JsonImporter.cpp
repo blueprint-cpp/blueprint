@@ -24,6 +24,31 @@ namespace blueprint
             return nullptr;
         }
 
+        bool Contains(const nlohmann::json& json, const std::string& member)
+        {
+            return json.is_object() && json.find(member) != json.end();
+        }
+
+        bool IsValidWorkspace(const nlohmann::json& json)
+        {
+            return json.is_object()
+                && ( Contains(json, "workspace") && json["workspace"].is_string())
+                && (!Contains(json, "projects")  || json["projects"].is_array());
+        }
+
+        bool IsValidProject(const nlohmann::json& json)
+        {
+            return json.is_object()
+                && ( Contains(json, "project") && json["project"].is_string())
+                && (!Contains(json, "configs") || json["configs"].is_array())
+                && (!Contains(json, "files")   || json["files"].is_array());
+        }
+
+        bool IsValidConfig(const nlohmann::json& json)
+        {
+            return json.is_object();
+        }
+
         std::unique_ptr<Configuration> ImportConfig(const nlohmann::json& config)
         {
             auto configuration = std::make_unique<Configuration>();
@@ -49,38 +74,11 @@ namespace blueprint
         }
     }
 
-    std::unique_ptr<Session> JsonImporter::ImportSession(const filesystem::path& sessionFile)
-    {
-        auto json = internal::ParseJsonFile(sessionFile);
-
-        if (json.is_object())
-        {
-            auto session = std::make_unique<Session>();
-
-            session->SetWorkspace(json["workspace"]);
-            session->SetOutputDirectory(json["outputdir"]);
-
-            auto& arguments = json["arguments"];
-
-            if (arguments.is_array())
-            {
-                for (auto& argument : arguments)
-                {
-                    session->AddArgument(argument);
-                }
-            }
-
-            return session;
-        }
-
-        return nullptr;
-    }
-
     std::unique_ptr<Workspace> JsonImporter::ImportWorkspace(const filesystem::path& workspaceFile)
     {
         auto json = internal::ParseJsonFile(workspaceFile);
 
-        if (json.is_object())
+        if (internal::IsValidWorkspace(json))
         {
             auto workspace = std::make_unique<Workspace>();
 
@@ -95,7 +93,7 @@ namespace blueprint
 
                 for (auto& project : projects)
                 {
-                    workspace->AddProject(ImportProject(project));
+                    workspace->AddProject(ImportProject(workspacePath / project));
                 }
             }
 
@@ -109,7 +107,7 @@ namespace blueprint
     {
         auto json = internal::ParseJsonFile(projectFile);
 
-        if (json.is_object())
+        if (internal::IsValidProject(json))
         {
             auto project = std::make_unique<Project>();
 
