@@ -31,4 +31,19 @@ namespace blueprint
             Add("-I" + include);
         }
     }
+
+    void CommandLineArguments::Save(const filesystem::path& filePath) const
+    {
+        std::ofstream stream(filePath.str());
+
+        if (stream.is_open())
+        {
+            for (auto& arg : arguments_)
+            {
+                stream << arg << std::endl;;
+            }
+
+            stream.close();
+        }
+    }
 }

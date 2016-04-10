@@ -8,8 +8,12 @@ namespace blueprint
         void SetName(const std::string& name);
         const std::string& GetName() const;
 
+        void SetPrecompiledSource(const std::string& precompiledSource);
+        const std::string& GetPrecompiledSource() const;
+
         void SetPrecompiledHeader(const std::string& precompiledHeader);
         const std::string& GetPrecompiledHeader() const;
+
         bool HasPrecompiledHeader() const;
 
     public:
@@ -28,5 +32,6 @@ namespace blueprint
         StringArray includes_;
 
         std::string precompiledHeader_;
+        std::string precompiledSource_;
     };
 }

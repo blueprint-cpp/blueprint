@@ -18,7 +18,7 @@ namespace clang
         clang_disposeIndex(index_);
     }
 
-    TranslationUnit Index::ParseSourceFile(const std::string& file, const CommandLineArguments& arguments, unsigned options) const
+    CXErrorCode Index::ParseSourceFile(const std::string& file, const CommandLineArguments& arguments, unsigned options, TranslationUnit& translationUnit) const
     {
         std::vector<const char*> args;
 
@@ -29,15 +29,22 @@ namespace clang
             args.push_back(argument.c_str());
         }
 
-        return clang_parseTranslationUnit(
+        CXTranslationUnit tu;
+
+        auto result = clang_parseTranslationUnit2(
             index_,
             file.c_str(),
             &args[0],
             (int)args.size(),
             nullptr, // unsavedFiles
             0,       // unsavedFilesCount
-            options
+            options,
+            &tu
         );
+
+        translationUnit = TranslationUnit(tu);
+
+        return result;
     }
 }
 }

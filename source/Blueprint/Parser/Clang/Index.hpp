@@ -19,7 +19,7 @@ namespace clang
             return index_;
         }
 
-        TranslationUnit ParseSourceFile(const std::string& file, const CommandLineArguments& arguments, unsigned options) const;
+        CXErrorCode ParseSourceFile(const std::string& file, const CommandLineArguments& arguments, unsigned options, TranslationUnit& translationUnit) const;
 
     private:
         CXIndex index_;

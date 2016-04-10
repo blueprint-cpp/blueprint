@@ -15,8 +15,9 @@ namespace blueprint
         ~Parser();
 
     public:
-        void SetListTypes(bool value) { listTypes_ = value; }
-        void SetVerbose(bool value) { verbose_ = value; }
+        inline void SetListTypes(bool value) { listTypes_ = value; }
+        inline void SetVerbose(bool value) { verbose_ = value; }
+        inline void SetOutputDirectory(const filesystem::path& outputDirectory) { outputDirectory_ = outputDirectory; }
 
     public:
         bool ParseWorkspace(const filesystem::path& filePath);
@@ -26,11 +27,18 @@ namespace blueprint
         bool ParseProject(const Project* project);
 
     private:
-        bool ParseSourceFile(const filesystem::path& filePath, const Configuration* config);
+        struct FileContext;
+        bool ParseSourceFile(FileContext& context);
+
+        void IncludePrecompiled(FileContext& context) const;
+        void SaveDependencies(FileContext& context) const;
+        void SaveArguments(FileContext& context) const;
 
     private:
         class Impl;
         std::unique_ptr<Impl> pimpl_;
+
+        filesystem::path outputDirectory_;
 
         bool listTypes_{false};
         bool verbose_{false};

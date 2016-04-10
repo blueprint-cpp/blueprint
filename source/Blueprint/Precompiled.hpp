@@ -5,6 +5,7 @@
 #include <cassert>
 #include <chrono>
 #include <functional>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>

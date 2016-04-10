@@ -12,6 +12,8 @@ namespace blueprint
 
         void ImportConfig(const Configuration* config);
 
+        void Save(const filesystem::path& filePath) const;
+
     private:
         std::vector<std::string> arguments_;
     };

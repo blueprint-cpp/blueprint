@@ -12,6 +12,7 @@
         "../some/include/path",
         "../some/other/include/path"
       ],
+      "pchheader": "../precomp.hpp",
       "pchsource": "../precomp.cpp"
     }
   ],

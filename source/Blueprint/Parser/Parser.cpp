@@ -36,6 +36,22 @@ namespace blueprint
             }
         }
 
+        void EnsureDirectoryExists(const filesystem::path& directory)
+        {
+            if (!directory.is_directory())
+            {
+                filesystem::create_directory(directory);
+            }
+        }
+
+        std::string GetFilenameWithoutExtension(const filesystem::path& filePath)
+        {
+            auto extension = filePath.extension();
+            auto filename = filePath.filename();
+
+            return !extension.empty() ? filename.substr(0, filename.length() - extension.length() - 1) : filename;
+        }
+
         bool IsSourceFile(const filesystem::path& file)
         {
             auto extension = file.extension();
@@ -54,7 +70,7 @@ namespace blueprint
                 || extension == "hpp";
         }
 
-        void SaveTypes(const reflection::TypeEnumerator& enumerator)
+        void SaveTypes(const reflection::TypeEnumerator& enumerator, const filesystem::path& outputDir)
         {
             std::cout << std::endl;
             std::cout << "> saving database :" << std::endl;
@@ -63,7 +79,7 @@ namespace blueprint
                 std::cout << time << "s" << std::endl;
             });
 
-            sqlite3pp::database db("registry.db");
+            sqlite3pp::database db((outputDir / "registry.db").str().c_str());
             database::Database database(db);
 
             auto& classes = enumerator.GetClasses();
@@ -141,6 +157,20 @@ namespace blueprint
         reflection::TypeRegistry typeRegistry_;
     };
 
+    struct Parser::FileContext
+    {
+        const Configuration* config{nullptr};
+
+        filesystem::path filePath;
+
+        CommandLineArguments arguments;
+
+        bool includePrecompiled{false};
+        bool saveDependencies{true};
+        bool saveArguments{true};
+        bool save{false};
+    };
+
     Parser::Parser()
         : pimpl_(new Impl())
     {}
@@ -157,6 +187,8 @@ namespace blueprint
 
         WorkingDirectory::SetCurrent(filePath.make_absolute().parent_path().str());
         std::cout << "{ cwd : " << WorkingDirectory::GetCurrent() << " }" << std::endl;
+
+        internal::EnsureDirectoryExists(outputDirectory_);
 
         auto workspace = JsonImporter::ImportWorkspace(filePath.filename());
         return ParseWorkspace(workspace.get());
@@ -181,10 +213,20 @@ namespace blueprint
                 std::cout << "> " << time << "s" << std::endl;
             });
 
+            auto originalOutput = outputDirectory_;
+
             for (auto& project : workspace->GetProjects())
             {
-                ParseProject(project.get());
+                outputDirectory_ = originalOutput / project->GetName();
+                internal::EnsureDirectoryExists(outputDirectory_);
+
+                if (!ParseProject(project.get()))
+                {
+                    return false;
+                }
             }
+
+            outputDirectory_ = originalOutput;
         }
 
         reflection::TypeEnumerator enumerator;
@@ -195,7 +237,7 @@ namespace blueprint
             internal::ListTypes(enumerator);
         }
 
-        internal::SaveTypes(enumerator);
+        internal::SaveTypes(enumerator, outputDirectory_);
 
         return true;
     }
@@ -224,9 +266,29 @@ namespace blueprint
 
         const Configuration* config = nullptr;
 
-        if (project->GetConfigurations().size() > 0)
+        if (!project->GetConfigurations().empty())
         {
             config = project->GetConfigurations()[0].get();
+        }
+
+        if (config == nullptr)
+        {
+            std::cout << "invalid config" << std::endl;
+            return false;
+        }
+
+        CommandLineArguments arguments;
+        arguments.ImportConfig(config);
+        arguments.Add("-std=c++14"); // Language standard to compile for
+        arguments.Add("-w");         // Suppress all warnings
+
+    #if defined(_MSC_VER)
+        arguments.Add("-fms-compatibility-version=19");
+    #endif
+
+        if (verbose_)
+        {
+            arguments.Add("-v"); // Show commands to run and use verbose output
         }
 
         {
@@ -234,11 +296,41 @@ namespace blueprint
                 std::cout << ">> " << time << "s" << std::endl;
             });
 
+            if (config->HasPrecompiledHeader())
+            {
+                FileContext context;
+
+                context.config = config;
+                context.arguments = arguments;
+                context.filePath = config->GetPrecompiledSource();
+                context.save = true;
+
+                if (!ParseSourceFile(context))
+                {
+                    return false;
+                }
+            }
+
             for (auto& source : project->GetSources())
             {
                 if (internal::IsHeaderFile(source))
                 {
-                    ParseSourceFile(source, config);
+                    if (config->HasPrecompiledHeader() && config->GetPrecompiledSource() == source)
+                    {
+                        continue;
+                    }
+
+                    FileContext context;
+
+                    context.config = config;
+                    context.arguments = arguments;
+                    context.filePath = source;
+                    context.includePrecompiled = true;
+
+                    if (!ParseSourceFile(context))
+                    {
+                        return false;
+                    }
                 }
             }
         }
@@ -246,44 +338,99 @@ namespace blueprint
         return true;
     }
 
-    bool Parser::ParseSourceFile(const filesystem::path& filePath, const Configuration* config)
+    bool Parser::ParseSourceFile(FileContext& context)
     {
-        std::cout << ">>> header  : " << filePath << std::endl;
+        std::cout << ">>> file    : " << context.filePath << std::endl;
 
-        unsigned options = CXTranslationUnit_SkipFunctionBodies;
-
-        CommandLineArguments arguments;
-        arguments.Add("-std=c++14"); // Language standard to compile for
-        arguments.Add("-w");         // Suppress all warnings
-        arguments.ImportConfig(config);
-
-        if (verbose_)
-        {
-            arguments.Add("-v"); // Show commands to run and use verbose output
-        }
+        IncludePrecompiled(context);
+        SaveDependencies(context);
+        SaveArguments(context);
 
         clang::TranslationUnit translationUnit;
 
+        unsigned options = CXTranslationUnit_SkipFunctionBodies;
+
+        if (context.save)
         {
-            /*ScopeTimer parseTimer([](double time){
-                std::cout << " (parse: " << time << "s)" << std::endl;
-            });*/
-
-            translationUnit = pimpl_->GetIndex().ParseSourceFile(filePath.str(), arguments, options);
-
-            internal::DisplayDiagnostics(translationUnit);
+            options |= CXTranslationUnit_ForSerialization;
+            options |= CXTranslationUnit_Incomplete;
         }
 
-        if (translationUnit)
-        {
-            /*ScopeTimer timer([](double time){
-                std::cout << " (visit: " << time << "s)";
-            });*/
+        auto result = pimpl_->GetIndex().ParseSourceFile(context.filePath.str(), context.arguments, options, translationUnit);
 
+        internal::DisplayDiagnostics(translationUnit);
+
+        if (result == CXError_Success)
+        {
             clang::NamespaceVisitor visitor(pimpl_->GetTypeRegistry());
             visitor.Visit(translationUnit.GetCursor());
+
+            if (context.save)
+            {
+                auto saveFile = internal::GetFilenameWithoutExtension(context.filePath) + ".pch";
+                auto savePath = !outputDirectory_.str().empty() ? outputDirectory_ / saveFile : saveFile;
+
+                translationUnit.Save(savePath.str());
+            }
+        }
+        else
+        {
+            auto errorString = [](auto errorCode)
+            {
+                switch (errorCode)
+                {
+                    case CXError_Success: return "success";
+                    case CXError_Failure: return "failure";
+                    case CXError_Crashed: return "crashed";
+                    case CXError_InvalidArguments: return "invalid arguments";
+                    case CXError_ASTReadError: return "ast read error";
+                    default: return "unknow error code";
+                }
+            };
+
+            std::cout << std::endl;
+            std::cout << "failed to create TranslationUnit (" << errorString(result) << ")" << std::endl;
+            std::cout << std::endl;
+
+            return false;
         }
 
         return true;
+    }
+
+    void Parser::IncludePrecompiled(FileContext& context) const
+    {
+        if (context.includePrecompiled && context.config->HasPrecompiledHeader())
+        {
+            auto pchFile = internal::GetFilenameWithoutExtension(context.config->GetPrecompiledSource()) + ".pch";
+            auto pchPath = !outputDirectory_.str().empty() ? (outputDirectory_ / pchFile).str() : pchFile;
+
+            context.arguments.Add("-include-pch");
+            context.arguments.Add(pchPath);
+        }
+    }
+
+    void Parser::SaveDependencies(FileContext& context) const
+    {
+        if (context.saveDependencies)
+        {
+            auto depFile = internal::GetFilenameWithoutExtension(context.filePath) + ".dep";
+            auto depPath = !outputDirectory_.str().empty() ? (outputDirectory_ / depFile).str() : depFile;
+
+            context.arguments.Add("-MMD");
+            context.arguments.Add("-MF");
+            context.arguments.Add(depPath);
+        }
+    }
+
+    void Parser::SaveArguments(FileContext& context) const
+    {
+        if (context.saveArguments)
+        {
+            auto argFile = internal::GetFilenameWithoutExtension(context.filePath) + ".txt";
+            auto argPath = !outputDirectory_.str().empty() ? outputDirectory_ / argFile : argFile;
+
+            context.arguments.Save(argPath);
+        }
     }
 }
