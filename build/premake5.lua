@@ -32,12 +32,11 @@ workspace("Blueprint")
     configuration { "vs*" }
         buildoptions { "/wd4706" }
 
-project("BlueprintApp")
-    targetname("Blueprint")
+project("Blueprint")
     kind("ConsoleApp")
     language("C++")
 
-    links { "Blueprint" }
+    links { "BlueprintCore" }
 
     includedirs {
         "../source",
@@ -53,7 +52,7 @@ project("BlueprintApp")
     AddExternFileSystem()
     AddExternSqlite()
 
-project("Blueprint")
+project("BlueprintCore")
     kind("StaticLib")
     language("C++")
 
@@ -77,11 +76,11 @@ project("Blueprint")
     AddExternJson()
     AddExternSqlite()
 
-project("Blueprint.Test")
+project("BlueprintCore.Test")
     kind("ConsoleApp")
     language("C++")
 
-    links { "Blueprint" }
+    links { "BlueprintCore" }
 
     includedirs {
         "../source",
