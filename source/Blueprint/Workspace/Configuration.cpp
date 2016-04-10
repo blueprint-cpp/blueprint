@@ -32,6 +32,16 @@ namespace blueprint
         return includes_;
     }
 
+    void Configuration::SetPrecompiledSource(const std::string& precompiledSource)
+    {
+        precompiledSource_ = precompiledSource;
+    }
+
+    const std::string& Configuration::GetPrecompiledSource() const
+    {
+        return precompiledSource_;
+    }
+
     void Configuration::SetPrecompiledHeader(const std::string& precompiledHeader)
     {
         precompiledHeader_ = precompiledHeader;

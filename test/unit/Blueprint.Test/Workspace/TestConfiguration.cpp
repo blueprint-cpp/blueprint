@@ -35,6 +35,15 @@ TEST_CASE("TestConfiguration")
         CHECK(config.HasPrecompiledHeader() == true);
     }
 
+    SECTION("Precompled Source")
+    {
+        config.SetPrecompiledSource("pch_1");
+        CHECK(config.GetPrecompiledSource() == "pch_1");
+
+        config.SetPrecompiledSource("pch_2");
+        CHECK(config.GetPrecompiledSource() == "pch_2");
+    }
+
     SECTION("Defines")
     {
         config.AddDefine("define_A");

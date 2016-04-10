@@ -29,48 +29,70 @@ namespace blueprint
             return json.is_object() && json.find(member) != json.end();
         }
 
+        bool ContainsString(const nlohmann::json& json, const std::string& member)
+        {
+            return Contains(json, member) && (json[member].is_null() || json[member].is_string());
+        }
+
+        bool ContainsArray(const nlohmann::json& json, const std::string& member)
+        {
+            return Contains(json, member) && (json[member].is_null() || json[member].is_array());
+        }
+
         bool IsValidWorkspace(const nlohmann::json& json)
         {
-            return json.is_object()
-                && ( Contains(json, "workspace") && json["workspace"].is_string())
+            return ContainsString(json, "workspace")
                 && (!Contains(json, "projects")  || json["projects"].is_array());
         }
 
         bool IsValidProject(const nlohmann::json& json)
         {
-            return json.is_object()
-                && ( Contains(json, "project") && json["project"].is_string())
+            return ContainsString(json, "project")
                 && (!Contains(json, "configs") || json["configs"].is_array())
                 && (!Contains(json, "files")   || json["files"].is_array());
         }
 
         bool IsValidConfig(const nlohmann::json& json)
         {
-            return json.is_object();
+            return ContainsString(json, "name")
+                && ContainsString(json, "pchheader")
+                && ContainsString(json, "pchsource")
+                && ContainsArray(json, "defines")
+                && ContainsArray(json, "includedirs");
         }
 
-        std::unique_ptr<Configuration> ImportConfig(const nlohmann::json& config)
+        std::unique_ptr<Configuration> ImportConfig(const nlohmann::json& json)
         {
-            auto configuration = std::make_unique<Configuration>();
-
-            configuration->SetName(config["name"]);
-
-            if (config["pchsource"].is_string())
+            if (IsValidConfig(json))
             {
-                configuration->SetPrecompiledHeader(config["pchsource"]);
+                auto config = std::make_unique<Configuration>();
+
+                config->SetName(json["name"]);
+
+                if (json["pchheader"].is_string())
+                {
+                    config->SetPrecompiledHeader(json["pchheader"]);
+                }
+
+                if (json["pchsource"].is_string())
+                {
+                    config->SetPrecompiledSource(json["pchsource"]);
+                }
+
+                for (auto& define : json["defines"])
+                {
+                    config->AddDefine(define);
+                }
+
+                for (auto& include : json["includedirs"])
+                {
+                    config->AddInclude(include);
+                }
+
+                return config;
             }
 
-            for (auto& define : config["defines"])
-            {
-                configuration->AddDefine(define);
-            }
-
-            for (auto& include : config["includedirs"])
-            {
-                configuration->AddInclude(include);
-            }
-
-            return configuration;
+            return nullptr;
         }
     }
 
