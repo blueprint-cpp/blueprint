@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Blueprint/Reflection/Namespace.hpp"
+#include "BlueprintReflection/Type/Namespace.hpp"
 
 namespace blueprint { namespace clang { class Cursor; } }
 namespace blueprint { namespace reflection { class TypeRegistry; } }

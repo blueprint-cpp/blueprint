@@ -1,9 +1,9 @@
 #include "Blueprint/Parser/Visitors/VisitContext.hpp"
 
 #include "BlueprintClang/Cursor.hpp"
-#include "Blueprint/Reflection/ClassType.hpp"
-#include "Blueprint/Reflection/Namespace.hpp"
-#include "Blueprint/Reflection/TypeRegistry.hpp"
+#include "BlueprintReflection/Registry/TypeRegistry.hpp"
+#include "BlueprintReflection/Type/ClassType.hpp"
+#include "BlueprintReflection/Type/Namespace.hpp"
 
 namespace blueprint
 {

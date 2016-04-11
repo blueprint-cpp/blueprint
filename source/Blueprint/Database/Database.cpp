@@ -2,8 +2,8 @@
 
 #include "Blueprint/Database/Schema.hpp"
 #include "Blueprint/Database/SqliteHelpers.hpp"
-#include "Blueprint/Reflection/ClassType.hpp"
-#include "Blueprint/Reflection/EnumType.hpp"
+#include "BlueprintReflection/Type/ClassType.hpp"
+#include "BlueprintReflection/Type/EnumType.hpp"
 
 namespace blueprint
 {

@@ -1,7 +1,7 @@
 #include "Blueprint/Parser/Visitors/EnumVisitor.hpp"
 
 #include "BlueprintClang/Cursor.hpp"
-#include "Blueprint/Reflection/EnumType.hpp"
+#include "BlueprintReflection/Type/EnumType.hpp"
 
 namespace blueprint
 {

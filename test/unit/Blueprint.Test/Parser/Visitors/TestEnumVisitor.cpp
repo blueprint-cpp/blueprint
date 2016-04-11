@@ -1,8 +1,8 @@
 #include <catch/catch.hpp>
 
 #include "Blueprint/Parser/Visitors/EnumVisitor.hpp"
-#include "Blueprint/Reflection/EnumType.hpp"
-#include "Blueprint/Reflection/TypeRegistry.hpp"
+#include "BlueprintReflection/Registry/TypeRegistry.hpp"
+#include "BlueprintReflection/Type/EnumType.hpp"
 #include "TestHelpers/BufferParser.hpp"
 
 using namespace blueprint;

@@ -1,8 +1,8 @@
 #include "Blueprint/Parser/Visitors/ClassVisitor.hpp"
 
-#include "BlueprintClang/Cursor.hpp"
 #include "Blueprint/Parser/Visitors/EnumVisitor.hpp"
-#include "Blueprint/Reflection/ClassType.hpp"
+#include "BlueprintClang/Cursor.hpp"
+#include "BlueprintReflection/Type/ClassType.hpp"
 
 namespace blueprint
 {

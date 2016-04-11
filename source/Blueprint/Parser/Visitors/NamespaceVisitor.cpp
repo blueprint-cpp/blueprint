@@ -3,9 +3,9 @@
 #include "BlueprintClang/Cursor.hpp"
 #include "Blueprint/Parser/Visitors/ClassVisitor.hpp"
 #include "Blueprint/Parser/Visitors/EnumVisitor.hpp"
-#include "Blueprint/Reflection/ClassType.hpp"
-#include "Blueprint/Reflection/EnumType.hpp"
-#include "Blueprint/Reflection/TypeRegistry.hpp"
+#include "BlueprintReflection/Registry/TypeRegistry.hpp"
+#include "BlueprintReflection/Type/ClassType.hpp"
+#include "BlueprintReflection/Type/EnumType.hpp"
 
 namespace blueprint
 {

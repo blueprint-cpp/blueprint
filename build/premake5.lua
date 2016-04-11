@@ -8,6 +8,26 @@ require("extern.sqlite")
 
 local usePrecompiledHeaders = true
 
+local function AddPrecompiledHeader(header, source)
+    if not usePrecompiledHeaders then
+        return
+    end
+
+    pchheader(header)
+    pchsource(source)
+
+    configuration { "vs*" }
+        buildoptions { "/FI\"" .. path.translate(header) .."\"" }
+end
+
+local function AddPostBuildUnitTest(args)
+    configuration { "gmake" }
+        postbuildcommands { "$(TARGET) " .. (args or "") }
+
+    configuration { "vs*" }
+        postbuildcommands { "\"$(TargetPath)\" " .. (args or "") }
+end
+
 workspace("Blueprint")
     platforms { "x64" }
 
@@ -54,7 +74,7 @@ project("BlueprintCore")
     kind("StaticLib")
     language("C++")
 
-    links { "BlueprintClang" }
+    links { "BlueprintClang", "BlueprintReflection" }
 
     includedirs { "../source" }
 
@@ -63,13 +83,7 @@ project("BlueprintCore")
         "../source/Blueprint/**.cpp"
     }
 
-    if usePrecompiledHeaders then
-        pchheader("Blueprint/Precompiled.hpp")
-        pchsource("../source/Blueprint/Precompiled.cpp")
-
-        configuration { "vs*" }
-            buildoptions { "/FI\"Blueprint\\Precompiled.hpp\"" }
-    end
+    AddPrecompiledHeader("Blueprint/Precompiled.hpp", "../source/Blueprint/Precompiled.cpp")
 
     AddExternClangLib()
     AddExternFileSystem()
@@ -80,7 +94,7 @@ project("BlueprintCore.Test")
     kind("ConsoleApp")
     language("C++")
 
-    links { "TestHelpers", "BlueprintCore", "BlueprintClang" }
+    links { "TestHelpers", "BlueprintCore", "BlueprintClang", "BlueprintReflection" }
 
     includedirs { "../source", "../test/unit" }
 
@@ -89,19 +103,8 @@ project("BlueprintCore.Test")
         "../test/unit/Blueprint.Test/**.cpp"
     }
 
-    if usePrecompiledHeaders then
-        pchheader("Blueprint.Test/Precompiled.hpp")
-        pchsource("../test/unit/Blueprint.Test/Precompiled.cpp")
-
-        configuration { "vs*" }
-            buildoptions { "/FI\"Blueprint.Test\\Precompiled.hpp\"" }
-    end
-
-    configuration { "gmake" }
-        postbuildcommands { "$(TARGET) ../../test/unit/Blueprint.Test" }
-
-    configuration { "vs*" }
-        postbuildcommands { "\"$(TargetPath)\" ../../test/unit/Blueprint.Test" }
+    AddPrecompiledHeader("Blueprint.Test/Precompiled.hpp", "../test/unit/Blueprint.Test/Precompiled.cpp")
+    AddPostBuildUnitTest("../../test/unit/Blueprint.Test")
 
     AddExternClangLib()
     AddExternCatch()
@@ -120,15 +123,43 @@ project("BlueprintClang")
         "../source/BlueprintClang/**.cpp"
     }
 
-    if usePrecompiledHeaders then
-        pchheader("BlueprintClang/Precompiled.hpp")
-        pchsource("../source/BlueprintClang/Precompiled.cpp")
-
-        configuration { "vs*" }
-            buildoptions { "/FI\"BlueprintClang\\Precompiled.hpp\"" }
-    end
+    AddPrecompiledHeader("BlueprintClang/Precompiled.hpp", "../source/BlueprintClang/Precompiled.cpp")
 
     AddExternClangLib()
+
+project("BlueprintReflection")
+    kind("StaticLib")
+    language("C++")
+
+    includedirs { "../source" }
+
+    files {
+        "../source/BlueprintReflection/**.hpp",
+        "../source/BlueprintReflection/**.cpp"
+    }
+
+    AddPrecompiledHeader("BlueprintReflection/Precompiled.hpp", "../source/BlueprintReflection/Precompiled.cpp")
+
+    AddExternFileSystem()
+
+project("BlueprintReflection.Test")
+    kind("ConsoleApp")
+    language("C++")
+
+    links { "TestHelpers", "BlueprintReflection" }
+
+    includedirs { "../source", "../test/unit" }
+
+    files {
+        "../test/unit/BlueprintReflection.Test/**.hpp",
+        "../test/unit/BlueprintReflection.Test/**.cpp"
+    }
+
+    AddPrecompiledHeader("BlueprintReflection.Test/Precompiled.hpp", "../test/unit/BlueprintReflection.Test/Precompiled.cpp")
+    AddPostBuildUnitTest()
+
+    AddExternCatch()
+    AddExternFileSystem()
 
 project("TestHelpers")
     kind("StaticLib")

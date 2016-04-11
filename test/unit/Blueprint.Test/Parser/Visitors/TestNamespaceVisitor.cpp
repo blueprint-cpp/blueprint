@@ -1,7 +1,7 @@
 #include <catch/catch.hpp>
 
 #include "Blueprint/Parser/Visitors/NamespaceVisitor.hpp"
-#include "Blueprint/Reflection/TypeRegistry.hpp"
+#include "BlueprintReflection/Registry/TypeRegistry.hpp"
 #include "TestHelpers/BufferParser.hpp"
 
 using namespace blueprint;
