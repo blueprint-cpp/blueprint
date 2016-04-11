@@ -80,7 +80,7 @@ project("BlueprintCore.Test")
     kind("ConsoleApp")
     language("C++")
 
-    links { "TestHelpers", "BlueprintCore" }
+    links { "TestHelpers", "BlueprintCore", "BlueprintClang" }
 
     includedirs { "../source", "../test/unit" }
 
