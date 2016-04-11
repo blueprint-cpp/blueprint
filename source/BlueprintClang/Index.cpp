@@ -1,6 +1,4 @@
-#include "Blueprint/Parser/Clang/Index.hpp"
-
-#include "Blueprint/Parser/CommandLineArguments.hpp"
+#include "BlueprintClang/Index.hpp"
 
 namespace blueprint
 {
@@ -18,13 +16,13 @@ namespace clang
         clang_disposeIndex(index_);
     }
 
-    CXErrorCode Index::ParseSourceFile(const std::string& file, const CommandLineArguments& arguments, unsigned options, TranslationUnit& translationUnit) const
+    CXErrorCode Index::ParseSourceFile(const std::string& file, const std::vector<std::string>& arguments, unsigned options, TranslationUnit& translationUnit) const
     {
         std::vector<const char*> args;
 
-        args.reserve(arguments.GetArguments().size());
+        args.reserve(arguments.size());
 
-        for (auto& argument : arguments.GetArguments())
+        for (auto& argument : arguments)
         {
             args.push_back(argument.c_str());
         }

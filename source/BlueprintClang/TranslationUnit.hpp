@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Blueprint/Parser/Clang/Cursor.hpp"
-#include "Blueprint/Parser/Clang/Diagnostic.hpp"
+#include "BlueprintClang/Cursor.hpp"
+#include "BlueprintClang/Diagnostic.hpp"
 
 namespace blueprint
 {

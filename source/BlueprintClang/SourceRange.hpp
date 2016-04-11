@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Blueprint/Parser/Clang/SourceLocation.hpp"
+#include "BlueprintClang/SourceLocation.hpp"
 
 namespace blueprint
 {

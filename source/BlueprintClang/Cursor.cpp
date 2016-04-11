@@ -1,4 +1,4 @@
-#include "Blueprint/Parser/Clang/Cursor.hpp"
+#include "BlueprintClang/Cursor.hpp"
 
 namespace blueprint
 {

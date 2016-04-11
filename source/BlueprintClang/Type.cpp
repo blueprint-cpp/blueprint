@@ -1,4 +1,4 @@
-#include "Blueprint/Parser/Clang/Type.hpp"
+#include "BlueprintClang/Type.hpp"
 
 namespace blueprint
 {

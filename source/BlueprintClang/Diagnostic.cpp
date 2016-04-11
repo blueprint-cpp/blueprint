@@ -1,4 +1,4 @@
-#include "Blueprint/Parser/Clang/Diagnostic.hpp"
+#include "BlueprintClang/Diagnostic.hpp"
 
 namespace blueprint
 {

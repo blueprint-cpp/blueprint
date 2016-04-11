@@ -1,6 +1,6 @@
-#include "Blueprint/Parser/Clang/SourceLocation.hpp"
+#include "BlueprintClang/SourceLocation.hpp"
 
-#include "Blueprint/Parser/Clang/String.hpp"
+#include "BlueprintClang/String.hpp"
 
 namespace blueprint
 {
@@ -22,7 +22,7 @@ namespace clang
         offset_ = offset;
     }
 
-    const filesystem::path& SourceLocation::GetFile() const
+    const std::string& SourceLocation::GetFile() const
     {
         return file_;
     }

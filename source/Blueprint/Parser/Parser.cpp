@@ -2,7 +2,7 @@
 
 #include "Blueprint/Database/Database.hpp"
 #include "Blueprint/Database/SqliteApi.hpp"
-#include "Blueprint/Parser/Clang/Index.hpp"
+#include "BlueprintClang/Index.hpp"
 #include "Blueprint/Parser/Visitors/NamespaceVisitor.hpp"
 #include "Blueprint/Parser/CommandLineArguments.hpp"
 #include "Blueprint/Reflection/Visitors/TypeEnumerator.hpp"
@@ -370,7 +370,7 @@ namespace blueprint
             options |= CXTranslationUnit_Incomplete;
         }
 
-        auto result = pimpl_->GetIndex().ParseSourceFile(context.filePath.str(), context.arguments, options, translationUnit);
+        auto result = pimpl_->GetIndex().ParseSourceFile(context.filePath.str(), context.arguments.GetArguments(), options, translationUnit);
 
         internal::DisplayDiagnostics(translationUnit);
 

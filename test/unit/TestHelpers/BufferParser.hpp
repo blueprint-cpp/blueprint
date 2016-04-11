@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Blueprint/Parser/Clang/Index.hpp"
+#include "BlueprintClang/Index.hpp"
 
 namespace blueprint
 {

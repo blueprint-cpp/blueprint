@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_RUNNER
 #include <catch/catch.hpp>
 
-#include "Blueprint/Parser/Clang/String.hpp"
+#include "BlueprintClang/String.hpp"
 #include "Blueprint/Utilities/WorkingDirectory.hpp"
 
 void ChangeCWD(int argc, const char* argv[])

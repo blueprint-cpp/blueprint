@@ -1,6 +1,6 @@
 #include "Blueprint/Parser/Visitors/VisitContext.hpp"
 
-#include "Blueprint/Parser/Clang/Cursor.hpp"
+#include "BlueprintClang/Cursor.hpp"
 #include "Blueprint/Reflection/ClassType.hpp"
 #include "Blueprint/Reflection/Namespace.hpp"
 #include "Blueprint/Reflection/TypeRegistry.hpp"

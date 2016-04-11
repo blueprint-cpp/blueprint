@@ -1,4 +1,4 @@
-#include "Blueprint/Parser/Clang/String.hpp"
+#include "BlueprintClang/String.hpp"
 
 namespace blueprint
 {

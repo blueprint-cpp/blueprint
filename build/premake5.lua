@@ -36,11 +36,9 @@ project("Blueprint")
     kind("ConsoleApp")
     language("C++")
 
-    links { "BlueprintCore" }
+    links { "BlueprintCore", "BlueprintClang" }
 
-    includedirs {
-        "../source",
-    }
+    includedirs { "../source" }
 
     files {
         "../source/BlueprintApp/**.hpp",
@@ -55,6 +53,8 @@ project("Blueprint")
 project("BlueprintCore")
     kind("StaticLib")
     language("C++")
+
+    links { "BlueprintClang" }
 
     includedirs { "../source" }
 
@@ -80,16 +80,13 @@ project("BlueprintCore.Test")
     kind("ConsoleApp")
     language("C++")
 
-    links { "BlueprintCore" }
+    links { "TestHelpers", "BlueprintCore" }
 
-    includedirs {
-        "../source",
-        "../test/unit"
-    }
+    includedirs { "../source", "../test/unit" }
 
     files {
-        "../test/unit/**.hpp",
-        "../test/unit/**.cpp"
+        "../test/unit/Blueprint.Test/**.hpp",
+        "../test/unit/Blueprint.Test/**.cpp"
     }
 
     if usePrecompiledHeaders then
@@ -111,3 +108,48 @@ project("BlueprintCore.Test")
     AddExternFileSystem()
     AddExternJson()
     AddExternSqlite()
+
+project("BlueprintClang")
+    kind("StaticLib")
+    language("C++")
+
+    includedirs { "../source" }
+
+    files {
+        "../source/BlueprintClang/**.hpp",
+        "../source/BlueprintClang/**.cpp"
+    }
+
+    if usePrecompiledHeaders then
+        pchheader("BlueprintClang/Precompiled.hpp")
+        pchsource("../source/BlueprintClang/Precompiled.cpp")
+
+        configuration { "vs*" }
+            buildoptions { "/FI\"BlueprintClang\\Precompiled.hpp\"" }
+    end
+
+    AddExternClangLib()
+
+project("TestHelpers")
+    kind("StaticLib")
+    language("C++")
+
+    links { "BlueprintClang" }
+
+    includedirs { "../source", "../test/unit" }
+
+    files {
+        "../test/unit/TestHelpers/**.hpp",
+        "../test/unit/TestHelpers/**.cpp"
+    }
+
+    if usePrecompiledHeaders then
+        pchheader("TestHelpers/Precompiled.hpp")
+        pchsource("../test/unit/TestHelpers/Precompiled.cpp")
+
+        configuration { "vs*" }
+            buildoptions { "/FI\"TestHelpers\\Precompiled.hpp\"" }
+    end
+
+    AddExternClangLib()
+    AddExternFileSystem()

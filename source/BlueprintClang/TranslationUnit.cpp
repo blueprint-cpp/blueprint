@@ -1,4 +1,4 @@
-#include "Blueprint/Parser/Clang/TranslationUnit.hpp"
+#include "BlueprintClang/TranslationUnit.hpp"
 
 namespace blueprint
 {

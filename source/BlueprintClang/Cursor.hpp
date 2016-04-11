@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Blueprint/Parser/Clang/SourceRange.hpp"
-#include "Blueprint/Parser/Clang/Type.hpp"
+#include "BlueprintClang/SourceRange.hpp"
+#include "BlueprintClang/Type.hpp"
 
 namespace blueprint
 {
