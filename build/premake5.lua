@@ -56,7 +56,7 @@ project("Blueprint")
     kind("ConsoleApp")
     language("C++")
 
-    links { "BlueprintCore", "BlueprintClang" }
+    links { "BlueprintCore", "BlueprintClang", "BlueprintReflection" }
 
     includedirs { "../source" }
 
