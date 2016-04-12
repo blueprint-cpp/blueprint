@@ -42,6 +42,7 @@ before_install:
 before_script:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
         export CXX=${COMPILER};
+        export CC=${COMPILER};
         $CXX --version;
       fi
 
