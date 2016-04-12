@@ -28,7 +28,8 @@ local function AddPostBuildUnitTest(args)
         postbuildcommands { "\"$(TargetPath)\" " .. (args or "") }
 end
 
-workspace("Blueprint")
+local function GenerateWorkspace()
+    workspace("Blueprint")
     platforms { "x64" }
 
     configurations { "Debug", "Release" }
@@ -52,7 +53,14 @@ workspace("Blueprint")
     configuration { "vs*" }
         buildoptions { "/wd4706" }
 
-project("Blueprint")
+    configuration {} -- reset filter
+
+    --buildoptions { "-v" }
+    --linkoptions { "-v" }
+end
+
+local function GenerateBlueprint()
+    project("Blueprint")
     kind("ConsoleApp")
     language("C++")
 
@@ -69,8 +77,10 @@ project("Blueprint")
     AddExternClara()
     AddExternFileSystem()
     AddExternSqlite()
+end
 
-project("BlueprintCore")
+local function GenerateBlueprintCore()
+    project("BlueprintCore")
     kind("StaticLib")
     language("C++")
 
@@ -89,14 +99,16 @@ project("BlueprintCore")
     AddExternFileSystem()
     AddExternJson()
     AddExternSqlite()
+end
 
-project("BlueprintCore.Test")
+local function GenerateBlueprintCoreTest()
+    project("BlueprintCore.Test")
     kind("ConsoleApp")
     language("C++")
 
     links { "TestHelpers", "BlueprintCore", "BlueprintClang", "BlueprintReflection" }
 
-    includedirs { "../source", "../test/unit" }
+    includedirs { "../test/unit", "../source" }
 
     files {
         "../test/unit/Blueprint.Test/**.hpp",
@@ -111,8 +123,10 @@ project("BlueprintCore.Test")
     AddExternFileSystem()
     AddExternJson()
     AddExternSqlite()
+end
 
-project("BlueprintClang")
+local function GenerateBlueprintClang()
+    project("BlueprintClang")
     kind("StaticLib")
     language("C++")
 
@@ -126,8 +140,10 @@ project("BlueprintClang")
     AddPrecompiledHeader("BlueprintClang/Precompiled.hpp", "../source/BlueprintClang/Precompiled.cpp")
 
     AddExternClangLib()
+end
 
-project("BlueprintReflection")
+local function GenerateBlueprintReflection()
+    project("BlueprintReflection")
     kind("StaticLib")
     language("C++")
 
@@ -139,16 +155,16 @@ project("BlueprintReflection")
     }
 
     AddPrecompiledHeader("BlueprintReflection/Precompiled.hpp", "../source/BlueprintReflection/Precompiled.cpp")
+end
 
-    AddExternFileSystem()
-
-project("BlueprintReflection.Test")
+local function GenerateBlueprintReflectionTest()
+    project("BlueprintReflection.Test")
     kind("ConsoleApp")
     language("C++")
 
-    links { "TestHelpers", "BlueprintReflection" }
+    links { "BlueprintReflection" }
 
-    includedirs { "../source", "../test/unit" }
+    includedirs { "../test/unit", "../source" }
 
     files {
         "../test/unit/BlueprintReflection.Test/**.hpp",
@@ -159,9 +175,10 @@ project("BlueprintReflection.Test")
     AddPostBuildUnitTest()
 
     AddExternCatch()
-    AddExternFileSystem()
+end
 
-project("TestHelpers")
+local function GenerateTestHelpers()
+    project("TestHelpers")
     kind("StaticLib")
     language("C++")
 
@@ -184,3 +201,13 @@ project("TestHelpers")
 
     AddExternClangLib()
     AddExternFileSystem()
+end
+
+GenerateWorkspace()
+GenerateBlueprint()
+GenerateBlueprintCore()
+GenerateBlueprintCoreTest()
+GenerateBlueprintClang()
+GenerateBlueprintReflection()
+GenerateBlueprintReflectionTest()
+GenerateTestHelpers()

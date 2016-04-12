@@ -9,8 +9,8 @@ namespace reflection
     class SourceLocation
     {
     public:
-        void SetFile(const filesystem::path& file);
-        const filesystem::path& GetFile() const;
+        void SetFile(const std::string& file);
+        const std::string& GetFile() const;
 
         void SetStartPosition(const SourcePosition& start);
         const SourcePosition& GetStartPosition() const;
@@ -23,7 +23,7 @@ namespace reflection
         std::string ToString() const;
 
     private:
-        filesystem::path file_;
+        std::string file_;
 
         SourcePosition start_;
         SourcePosition end_;

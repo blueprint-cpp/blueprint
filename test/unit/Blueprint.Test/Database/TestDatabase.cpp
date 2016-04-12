@@ -98,7 +98,7 @@ TEST_CASE("TestDatabase")
                 auto& startPos = location.GetStartPosition();
                 auto& endPos   = location.GetEndPosition();
 
-                return std::get<1>(columns) == location.GetFile().str()
+                return std::get<1>(columns) == location.GetFile()
                     && std::get<2>(columns) == (int)startPos.GetLine()
                     && std::get<3>(columns) == (int)startPos.GetColumn()
                     && std::get<4>(columns) == (int)startPos.GetOffset()

@@ -2,9 +2,9 @@
 #define BLUEPRINT_REFLECTION_PRECOMPILED
 
 #include <memory>
+#include <ostream>
+#include <string>
 #include <unordered_map>
 #include <vector>
-
-#include <filesystem/path.h>
 
 #endif

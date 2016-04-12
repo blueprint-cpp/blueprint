@@ -1,7 +1,6 @@
 #include <catch/catch.hpp>
 
 #include "BlueprintReflection/Type/SourceLocation.hpp"
-#include "TestHelpers/FileSystem.hpp"
 
 TEST_CASE("TestSourceLocation")
 {
@@ -19,10 +18,10 @@ TEST_CASE("TestSourceLocation")
     SECTION("File")
     {
         location.SetFile("some/file");
-        CHECK(NormalizedPath(location.GetFile()) == "some/file");
+        CHECK(location.GetFile() == "some/file");
 
         location.SetFile("some/other/file");
-        CHECK(NormalizedPath(location.GetFile()) == "some/other/file");
+        CHECK(location.GetFile() == "some/other/file");
     }
 
     SECTION("ToString")

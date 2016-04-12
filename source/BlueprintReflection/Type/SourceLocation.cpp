@@ -4,12 +4,12 @@ namespace blueprint
 {
 namespace reflection
 {
-    void SourceLocation::SetFile(const filesystem::path& file)
+    void SourceLocation::SetFile(const std::string& file)
     {
         file_ = file;
     }
 
-    const filesystem::path& SourceLocation::GetFile() const
+    const std::string& SourceLocation::GetFile() const
     {
         return file_;
     }
@@ -46,7 +46,7 @@ namespace reflection
 
     std::string SourceLocation::ToString() const
     {
-        return (!file_.empty() ? file_.str(filesystem::path::posix_path) : "<invalid>")
+        return (!file_.empty() ? file_ : "<invalid>")
             + " " + start_.ToString()
             + "-" + end_.ToString();
     }

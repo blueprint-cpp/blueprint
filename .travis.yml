@@ -9,7 +9,7 @@ matrix:
     include:
         - os: linux
           compiler: clang
-          env: COMPILER=clang-3.7
+          env: COMPILER=clang++-3.7
           addons:
             apt:
                 sources:  [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.7' ]
@@ -17,7 +17,7 @@ matrix:
 
         - os: linux
           compiler: clang
-          env: COMPILER=clang-3.8
+          env: COMPILER=clang++-3.8
           addons:
             apt:
                 sources:  [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8' ]
@@ -27,8 +27,8 @@ matrix:
           compiler: clang
 
     allow_failures:
-        - env: COMPILER=clang-3.7
-        - env: COMPILER=clang-3.8
+        - env: COMPILER=clang++-3.7
+        - env: COMPILER=clang++-3.8
 
 before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -42,7 +42,6 @@ before_install:
 before_script:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
         export CXX=${COMPILER};
-        export CC=${COMPILER};
         $CXX --version;
       fi
 

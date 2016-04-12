@@ -47,7 +47,7 @@ namespace database
 
         uint64_t InsertSourceRange(sqlite3pp::database& db, const reflection::SourceLocation& location)
         {
-            uint64_t fileId  = InsertSourceFile(db, location.GetFile().str());
+            uint64_t fileId  = InsertSourceFile(db, location.GetFile());
             uint64_t startId = InsertSourceLocation(db, location.GetStartPosition());
             uint64_t endId   = InsertSourceLocation(db, location.GetEndPosition());
 
