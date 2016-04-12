@@ -47,10 +47,13 @@ workspace("Blueprint")
         flags { "ExtraWarnings", "FatalWarnings", "Optimize" }
 
     configuration { "gmake" }
-        buildoptions { "-std=c++1y" }
+        buildoptions { "-std=c++1y", "-stdlib=libc++" }
 
     configuration { "vs*" }
         buildoptions { "/wd4706" }
+
+    configuration {}
+        linkoptions { "-lc++abi" }
 
 project("Blueprint")
     kind("ConsoleApp")
