@@ -22,7 +22,7 @@ fi
 
 if [[ $download_mode == "binary" ]]; then
 
-    if [[ ! -e $premake_bin ]]; then wget --no-check-certificate $premake_url/$premake_bin; fi
+    if [[ ! -e $premake_bin ]]; then wget --no-check-certificate --no-verbose $premake_url/$premake_bin; fi
 
     if [[ ! -d $premake_dir ]]; then
         mkdir $premake_dir
