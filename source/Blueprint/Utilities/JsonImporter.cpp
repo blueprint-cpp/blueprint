@@ -1,5 +1,7 @@
 #include "Blueprint/Utilities/JsonImporter.hpp"
 
+#include "Blueprint/Utilities/FileSystem.hpp"
+
 #include <json/json.hpp>
 
 #include <fstream>
@@ -9,16 +11,16 @@ namespace blueprint
 {
     namespace internal
     {
-        nlohmann::json ParseJsonFile(const filesystem::path& filePath)
+        nlohmann::json ParseJsonFile(FileSystem& fileSystem, const filesystem::path& filePath)
         {
-            std::ifstream file(filePath.str());
+            auto stream = fileSystem.Open(filePath.str());
 
-            if (file.is_open())
+            if (stream)
             {
-                std::stringstream stream;
-                stream << file.rdbuf();
+                std::stringstream buffer;
+                buffer << stream->rdbuf();
 
-                return nlohmann::json::parse(stream.str());
+                return nlohmann::json::parse(buffer.str());
             }
 
             return nullptr;
@@ -96,9 +98,9 @@ namespace blueprint
         }
     }
 
-    std::unique_ptr<Workspace> JsonImporter::ImportWorkspace(const filesystem::path& workspaceFile)
+    std::unique_ptr<Workspace> JsonImporter::ImportWorkspace(FileSystem& fileSystem, const filesystem::path& workspaceFile)
     {
-        auto json = internal::ParseJsonFile(workspaceFile);
+        auto json = internal::ParseJsonFile(fileSystem, workspaceFile);
 
         if (internal::IsValidWorkspace(json))
         {
@@ -115,7 +117,7 @@ namespace blueprint
 
                 for (auto& project : projects)
                 {
-                    workspace->AddProject(ImportProject(workspacePath / project));
+                    workspace->AddProject(ImportProject(fileSystem, workspacePath / project));
                 }
             }
 
@@ -125,9 +127,9 @@ namespace blueprint
         return nullptr;
     }
 
-    std::unique_ptr<Project> JsonImporter::ImportProject(const filesystem::path& projectFile)
+    std::unique_ptr<Project> JsonImporter::ImportProject(FileSystem& fileSystem, const filesystem::path& projectFile)
     {
-        auto json = internal::ParseJsonFile(projectFile);
+        auto json = internal::ParseJsonFile(fileSystem, projectFile);
 
         if (internal::IsValidProject(json))
         {

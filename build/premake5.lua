@@ -116,7 +116,7 @@ local function GenerateBlueprintCoreTest()
     }
 
     AddPrecompiledHeader("Blueprint.Test/Precompiled.hpp", "../test/unit/Blueprint.Test/Precompiled.cpp")
-    AddPostBuildUnitTest("../../test/unit/Blueprint.Test")
+    AddPostBuildUnitTest()
 
     AddExternClangLib()
     AddExternCatch()

@@ -9,6 +9,7 @@
 #include "BlueprintReflection/Type/ClassType.hpp"
 #include "BlueprintReflection/Type/EnumType.hpp"
 #include "BlueprintReflection/Visitor/TypeEnumerator.hpp"
+#include "Blueprint/Utilities/FileSystem.hpp"
 #include "Blueprint/Utilities/JsonImporter.hpp"
 #include "Blueprint/Utilities/ScopeTimer.hpp"
 #include "Blueprint/Utilities/WorkingDirectory.hpp"
@@ -154,10 +155,17 @@ namespace blueprint
             return typeRegistry_;
         }
 
+        FileSystem& GetFileSystem()
+        {
+            return fileSystem_;
+        }
+
     private:
         clang::Index index_;
 
         reflection::TypeRegistry typeRegistry_;
+
+        FileSystem fileSystem_;
     };
 
     struct Parser::FileContext
@@ -193,7 +201,7 @@ namespace blueprint
 
         internal::EnsureDirectoryExists(outputDirectory_);
 
-        auto workspace = JsonImporter::ImportWorkspace(filePath.filename());
+        auto workspace = JsonImporter::ImportWorkspace(pimpl_->GetFileSystem(), filePath.filename());
         return ParseWorkspace(workspace.get());
     }
 
@@ -253,7 +261,7 @@ namespace blueprint
             return false;
         }
 
-        auto project = JsonImporter::ImportProject(filePath);
+        auto project = JsonImporter::ImportProject(pimpl_->GetFileSystem(), filePath);
         return ParseProject(project.get());
     }
 
