@@ -3,6 +3,7 @@
 #include "Blueprint/Utilities/FileSystem.hpp"
 #include "Blueprint/Utilities/JsonImporter.hpp"
 #include "Blueprint/Utilities/WorkingDirectory.hpp"
+#include "Blueprint/Workspace/File.hpp"
 #include "TestHelpers/MemoryInputStream.hpp"
 
 #include <json/json.hpp>
@@ -204,11 +205,11 @@ TEST_CASE("TestJsonImporter")
         CHECK(config->GetIncludes()[0] == "../some/include/path");
         CHECK(config->GetIncludes()[1] == "../some/other/include/path");
 
-        auto& sources = project->GetSources();
-        REQUIRE(sources.size() == 4);
-        CHECK(sources[0] == "../folder_A/sub_folder_AA/file_AA1.cpp");
-        CHECK(sources[1] == "../folder_A/sub_folder_AB/file_AB1.cpp");
-        CHECK(sources[2] == "../folder_B/file_B1.cpp");
-        CHECK(sources[3] == "../file_at_root.cpp");
+        auto& files = project->GetFiles();
+        REQUIRE(files.size() == 4);
+        CHECK(files[0]->GetFile().str() == "../folder_A/sub_folder_AA/file_AA1.cpp");
+        CHECK(files[1]->GetFile().str() == "../folder_A/sub_folder_AB/file_AB1.cpp");
+        CHECK(files[2]->GetFile().str() == "../folder_B/file_B1.cpp");
+        CHECK(files[3]->GetFile().str() == "../file_at_root.cpp");
     }
 }

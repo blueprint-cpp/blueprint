@@ -37,13 +37,13 @@ namespace blueprint
         return configurations_;
     }
 
-    void Project::AddSource(const std::string& source)
+    void Project::AddFile(std::shared_ptr<File> file)
     {
-        sources_.push_back(source);
+        files_.push_back(file);
     }
 
-    const Project::StringArray& Project::GetSources() const
+    const Project::Files& Project::GetFiles() const
     {
-        return sources_;
+        return files_;
     }
 }

@@ -1,5 +1,6 @@
 #include <catch/catch.hpp>
 
+#include "Blueprint/Workspace/File.hpp"
 #include "Blueprint/Workspace/Project.hpp"
 #include "TestHelpers/FileSystem.hpp"
 
@@ -53,16 +54,20 @@ TEST_CASE("TestProject")
         CHECK(project.GetConfigurations().size() == 2);
     }
 
-    SECTION("Sources")
+    SECTION("Files")
     {
-        project.AddSource("source_A");
+        auto fileA = std::make_shared<File>();
+        auto fileB = std::make_shared<File>();
 
-        REQUIRE(project.GetSources().size() == 1);
-        CHECK(project.GetSources()[0] == "source_A");
+        project.AddFile(fileA);
 
-        project.AddSource("source_B");
+        REQUIRE(project.GetFiles().size() == 1);
+        CHECK(project.GetFiles()[0] == fileA);
 
-        REQUIRE(project.GetSources().size() == 2);
-        CHECK(project.GetSources()[1] == "source_B");
+        project.AddFile(fileB);
+
+        REQUIRE(project.GetFiles().size() == 2);
+        CHECK(project.GetFiles()[0] == fileA);
+        CHECK(project.GetFiles()[1] == fileB);
     }
 }

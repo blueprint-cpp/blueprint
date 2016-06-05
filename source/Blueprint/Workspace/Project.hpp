@@ -2,6 +2,8 @@
 
 #include "Blueprint/Workspace/Configuration.hpp"
 
+namespace blueprint { class File; }
+
 namespace blueprint
 {
     class Project
@@ -20,16 +22,16 @@ namespace blueprint
         const Configurations& GetConfigurations() const;
 
     public:
-        using StringArray = std::vector<std::string>;
+        using Files = std::vector<std::shared_ptr<File>>;
 
-        void AddSource(const std::string& source);
-        const StringArray& GetSources() const;
+        void AddFile(std::shared_ptr<File> file);
+        const Files& GetFiles() const;
 
     private:
         std::string name_;
         filesystem::path file_;
 
         Configurations configurations_;
-        StringArray sources_;
+        Files files_;
     };
 }

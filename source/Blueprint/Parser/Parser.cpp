@@ -13,6 +13,7 @@
 #include "Blueprint/Utilities/JsonImporter.hpp"
 #include "Blueprint/Utilities/ScopeTimer.hpp"
 #include "Blueprint/Utilities/WorkingDirectory.hpp"
+#include "Blueprint/Workspace/File.hpp"
 #include "Blueprint/Workspace/Workspace.hpp"
 
 namespace blueprint
@@ -51,24 +52,6 @@ namespace blueprint
             auto filename = filePath.filename();
 
             return !extension.empty() ? filename.substr(0, filename.length() - extension.length() - 1) : filename;
-        }
-
-        bool IsSourceFile(const filesystem::path& file)
-        {
-            auto extension = file.extension();
-
-            return extension == "c"
-                || extension == "cc"
-                || extension == "cpp";
-        }
-
-        bool IsHeaderFile(const filesystem::path& file)
-        {
-            auto extension = file.extension();
-
-            return extension == "h"
-                || extension == "hh"
-                || extension == "hpp";
         }
 
         void SaveTypes(const reflection::TypeEnumerator& enumerator, const filesystem::path& outputDir)
@@ -176,6 +159,8 @@ namespace blueprint
 
         CommandLineArguments arguments;
 
+        bool isSource{false};
+        bool isHeader{false};
         bool includePrecompiled{false};
         bool saveDependencies{true};
         bool saveArguments{true};
@@ -322,11 +307,11 @@ namespace blueprint
                 }
             }
 
-            for (auto& source : project->GetSources())
+            for (auto& file : project->GetFiles())
             {
-                if (internal::IsHeaderFile(source))
+                if (file.get() && file->IsHeader())
                 {
-                    if (config->HasPrecompiledHeader() && config->GetPrecompiledSource() == source)
+                    if (config->HasPrecompiledHeader() && config->GetPrecompiledSource() == file->GetFile().str())
                     {
                         continue;
                     }
@@ -335,7 +320,9 @@ namespace blueprint
 
                     context.config = config;
                     context.arguments = arguments;
-                    context.filePath = source;
+                    context.filePath = file->GetFile();
+                    context.isSource = file->IsSource();
+                    context.isHeader = file->IsHeader();
                     context.includePrecompiled = true;
 
                     if (!ParseSourceFile(context))
@@ -355,11 +342,11 @@ namespace blueprint
         {
             std::cout << ">>> pch     : " << context.filePath << std::endl;
         }
-        else if (internal::IsSourceFile(context.filePath))
+        else if (context.isSource)
         {
             std::cout << ">>> source  : " << context.filePath << std::endl;
         }
-        else if (internal::IsHeaderFile(context.filePath))
+        else if (context.isHeader)
         {
             std::cout << ">>> header  : " << context.filePath << std::endl;
         }

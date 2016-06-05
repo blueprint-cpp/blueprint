@@ -1,6 +1,7 @@
 #include "Blueprint/Utilities/JsonImporter.hpp"
 
 #include "Blueprint/Utilities/FileSystem.hpp"
+#include "Blueprint/Workspace/File.hpp"
 
 #include <json/json.hpp>
 
@@ -143,9 +144,11 @@ namespace blueprint
                 project->AddConfiguration(internal::ImportConfig(config));
             }
 
-            for (auto& source : json["files"])
+            for (auto& filePath : json["files"])
             {
-                project->AddSource(source);
+                auto file = std::make_shared<File>();
+                file->SetFile(filePath);
+                project->AddFile(file);
             }
 
             return project;
