@@ -211,5 +211,4 @@ TEST_CASE("TestJsonImporter")
         CHECK(sources[2] == "../folder_B/file_B1.cpp");
         CHECK(sources[3] == "../file_at_root.cpp");
     }
-
 }
