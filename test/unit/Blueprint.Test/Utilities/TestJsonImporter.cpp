@@ -19,7 +19,7 @@ namespace
             if (entry != files_.end())
             {
                 auto& buffer = entry->second;
-                return std::make_unique<blueprint::MemoryInputStream>((const uint8_t*)buffer.c_str(), buffer.length());
+                return std::make_unique<blueprint::MemoryInputStream>((const uint8_t*)buffer.data(), buffer.length());
             }
 
             return nullptr;
@@ -45,50 +45,102 @@ TEST_CASE("TestJsonImporter")
 
     SECTION("invalid workspace")
     {
-        auto invalid = JsonImporter::ImportWorkspace(fakeFileSystem, "invalid.wks.json");
+        auto invalid = JsonImporter::ImportWorkspace(fakeFileSystem, "invalid.json");
 
         REQUIRE(invalid == nullptr);
     }
 
     SECTION("invalid project")
     {
-        auto invalid = JsonImporter::ImportProject(fakeFileSystem, "invalid.prj.json");
+        auto invalid = JsonImporter::ImportProject(fakeFileSystem, "invalid.json");
 
         REQUIRE(invalid == nullptr);
     }
 
-    SECTION("test_A")
+    SECTION("empty workspace")
     {
-        const std::string test_A = R"(
+        const std::string wksA = R"(
             {
-              "workspace": "test_A",
+              "workspace": "wks_A",
               "projects": []
             }
         )";
 
-        fakeFileSystem.AddFile("test_A.wks.json", test_A);
+        fakeFileSystem.AddFile("wks_A.json", wksA);
 
-        auto workspace = JsonImporter::ImportWorkspace(fakeFileSystem, "test_A.wks.json");
+        auto workspace = JsonImporter::ImportWorkspace(fakeFileSystem, "wks_A.json");
 
         REQUIRE(workspace != nullptr);
 
-        CHECK(workspace->GetName() == "test_A");
-        CHECK(workspace->GetFile().str() == "test_A.wks.json");
+        CHECK(workspace->GetName() == "wks_A");
+        CHECK(workspace->GetFile().str() == "wks_A.json");
         CHECK(workspace->GetProjects().empty() == true);
     }
 
-    SECTION("test_B")
+    SECTION("workspace with projects")
     {
-        const std::string test_B = R"(
+        const std::string wksB = R"(
             {
-              "workspace": "test_B",
-              "projects": [ "test_B1.prj.json" ]
+              "workspace": "wks_B",
+              "projects": [ "prj_B1.json", "prj_B2.json", "prj_B3.json" ]
             }
         )";
 
-        const std::string test_B1 = R"(
+        const std::string prjB1 = R"(
             {
-              "project": "test_B1",
+              "project": "prj_B1"
+            }
+        )";
+
+        const std::string prjB2 = R"(
+            {
+              "project": "prj_B2"
+            }
+        )";
+
+        const std::string prjB3 = R"(
+            {
+              "project": "prj_B3"
+            }
+        )";
+
+        fakeFileSystem.AddFile("wks_B.json", wksB);
+        fakeFileSystem.AddFile("prj_B1.json", prjB1);
+        fakeFileSystem.AddFile("prj_B2.json", prjB2);
+        fakeFileSystem.AddFile("prj_B3.json", prjB3);
+
+        auto workspace = JsonImporter::ImportWorkspace(fakeFileSystem, "wks_B.json");
+
+        REQUIRE(workspace != nullptr);
+
+        CHECK(workspace->GetName() == "wks_B");
+        CHECK(workspace->GetFile().str() == "wks_B.json");
+
+        auto& projects = workspace->GetProjects();
+
+        REQUIRE(projects.size() == 3);
+
+        CHECK(projects[0]->GetName() == "prj_B1");
+        CHECK(projects[1]->GetName() == "prj_B2");
+        CHECK(projects[2]->GetName() == "prj_B3");
+
+        CHECK(projects[0]->GetFile().str() == "prj_B1.json");
+        CHECK(projects[1]->GetFile().str() == "prj_B2.json");
+        CHECK(projects[2]->GetFile().str() == "prj_B3.json");
+    }
+
+    SECTION("project content")
+    {
+        const std::string wksC= R"(
+            {
+              "workspace": "wks_C",
+              "projects": [ "prj_C.json" ]
+            }
+        )";
+
+        const std::string prjC = R"(
+            {
+              "project": "prj_C",
               "configs": [
                 {
                   "name": "Debug",
@@ -114,15 +166,15 @@ TEST_CASE("TestJsonImporter")
             }
         )";
 
-        fakeFileSystem.AddFile("test_B.wks.json", test_B);
-        fakeFileSystem.AddFile("test_B1.prj.json", test_B1);
+        fakeFileSystem.AddFile("wks_C.json", wksC);
+        fakeFileSystem.AddFile("prj_C.json", prjC);
 
-        auto workspace = JsonImporter::ImportWorkspace(fakeFileSystem, "test_B.wks.json");
+        auto workspace = JsonImporter::ImportWorkspace(fakeFileSystem, "wks_C.json");
 
         REQUIRE(workspace != nullptr);
 
-        CHECK(workspace->GetName() == "test_B");
-        CHECK(workspace->GetFile().str() == "test_B.wks.json");
+        CHECK(workspace->GetName() == "wks_C");
+        CHECK(workspace->GetFile().str() == "wks_C.json");
 
         auto& projects = workspace->GetProjects();
         REQUIRE(projects.size() == 1);
@@ -130,8 +182,8 @@ TEST_CASE("TestJsonImporter")
         auto project = projects[0].get();
         REQUIRE(project != nullptr);
 
-        CHECK(project->GetName() == "test_B1");
-        CHECK(project->GetFile().str() == "test_B1.prj.json");
+        CHECK(project->GetName() == "prj_C");
+        CHECK(project->GetFile().str() == "prj_C.json");
 
         REQUIRE(project->GetConfigurations().size() == 1);
 
@@ -160,59 +212,4 @@ TEST_CASE("TestJsonImporter")
         CHECK(sources[3] == "../file_at_root.cpp");
     }
 
-    SECTION("test_C")
-    {
-        const std::string test_C = R"(
-            {
-              "workspace": "test_C",
-              "projects": [
-                "test_C1.prj.json",
-                "test_C2.prj.json",
-                "test_C3.prj.json"
-              ]
-            }
-        )";
-
-        const std::string test_C1 = R"(
-            {
-              "project": "test_C1"
-            }
-        )";
-
-        const std::string test_C2 = R"(
-            {
-              "project": "test_C2"
-            }
-        )";
-
-        const std::string test_C3 = R"(
-            {
-              "project": "test_C3"
-            }
-        )";
-
-        fakeFileSystem.AddFile("test_C.wks.json", test_C);
-        fakeFileSystem.AddFile("test_C1.prj.json", test_C1);
-        fakeFileSystem.AddFile("test_C2.prj.json", test_C2);
-        fakeFileSystem.AddFile("test_C3.prj.json", test_C3);
-
-        auto workspace = JsonImporter::ImportWorkspace(fakeFileSystem, "test_C.wks.json");
-
-        REQUIRE(workspace != nullptr);
-
-        CHECK(workspace->GetName() == "test_C");
-        CHECK(workspace->GetFile().str() == "test_C.wks.json");
-
-        auto& projects = workspace->GetProjects();
-
-        REQUIRE(projects.size() == 3);
-
-        CHECK(projects[0]->GetName() == "test_C1");
-        CHECK(projects[1]->GetName() == "test_C2");
-        CHECK(projects[2]->GetName() == "test_C3");
-
-        CHECK(projects[0]->GetFile().str() == "test_C1.prj.json");
-        CHECK(projects[1]->GetFile().str() == "test_C2.prj.json");
-        CHECK(projects[2]->GetFile().str() == "test_C3.prj.json");
-    }
 }
