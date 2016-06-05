@@ -2,8 +2,8 @@
 
 #include "Blueprint/Utilities/FileSystem.hpp"
 #include "Blueprint/Utilities/JsonImporter.hpp"
-#include "Blueprint/Utilities/MemoryInputStream.hpp"
 #include "Blueprint/Utilities/WorkingDirectory.hpp"
+#include "TestHelpers/MemoryInputStream.hpp"
 
 #include <json/json.hpp>
 
