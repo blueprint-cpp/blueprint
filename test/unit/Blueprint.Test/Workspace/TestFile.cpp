@@ -1,6 +1,7 @@
 #include <catch/catch.hpp>
 
 #include "Blueprint/Workspace/File.hpp"
+#include "Blueprint.Test/FakeFileSystem.hpp"
 #include "TestHelpers/FileSystem.hpp"
 
 using namespace blueprint;
@@ -28,18 +29,40 @@ TEST_CASE("TestFile")
 
     SECTION("Dependencies")
     {
-        auto dependencyA = std::make_shared<File>();
-        auto dependencyB = std::make_shared<File>();
+        SECTION("Adding")
+        {
+            auto dependencyA = std::make_shared<File>();
+            auto dependencyB = std::make_shared<File>();
 
-        file.AddDependency(dependencyA);
+            file.AddDependency(dependencyA);
 
-        REQUIRE(file.GetDependencies().size() == 1);
-        CHECK(file.GetDependencies()[0] == dependencyA);
+            REQUIRE(file.GetDependencies().size() == 1);
+            CHECK(file.GetDependencies()[0] == dependencyA);
 
-        file.AddDependency(dependencyB);
-        REQUIRE(file.GetDependencies().size() == 2);
-        CHECK(file.GetDependencies()[0] == dependencyA);
-        CHECK(file.GetDependencies()[1] == dependencyB);
+            file.AddDependency(dependencyB);
+            REQUIRE(file.GetDependencies().size() == 2);
+            CHECK(file.GetDependencies()[0] == dependencyA);
+            CHECK(file.GetDependencies()[1] == dependencyB);
+        }
+
+        SECTION("Reading from a file")
+        {
+            const std::string buffer = R"(
+                some_file.o: path_A/file_A.hpp \
+                path_B/file_B.hpp \
+                file_C.hpp
+            )";
+
+            unittest::FakeFileSystem fakeFileSystem;
+            fakeFileSystem.AddFile("some_file.dep", buffer);
+
+            file.ReadDependencies(fakeFileSystem, "some_file.dep");
+
+            REQUIRE(file.GetDependencies().size() == 3);
+            CHECK(file.GetDependencies()[0]->GetFile().str() == "path_A/file_A.hpp");
+            CHECK(file.GetDependencies()[1]->GetFile().str() == "path_B/file_B.hpp");
+            CHECK(file.GetDependencies()[2]->GetFile().str() == "file_C.hpp");
+        }
     }
 
     SECTION("Source")

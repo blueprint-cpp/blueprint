@@ -2,6 +2,8 @@
 
 namespace blueprint
 {
+namespace unittest
+{
     class MemoryInputStream : public std::istream
     {
     public:
@@ -25,4 +27,5 @@ namespace blueprint
 
         MemoryBuffer buffer_;
     };
+}
 }

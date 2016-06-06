@@ -4,6 +4,7 @@
 #include <filesystem/path.h>
 
 #include <functional>
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>

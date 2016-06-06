@@ -4,43 +4,15 @@
 #include "Blueprint/Utilities/JsonImporter.hpp"
 #include "Blueprint/Utilities/WorkingDirectory.hpp"
 #include "Blueprint/Workspace/File.hpp"
-#include "TestHelpers/MemoryInputStream.hpp"
+#include "Blueprint.Test/FakeFileSystem.hpp"
 
 #include <json/json.hpp>
-
-namespace
-{
-    class FakeFileSystem : public blueprint::FileSystem
-    {
-    public:
-        virtual std::unique_ptr<std::istream> Open(const filesystem::path& file) override
-        {
-            auto entry = files_.find(file.str());
-
-            if (entry != files_.end())
-            {
-                auto& buffer = entry->second;
-                return std::make_unique<blueprint::MemoryInputStream>((const uint8_t*)buffer.data(), buffer.length());
-            }
-
-            return nullptr;
-        }
-
-        void AddFile(const filesystem::path& file, const std::string& buffer)
-        {
-            files_[file.str()] = buffer;
-        }
-
-    private:
-        std::map<std::string, std::string> files_;
-    };
-}
 
 TEST_CASE("TestJsonImporter")
 {
     using namespace blueprint;
 
-    FakeFileSystem fakeFileSystem;
+    unittest::FakeFileSystem fakeFileSystem;
 
     WorkingDirectory::SetCurrent("Samples");
 
