@@ -8,11 +8,11 @@ namespace unittest
 {
     std::unique_ptr<std::istream> FakeFileSystem::Open(const filesystem::path& file)
     {
-        auto entry = files_.find(file.str());
+        auto fileIt = files_.find(file.str());
 
-        if (entry != files_.end())
+        if (fileIt != files_.end())
         {
-            auto& buffer = entry->second;
+            auto& buffer = fileIt->second;
             return std::make_unique<MemoryInputStream>((const uint8_t*)buffer.data(), buffer.length());
         }
 
