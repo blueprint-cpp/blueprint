@@ -2,6 +2,7 @@
 
 #include "Blueprint/Utilities/FileSystem.hpp"
 #include "Blueprint/Workspace/File.hpp"
+#include "Blueprint/Workspace/FileManager.hpp"
 
 #include <json/json.hpp>
 
@@ -99,9 +100,9 @@ namespace blueprint
         }
     }
 
-    std::unique_ptr<Workspace> JsonImporter::ImportWorkspace(FileSystem& fileSystem, const filesystem::path& workspaceFile)
+    std::unique_ptr<Workspace> JsonImporter::ImportWorkspace(FileManager& fileManager, const filesystem::path& workspaceFile)
     {
-        auto json = internal::ParseJsonFile(fileSystem, workspaceFile);
+        auto json = internal::ParseJsonFile(fileManager.GetFileSystem(), workspaceFile);
 
         if (internal::IsValidWorkspace(json))
         {
@@ -118,7 +119,7 @@ namespace blueprint
 
                 for (auto& project : projects)
                 {
-                    workspace->AddProject(ImportProject(fileSystem, workspacePath / project));
+                    workspace->AddProject(ImportProject(fileManager, workspacePath / project));
                 }
             }
 
@@ -128,9 +129,9 @@ namespace blueprint
         return nullptr;
     }
 
-    std::unique_ptr<Project> JsonImporter::ImportProject(FileSystem& fileSystem, const filesystem::path& projectFile)
+    std::unique_ptr<Project> JsonImporter::ImportProject(FileManager& fileManager, const filesystem::path& projectFile)
     {
-        auto json = internal::ParseJsonFile(fileSystem, projectFile);
+        auto json = internal::ParseJsonFile(fileManager.GetFileSystem(), projectFile);
 
         if (internal::IsValidProject(json))
         {

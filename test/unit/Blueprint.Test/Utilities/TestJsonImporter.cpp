@@ -4,6 +4,7 @@
 #include "Blueprint/Utilities/JsonImporter.hpp"
 #include "Blueprint/Utilities/WorkingDirectory.hpp"
 #include "Blueprint/Workspace/File.hpp"
+#include "Blueprint/Workspace/FileManager.hpp"
 #include "Blueprint.Test/FakeFileSystem.hpp"
 
 #include <json/json.hpp>
@@ -13,19 +14,20 @@ TEST_CASE("TestJsonImporter")
     using namespace blueprint;
 
     unittest::FakeFileSystem fakeFileSystem;
+    FileManager fileManager(fakeFileSystem);
 
     WorkingDirectory::SetCurrent("Samples");
 
     SECTION("invalid workspace")
     {
-        auto invalid = JsonImporter::ImportWorkspace(fakeFileSystem, "invalid.json");
+        auto invalid = JsonImporter::ImportWorkspace(fileManager, "invalid.json");
 
         REQUIRE(invalid == nullptr);
     }
 
     SECTION("invalid project")
     {
-        auto invalid = JsonImporter::ImportProject(fakeFileSystem, "invalid.json");
+        auto invalid = JsonImporter::ImportProject(fileManager, "invalid.json");
 
         REQUIRE(invalid == nullptr);
     }
@@ -41,7 +43,7 @@ TEST_CASE("TestJsonImporter")
 
         fakeFileSystem.AddFile("wks_A.json", wksA);
 
-        auto workspace = JsonImporter::ImportWorkspace(fakeFileSystem, "wks_A.json");
+        auto workspace = JsonImporter::ImportWorkspace(fileManager, "wks_A.json");
 
         REQUIRE(workspace != nullptr);
 
@@ -82,7 +84,7 @@ TEST_CASE("TestJsonImporter")
         fakeFileSystem.AddFile("prj_B2.json", prjB2);
         fakeFileSystem.AddFile("prj_B3.json", prjB3);
 
-        auto workspace = JsonImporter::ImportWorkspace(fakeFileSystem, "wks_B.json");
+        auto workspace = JsonImporter::ImportWorkspace(fileManager, "wks_B.json");
 
         REQUIRE(workspace != nullptr);
 
@@ -142,7 +144,7 @@ TEST_CASE("TestJsonImporter")
         fakeFileSystem.AddFile("wks_C.json", wksC);
         fakeFileSystem.AddFile("prj_C.json", prjC);
 
-        auto workspace = JsonImporter::ImportWorkspace(fakeFileSystem, "wks_C.json");
+        auto workspace = JsonImporter::ImportWorkspace(fileManager, "wks_C.json");
 
         REQUIRE(workspace != nullptr);
 

@@ -14,6 +14,7 @@
 #include "Blueprint/Utilities/ScopeTimer.hpp"
 #include "Blueprint/Utilities/WorkingDirectory.hpp"
 #include "Blueprint/Workspace/File.hpp"
+#include "Blueprint/Workspace/FileManager.hpp"
 #include "Blueprint/Workspace/Workspace.hpp"
 
 namespace blueprint
@@ -138,9 +139,9 @@ namespace blueprint
             return typeRegistry_;
         }
 
-        FileSystem& GetFileSystem()
+        FileManager& GetFileManager()
         {
-            return fileSystem_;
+            return fileManager_;
         }
 
     private:
@@ -149,6 +150,7 @@ namespace blueprint
         reflection::TypeRegistry typeRegistry_;
 
         FileSystem fileSystem_;
+        FileManager fileManager_{fileSystem_};
     };
 
     struct Parser::FileContext
@@ -186,7 +188,7 @@ namespace blueprint
 
         internal::EnsureDirectoryExists(outputDirectory_);
 
-        auto workspace = JsonImporter::ImportWorkspace(pimpl_->GetFileSystem(), filePath.filename());
+        auto workspace = JsonImporter::ImportWorkspace(pimpl_->GetFileManager(), filePath.filename());
         return ParseWorkspace(workspace.get());
     }
 
@@ -246,7 +248,7 @@ namespace blueprint
             return false;
         }
 
-        auto project = JsonImporter::ImportProject(pimpl_->GetFileSystem(), filePath);
+        auto project = JsonImporter::ImportProject(pimpl_->GetFileManager(), filePath);
         return ParseProject(project.get());
     }
 
