@@ -15,7 +15,7 @@ namespace blueprint
     {
         nlohmann::json ParseJsonFile(FileSystem& fileSystem, const filesystem::path& filePath)
         {
-            auto stream = fileSystem.Open(filePath.str());
+            auto stream = fileSystem.OpenStream(filePath.str());
 
             if (stream)
             {

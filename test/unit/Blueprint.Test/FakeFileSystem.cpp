@@ -6,7 +6,7 @@ namespace blueprint
 {
 namespace unittest
 {
-    std::unique_ptr<std::istream> FakeFileSystem::Open(const filesystem::path& file)
+    std::unique_ptr<std::istream> FakeFileSystem::OpenStream(const filesystem::path& file)
     {
         auto fileIt = files_.find(file.str());
 
