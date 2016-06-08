@@ -1,6 +1,6 @@
 #pragma once
 
-namespace blueprint { class FileSystem; }
+namespace blueprint { class FileManager; }
 
 namespace blueprint
 {
@@ -19,7 +19,7 @@ namespace blueprint
         void AddDependency(std::shared_ptr<File> file);
         const Dependencies& GetDependencies() const;
 
-        void ReadDependencies(FileSystem& fileSystem, const filesystem::path& file);
+        void ReadDependencies(FileManager& fileManager, const filesystem::path& file);
 
     private:
         Dependencies dependencies_;

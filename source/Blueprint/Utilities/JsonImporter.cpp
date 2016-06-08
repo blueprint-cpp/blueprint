@@ -147,9 +147,7 @@ namespace blueprint
 
             for (auto& filePath : json["files"])
             {
-                auto file = std::make_shared<File>();
-                file->SetFile(filePath);
-                project->AddFile(file);
+                project->AddFile(fileManager.GetOrCreateFile(filePath));
             }
 
             return project;

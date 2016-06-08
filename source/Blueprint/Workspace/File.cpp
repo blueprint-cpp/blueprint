@@ -1,28 +1,29 @@
 #include "Blueprint/Workspace/File.hpp"
 
 #include "Blueprint/Utilities/FileSystem.hpp"
+#include "Blueprint/Workspace/FileManager.hpp"
 
 namespace blueprint
 {
     namespace internal
     {
-        std::string& ltrim(std::string& s)
+        std::string& TrimLeft(std::string& s)
         {
             s.erase(s.begin(), std::find_if(s.begin(), s.end(),
             std::ptr_fun<int, int>(std::isgraph)));
             return s;
         }
 
-        std::string& rtrim(std::string& s)
+        std::string& TrimRight(std::string& s)
         {
             s.erase(std::find_if(s.rbegin(), s.rend(),
             std::ptr_fun<int, int>(std::isgraph)).base(), s.end());
             return s;
         }
 
-        std::string& trim(std::string& s)
+        std::string& Trim(std::string& s)
         {
-            return ltrim(rtrim(s));
+            return TrimLeft(TrimRight(s));
         }
     }
 
@@ -64,20 +65,19 @@ namespace blueprint
         return dependencies_;
     }
 
-    void File::ReadDependencies(FileSystem& fileSystem, const filesystem::path& file)
+    void File::ReadDependencies(FileManager& fileManager, const filesystem::path& file)
     {
-        auto dependencyFile = fileSystem.Open(file);
+        auto dependencyFile = fileManager.GetOrCreateFile(file);
+        auto dependencyFileStream = fileManager.GetFileSystem().OpenStream(file);
 
-        if (dependencyFile.get())
+        if (dependencyFileStream)
         {
             std::string line;
-            std::getline(*dependencyFile, line, ':');
+            std::getline(*dependencyFileStream, line, ':');
 
-            while (std::getline(*dependencyFile, line, '\\'))
+            while (std::getline(*dependencyFileStream, line, '\\'))
             {
-                auto dependency = std::make_shared<File>();
-                dependency->SetFile(internal::trim(line));
-                AddDependency(dependency);
+                AddDependency(fileManager.GetOrCreateFile(internal::Trim(line)));
             }
         }
     }

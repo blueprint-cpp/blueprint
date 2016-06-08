@@ -1,6 +1,7 @@
 #include <catch/catch.hpp>
 
 #include "Blueprint/Workspace/File.hpp"
+#include "Blueprint/Workspace/FileManager.hpp"
 #include "Blueprint.Test/FakeFileSystem.hpp"
 #include "TestHelpers/FileSystem.hpp"
 
@@ -56,7 +57,9 @@ TEST_CASE("TestFile")
             unittest::FakeFileSystem fakeFileSystem;
             fakeFileSystem.AddFile("some_file.dep", buffer);
 
-            file.ReadDependencies(fakeFileSystem, "some_file.dep");
+            FileManager fileManager(fakeFileSystem);
+
+            file.ReadDependencies(fileManager, "some_file.dep");
 
             REQUIRE(file.GetDependencies().size() == 3);
             CHECK(file.GetDependencies()[0]->GetFile().str() == "path_A/file_A.hpp");
