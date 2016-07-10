@@ -29,8 +29,9 @@ namespace database
         auto sql =
             "CREATE TABLE SourceFile"
             "("
-            "    crc  INTEGER PRIMARY KEY,"
-            "    file TEXT"
+            "    crc       INTEGER PRIMARY KEY,"
+            "    file      TEXT,"
+            "    timestamp INTEGER"
             ")";
 
         db_.execute(sql);

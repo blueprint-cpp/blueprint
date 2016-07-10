@@ -44,23 +44,23 @@ TEST_CASE("TestSchema")
 
         SECTION("SourceFile")
         {
-            sqlite3pp::command insert(db, "INSERT INTO SourceFile (crc, file) VALUES (?, ?)");
+            sqlite3pp::command insert(db, "INSERT INTO SourceFile (crc, file, timestamp) VALUES (?, ?, ?)");
 
-            CHECK(SQLITE_OK == ExecuteCommand(insert, 0xA, "some/file"));
-            CHECK(SQLITE_OK == ExecuteCommand(insert, 0xB, "some/other/file"));
+            CHECK(SQLITE_OK == ExecuteCommand(insert, 0xA, "some/file", 0x123));
+            CHECK(SQLITE_OK == ExecuteCommand(insert, 0xB, "some/other/file", 0x456));
 
             sqlite3pp::query select(db, "SELECT * FROM SourceFile");
-            REQUIRE(select.column_count() == 2);
+            REQUIRE(select.column_count() == 3);
 
-            auto compare = [](auto row, auto arg1, auto arg2)
+            auto compare = [](auto row, auto arg1, auto arg2, auto arg3)
             {
-                auto columns = row.template get_columns<int, const char*>(0, 1);
-                return columns == std::make_tuple(arg1, arg2);
+                auto columns = row.template get_columns<int, const char*, int>(0, 1, 2);
+                return columns == std::make_tuple(arg1, arg2, arg3);
             };
 
             auto it = select.begin();
-            CHECK(compare(*it,     0xA, std::string("some/file")));
-            CHECK(compare(*(++it), 0xB, std::string("some/other/file")));
+            CHECK(compare(*it,     0xA, std::string("some/file"), 0x123));
+            CHECK(compare(*(++it), 0xB, std::string("some/other/file"), 0x456));
             REQUIRE(++it == select.end());
         }
 
