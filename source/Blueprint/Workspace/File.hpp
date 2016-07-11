@@ -10,6 +10,9 @@ namespace blueprint
         void SetFile(const filesystem::path& file);
         const filesystem::path& GetFile() const;
 
+        void SetTimestamp(std::time_t timestamp);
+        std::time_t GetTimestamp() const;
+
         bool IsSource() const;
         bool IsHeader() const;
 
@@ -24,5 +27,7 @@ namespace blueprint
     private:
         Dependencies dependencies_;
         filesystem::path file_;
+
+        std::time_t timestamp_{0};
     };
 }

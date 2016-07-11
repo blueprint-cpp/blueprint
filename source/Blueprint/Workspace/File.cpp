@@ -37,6 +37,16 @@ namespace blueprint
         return file_;
     }
 
+    void File::SetTimestamp(std::time_t timestamp)
+    {
+        timestamp_ = timestamp;
+    }
+
+    std::time_t File::GetTimestamp() const
+    {
+        return timestamp_;
+    }
+
     bool File::IsSource() const
     {
         auto extension = file_.extension();

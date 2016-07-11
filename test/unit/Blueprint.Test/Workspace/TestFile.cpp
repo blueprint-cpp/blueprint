@@ -28,6 +28,15 @@ TEST_CASE("TestFile")
         CHECK(NormalizedPath(file.GetFile()) == "some/other/file");
     }
 
+    SECTION("Timestamp")
+    {
+        file.SetTimestamp(1234);
+        CHECK(file.GetTimestamp() == 1234);
+
+        file.SetTimestamp(5678);
+        CHECK(file.GetTimestamp() == 5678);
+    }
+
     SECTION("Dependencies")
     {
         SECTION("Adding")
