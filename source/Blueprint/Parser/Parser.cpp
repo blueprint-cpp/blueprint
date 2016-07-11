@@ -55,7 +55,7 @@ namespace blueprint
             return !extension.empty() ? filename.substr(0, filename.length() - extension.length() - 1) : filename;
         }
 
-        void SaveTypes(const reflection::TypeEnumerator& enumerator, const filesystem::path& outputDir)
+        void SaveTypes(const reflection::TypeEnumerator& enumerator, database::Database& database)
         {
             std::cout << std::endl;
             std::cout << "> saving database :" << std::endl;
@@ -63,10 +63,6 @@ namespace blueprint
             ScopeTimer timer([](double time) {
                 std::cout << time << "s" << std::endl;
             });
-
-            sqlite3pp::database db((outputDir / "registry.db").str().c_str());
-            sqlite3pp::transaction transaction(db);
-            database::Database database(db);
 
             auto& classes = enumerator.GetClasses();
             auto& enums = enumerator.GetEnums();
@@ -77,10 +73,7 @@ namespace blueprint
             types.insert(types.end(), classes.begin(), classes.end());
             types.insert(types.end(), enums.begin(), enums.end());
 
-            database.Initialize();
             database.InsertTypes(types);
-
-            transaction.commit();
         }
 
         void ListTypes(const reflection::TypeEnumerator& enumerator)
@@ -144,6 +137,11 @@ namespace blueprint
             return fileManager_;
         }
 
+        database::Database& GetDatabase()
+        {
+            return database_;
+        }
+
     private:
         clang::Index index_;
 
@@ -151,6 +149,8 @@ namespace blueprint
 
         FileSystem fileSystem_;
         FileManager fileManager_{fileSystem_};
+
+        database::Database database_;
     };
 
     struct Parser::FileContext
@@ -170,7 +170,7 @@ namespace blueprint
     };
 
     Parser::Parser()
-        : pimpl_(new Impl())
+        : pimpl_(std::make_unique<Impl>())
     {}
 
     Parser::~Parser() = default;
@@ -235,7 +235,8 @@ namespace blueprint
             internal::ListTypes(enumerator);
         }
 
-        internal::SaveTypes(enumerator, outputDirectory_);
+        pimpl_->GetDatabase().Initialize(outputDirectory_ / "registry.db");
+        internal::SaveTypes(enumerator, pimpl_->GetDatabase());
 
         return true;
     }

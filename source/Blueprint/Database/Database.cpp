@@ -58,27 +58,55 @@ namespace database
         }
     }
 
-    Database::Database(sqlite3pp::database& db)
-        : db_(db)
+    class Database::Impl
+    {
+    public:
+        sqlite3pp::database& GetDatabase()
+        {
+            return database_;
+        }
+
+    private:
+        sqlite3pp::database database_;
+    };
+
+    Database::Database()
+        : pimpl_(std::make_unique<Impl>())
     {}
 
-    void Database::Initialize()
+    Database::~Database() = default;
+
+    sqlite3pp::database& Database::GetDB()
     {
-        Schema schema(db_);
+        return pimpl_->GetDatabase();
+    }
+
+    void Database::Initialize(const filesystem::path& file)
+    {
+        auto& db = pimpl_->GetDatabase();
+
+        db.connect(file.str().c_str(), SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
+
+        Schema schema(db);
         schema.Initialize();
     }
 
     void Database::InsertTypes(const std::vector<const reflection::Type*>& types)
     {
-        sqlite3pp::command cmd(db_, "INSERT OR REPLACE INTO Type (id, name, namespace, size, location) VALUES (?, ?, ?, ?, ?)");
+        auto& db = pimpl_->GetDatabase();
+
+        sqlite3pp::transaction transaction(db);
+        sqlite3pp::command cmd(db, "INSERT OR REPLACE INTO Type (id, name, namespace, size, location) VALUES (?, ?, ?, ?, ?)");
 
         for (auto type : types)
         {
-            auto namespaceId = internal::InsertNamespace(db_, type->GetNamespace());
-            auto rangeId     = internal::InsertSourceRange(db_, type->GetSourceLocation());
+            auto namespaceId = internal::InsertNamespace(db, type->GetNamespace());
+            auto rangeId     = internal::InsertSourceRange(db, type->GetSourceLocation());
 
             sqlite::ExecuteCommand(cmd, type->GetTypeId(), type->GetName(), namespaceId, type->GetSize(), rangeId);
         }
+
+        transaction.commit();
     }
 }
 }

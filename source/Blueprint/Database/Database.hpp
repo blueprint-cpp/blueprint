@@ -1,7 +1,6 @@
 #pragma once
 
 namespace blueprint { namespace reflection { class Type; } }
-namespace blueprint { namespace reflection { class SourceLocation; } }
 namespace sqlite3pp { class database; }
 
 namespace blueprint
@@ -11,14 +10,19 @@ namespace database
     class Database
     {
     public:
-        Database(sqlite3pp::database& db);
+        Database();
+        ~Database();
 
-        void Initialize();
+        void Initialize(const filesystem::path& file);
 
         void InsertTypes(const std::vector<const reflection::Type*>& types);
 
+    public:
+        sqlite3pp::database& GetDB();
+
     private:
-        sqlite3pp::database& db_;
+        class Impl;
+        std::unique_ptr<Impl> pimpl_;
     };
 }
 }

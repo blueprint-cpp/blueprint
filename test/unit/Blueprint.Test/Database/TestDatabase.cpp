@@ -38,9 +38,10 @@ namespace
 
 TEST_CASE("TestDatabase")
 {
-    sqlite3pp::database db(":memory:");
-    Database database(db);
-    database.Initialize();
+    Database database;
+    database.Initialize(":memory:");
+
+    auto& db = database.GetDB();
 
     SECTION("Insert Types")
     {
