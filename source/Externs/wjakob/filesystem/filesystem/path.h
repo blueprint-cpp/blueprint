@@ -112,6 +112,19 @@ public:
         return (size_t) sb.st_size;
     }
 
+    time_t last_write_time() const {
+#if defined(_WIN32)
+        struct _stati64 sb;
+        if (_wstati64(wstr().c_str(), &sb) != 0)
+            throw std::runtime_error("path::last_write_time(): cannot stat file \"" + str() + "\"!");
+#else
+        struct stat sb;
+        if (stat(str().c_str(), &sb) != 0)
+            throw std::runtime_error("path::last_write_time(): cannot stat file \"" + str() + "\"!");
+#endif
+        return sb.st_mtime;
+    }
+
     bool is_directory() const {
 #if defined(_WIN32)
         DWORD result = GetFileAttributesW(wstr().c_str());
