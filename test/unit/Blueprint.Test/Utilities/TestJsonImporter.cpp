@@ -6,6 +6,7 @@
 #include "Blueprint/Workspace/File.hpp"
 #include "Blueprint/Workspace/FileManager.hpp"
 #include "Blueprint.Test/FakeFileSystem.hpp"
+#include "TestHelpers/FileSystem.hpp"
 
 #include <json/json.hpp>
 
@@ -181,9 +182,9 @@ TEST_CASE("TestJsonImporter")
 
         auto& files = project->GetFiles();
         REQUIRE(files.size() == 4);
-        CHECK(files[0]->GetFile().str() == "../folder_A/sub_folder_AA/file_AA1.cpp");
-        CHECK(files[1]->GetFile().str() == "../folder_A/sub_folder_AB/file_AB1.cpp");
-        CHECK(files[2]->GetFile().str() == "../folder_B/file_B1.cpp");
-        CHECK(files[3]->GetFile().str() == "../file_at_root.cpp");
+        CHECK(NormalizedPath(files[0]->GetFile()) == "../folder_A/sub_folder_AA/file_AA1.cpp");
+        CHECK(NormalizedPath(files[1]->GetFile()) == "../folder_A/sub_folder_AB/file_AB1.cpp");
+        CHECK(NormalizedPath(files[2]->GetFile()) == "../folder_B/file_B1.cpp");
+        CHECK(NormalizedPath(files[3]->GetFile()) == "../file_at_root.cpp");
     }
 }

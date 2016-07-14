@@ -71,9 +71,9 @@ TEST_CASE("TestFile")
             file.ReadDependencies(fileManager, "some_file.dep");
 
             REQUIRE(file.GetDependencies().size() == 3);
-            CHECK(file.GetDependencies()[0]->GetFile().str() == "path_A/file_A.hpp");
-            CHECK(file.GetDependencies()[1]->GetFile().str() == "path_B/file_B.hpp");
-            CHECK(file.GetDependencies()[2]->GetFile().str() == "file_C.hpp");
+            CHECK(NormalizedPath(file.GetDependencies()[0]->GetFile()) == "path_A/file_A.hpp");
+            CHECK(NormalizedPath(file.GetDependencies()[1]->GetFile()) == "path_B/file_B.hpp");
+            CHECK(NormalizedPath(file.GetDependencies()[2]->GetFile()) == "file_C.hpp");
         }
     }
 
