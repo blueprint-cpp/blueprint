@@ -13,6 +13,9 @@ namespace blueprint
         void SetTimestamp(std::time_t timestamp);
         std::time_t GetTimestamp() const;
 
+        void UpdateTimestamp();
+        bool IsDirty() const;
+
         bool IsSource() const;
         bool IsHeader() const;
 

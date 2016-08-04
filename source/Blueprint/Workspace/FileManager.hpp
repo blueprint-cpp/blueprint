@@ -14,6 +14,8 @@ namespace blueprint
 
         std::shared_ptr<File> GetOrCreateFile(const filesystem::path& filename);
 
+        void GatherFiles(std::vector<File*>& files) const;
+
     private:
         std::map<std::string, std::shared_ptr<File>> files_;
 

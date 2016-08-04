@@ -36,4 +36,17 @@ TEST_CASE("TestFileManager")
             CHECK(sameFileB == fileB);
         }
     }
+
+    SECTION("Gather files")
+    {
+        auto fileA = fileManager.GetOrCreateFile("fileA");
+        auto fileB = fileManager.GetOrCreateFile("fileB");
+
+        std::vector<File*> files;
+        fileManager.GatherFiles(files);
+
+        REQUIRE(files.size() == 2);
+        CHECK(files[0] == fileA.get());
+        CHECK(files[1] == fileB.get());
+    }
 }

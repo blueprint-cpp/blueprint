@@ -47,6 +47,17 @@ namespace blueprint
         return timestamp_;
     }
 
+    void File::UpdateTimestamp()
+    {
+        timestamp_ = file_.last_write_time();
+    }
+
+    bool File::IsDirty() const
+    {
+        auto lastModified = file_.last_write_time();
+        return timestamp_ != lastModified;
+    }
+
     bool File::IsSource() const
     {
         auto extension = file_.extension();
