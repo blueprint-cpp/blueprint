@@ -31,7 +31,7 @@ namespace blueprint
         return file;
     }
 
-    void FileManager::GatherFiles(std::vector<File*>& files) const
+    void FileManager::GatherFiles(std::vector<const File*>& files) const
     {
         for (auto& kv : files_)
         {
