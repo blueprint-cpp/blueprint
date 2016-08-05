@@ -42,7 +42,7 @@ TEST_CASE("TestFileManager")
         auto fileA = fileManager.GetOrCreateFile("fileA");
         auto fileB = fileManager.GetOrCreateFile("fileB");
 
-        std::vector<File*> files;
+        std::vector<const File*> files;
         fileManager.GatherFiles(files);
 
         REQUIRE(files.size() == 2);
