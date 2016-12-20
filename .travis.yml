@@ -23,12 +23,21 @@ matrix:
                 sources:  [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8' ]
                 packages: [ 'clang-3.8', 'libclang-3.8-dev', 'libsqlite3-dev' ]
 
+        - os: linux
+          compiler: clang
+          env: COMPILER=clang++-3.9
+          addons:
+            apt:
+                sources:  [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.9' ]
+                packages: [ 'clang-3.9', 'libclang-3.9-dev', 'libsqlite3-dev' ]
+
         - os: osx
           compiler: clang
 
     allow_failures:
         - env: COMPILER=clang++-3.7
         - env: COMPILER=clang++-3.8
+        - env: COMPILER=clang++-3.9
 
 before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
