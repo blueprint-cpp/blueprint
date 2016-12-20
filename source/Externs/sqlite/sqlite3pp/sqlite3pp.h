@@ -25,10 +25,10 @@
 #ifndef SQLITE3PP_H
 #define SQLITE3PP_H
 
-#define SQLITE3PP_VERSION "1.0.0"
+#define SQLITE3PP_VERSION "1.0.6"
 #define SQLITE3PP_VERSION_MAJOR 1
 #define SQLITE3PP_VERSION_MINOR 0
-#define SQLITE3PP_VERSION_PATCH 0
+#define SQLITE3PP_VERSION_PATCH 6
 
 #include <functional>
 #include <iterator>
@@ -78,6 +78,7 @@ namespace sqlite3pp
     using rollback_handler = std::function<void ()>;
     using update_handler = std::function<void (int, char const*, char const*, long long int)>;
     using authorize_handler = std::function<int (int, char const*, char const*, char const*, char const*)>;
+    using backup_handler = std::function<void (int, int, int)>;
 
     explicit database(char const* dbname = nullptr, int flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, const char* vfs = nullptr);
 
@@ -92,13 +93,19 @@ namespace sqlite3pp
     int attach(char const* dbname, char const* name);
     int detach(char const* name);
 
+    int backup(database& destdb, backup_handler h = {});
+    int backup(char const* dbname, database& destdb, char const* destdbname, backup_handler h, int step_page = 5);
+
     long long int last_insert_rowid() const;
 
     int enable_foreign_keys(bool enable = true);
     int enable_triggers(bool enable = true);
     int enable_extended_result_codes(bool enable = true);
 
+    int changes() const;
+
     int error_code() const;
+    int extended_error_code() const;
     char const* error_msg() const;
 
     int execute(char const* sql);
@@ -160,7 +167,7 @@ namespace sqlite3pp
 
    protected:
     explicit statement(database& db, char const* stmt = nullptr);
-    ~statement() noexcept(false);
+    ~statement();
 
     int prepare_impl(char const* stmt);
     int finish_impl(sqlite3_stmt* stmt);
@@ -308,7 +315,7 @@ namespace sqlite3pp
   {
    public:
     explicit transaction(database& db, bool fcommit = false, bool freserve = false);
-    ~transaction() noexcept(false);
+    ~transaction();
 
     int commit();
     int rollback();

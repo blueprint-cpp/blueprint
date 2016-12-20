@@ -132,6 +132,28 @@ namespace sqlite3pp
     return executef("DETACH '%q'", name);
   }
 
+  inline int database::backup(database& destdb, backup_handler h)
+  {
+    return backup("main", destdb, "main", h);
+  }
+
+  inline int database::backup(char const* dbname, database& destdb, char const* destdbname, backup_handler h, int step_page)
+  {
+    sqlite3_backup* bkup = sqlite3_backup_init(destdb.db_, destdbname, db_, dbname);
+    if (!bkup) {
+      return error_code();
+    }
+    auto rc = SQLITE_OK;
+    do {
+      rc = sqlite3_backup_step(bkup, step_page);
+      if (h) {
+	h(sqlite3_backup_remaining(bkup), sqlite3_backup_pagecount(bkup), rc);
+      }
+    } while (rc == SQLITE_OK || rc == SQLITE_BUSY || rc == SQLITE_LOCKED);
+    sqlite3_backup_finish(bkup);
+    return rc;
+  }
+
   inline void database::set_busy_handler(busy_handler h)
   {
     bh_ = h;
@@ -182,9 +204,19 @@ namespace sqlite3pp
     return sqlite3_extended_result_codes(db_, enable ? 1 : 0);
   }
 
+  inline int database::changes() const
+  {
+    return sqlite3_changes(db_);
+  }
+
   inline int database::error_code() const
   {
     return sqlite3_errcode(db_);
+  }
+
+  inline int database::extended_error_code() const
+  {
+    return sqlite3_extended_errcode(db_);
   }
 
   inline char const* database::error_msg() const
@@ -222,11 +254,11 @@ namespace sqlite3pp
     }
   }
 
-  inline statement::~statement() noexcept(false)
+  inline statement::~statement()
   {
-    auto rc = finish();
-    if (rc != SQLITE_OK)
-      throw database_error(db_);
+    // finish() can return error. If you want to check the error, call
+    // finish() explicitly before this object is destructed.
+    finish();
   }
 
   inline int statement::prepare(char const* stmt)
@@ -540,12 +572,13 @@ namespace sqlite3pp
       throw database_error(*db_);
   }
 
-  inline transaction::~transaction() noexcept(false)
+  inline transaction::~transaction()
   {
     if (db_) {
-      auto rc = db_->execute(fcommit_ ? "COMMIT" : "ROLLBACK");
-      if (rc != SQLITE_OK)
-	throw database_error(*db_);
+      // execute() can return error. If you want to check the error,
+      // call commit() or rollback() explicitly before this object is
+      // destructed.
+      db_->execute(fcommit_ ? "COMMIT" : "ROLLBACK");
     }
   }
 
