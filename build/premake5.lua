@@ -10,7 +10,7 @@ local usePrecompiledHeaders = true
 
 local function GetUnitTestArguments()
     if os.getenv("APPVEYOR") then
-        return " --reporter junit --out $(OutDir)$(TargetName).results.xml"
+        return " --reporter junit --out $(OutDir)$(TargetName).Results.xml"
     else
         return ""
     end
