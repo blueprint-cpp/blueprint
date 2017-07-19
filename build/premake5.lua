@@ -8,6 +8,14 @@ require("extern.sqlite")
 
 local usePrecompiledHeaders = true
 
+local function GetUnitTestArguments()
+    if os.getenv("APPVEYOR") then
+        return " --reporter junit --out $(OutDir)$(TargetName).results.xml"
+    else
+        return ""
+    end
+end
+
 local function AddPrecompiledHeader(header, source)
     if not usePrecompiledHeaders then
         return
@@ -116,7 +124,7 @@ local function GenerateBlueprintCoreTest()
     }
 
     AddPrecompiledHeader("Blueprint.Test/Precompiled.hpp", "../test/unit/Blueprint.Test/Precompiled.cpp")
-    AddPostBuildUnitTest()
+    AddPostBuildUnitTest(GetUnitTestArguments())
 
     AddExternClangLib()
     AddExternCatch()
@@ -172,7 +180,7 @@ local function GenerateBlueprintReflectionTest()
     }
 
     AddPrecompiledHeader("BlueprintReflection.Test/Precompiled.hpp", "../test/unit/BlueprintReflection.Test/Precompiled.cpp")
-    AddPostBuildUnitTest()
+    AddPostBuildUnitTest(GetUnitTestArguments())
 
     AddExternCatch()
 end
