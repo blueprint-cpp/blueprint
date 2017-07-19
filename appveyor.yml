@@ -14,6 +14,8 @@ install:
     - dependencies\setup.bat
     - build\generate.bat %VS_VERSION%
 
+platform: x64
+
 build:
   project: build\%VS_VERSION%\Blueprint.sln
 
