@@ -1,3 +1,12 @@
+environment:
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      VS_VERSION: vs2017
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      VS_VERSION: vs2015
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
+      VS_VERSION: vs2013
+
 install:
     - choco install wget
     - choco list -localonly
