@@ -12,7 +12,10 @@ install:
     - choco list -localonly
 
     - dependencies\setup.bat
-    - build\generate.bat
+    - build\generate.bat %VS_VERSION%
+
+build:
+  project: build\%VS_VERSION%\Blueprint.sln
 
 on_finish:
     - ps: (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path output\bin\debug\BlueprintCore.Test.Results.xml))
