@@ -46,8 +46,9 @@ local function GenerateWorkspace()
     configuration("Debug")
         targetdir("../output/bin/Debug")
         objdir("../output/obj")
+        symbols("On")
         defines { "DEBUG" }
-        flags { "ExtraWarnings", "FatalWarnings", "Symbols" }
+        flags { "ExtraWarnings", "FatalWarnings" }
 
     configuration("Release")
         targetdir("../output/bin/Release")
