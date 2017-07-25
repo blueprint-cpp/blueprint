@@ -5,14 +5,14 @@ pushd $(dirname $0) > /dev/null
 if [[ ! -d "store" ]]; then mkdir store; fi
 cd store
 
-premake_url="http://github.com/premake/premake-core/releases/download/v5.0.0-alpha8"
+premake_url="http://github.com/premake/premake-core/releases/download/v5.0.0-alpha11"
 premake_dir="premake"
 
 if [[ $(uname) == "Darwin" ]]; then
-    premake_bin="premake-5.0.0-alpha8-macosx.tar.gz"
+    premake_bin="premake-5.0.0-alpha11-macosx.tar.gz"
     download_mode="binary"
 else
-    premake_bin="premake-5.0.0-alpha8-linux.tar.gz"
+    premake_bin="premake-5.0.0-alpha11-linux.tar.gz"
     download_mode="source"
 
     echo apt-get install libssl-dev
